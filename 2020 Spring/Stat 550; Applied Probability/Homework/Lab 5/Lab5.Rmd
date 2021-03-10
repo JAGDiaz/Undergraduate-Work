@@ -1,0 +1,166 @@
+---
+author: "Joseph Diaz"
+title: "Lab 5: Simulating discrete probability models"
+date: "Spring 2020"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+
+### The problem
+The code chunk above performs the experiment once: spin the roulette wheel until you lose and record the number of spins.  Simulate 1000 experiments.  As usual, do this by wrapping the code chunk above within a for-loop and storing the number of spins `streak` in a vector.
+```{r rand, echo=TRUE}
+oneSpin = function(p)
+{
+  streak = 0
+  while(TRUE)
+  {
+    streak = streak + 1 # tally streak
+    if(runif(1) < p) # generate Bernoulli with probability p
+      break 
+  }
+  return(streak)
+}
+
+streakers = function(n,p)
+{
+  streaks = replicate(n, oneSpin(p))
+  return(streaks)
+}
+p = 20/38
+n = 1000
+```
+
+### Report the following:
+
+* Histogram of the win streak length.  Note that this is a discrete distribution so should place histogram bars at discrete values {0, 1, 2, ...}.  This may be done with the `breaks` option within `hist`.  If your storage variable is called `winstreak`:
+```{r hist, echo=TRUE}
+winstreaks = streakers(n, p)
+hist(winstreaks, br=seq(min(winstreaks)-0.5, max(winstreaks)+0.5))
+```
+
+* Average length of the win streak: *`r mean(winstreaks)`*
+
+* Standard deviation of the winning streak lengths: *`r sqrt(var(winstreaks))`*
+
+* Compare the empirical average and standard deviation in the previous two bullets to the true values from the Geometric(*p* = 20/38) distribution.  
+  *The theoretical expected value and standard deviation are*
+$$E[X] = \frac{1}{p} \approx `r 1/p`,\quad SD[X] = \sqrt{\frac{1-p}{p^2}} \approx `r sqrt((1-p)/(p^2))`$$
+    *Which are reasonably close to the empirical mean and standard deviation we calculated.*
+
+* Longest winning streak. *`r max(winstreaks)`*
+
+\vfill
+
+## Task 2: Simulating negative binomial distributions
+
+In this task, we will compare two different algorithms for simulating from a negative binomial distribution.
+
+### Problem (a)
+Recall that a negative binomial random variable *NB(r, p)* is the sum of *r Geometric(p)* random variables.  Use the algorithm from Task 1 to simulate 1000 *NB(10, 0.6)* random variates.
+
+
+```{r codecore2, echo=TRUE}
+sumOfGeo= function(r, p)
+{
+  runs = 0
+  trials = 0
+  while(runs < r)
+  {
+    trials = trials + oneSpin(p)
+    runs = runs + 1
+  }
+  return(trials)
+}
+n = 10000
+p = .6
+r = 10
+
+```
+
+### Problem (b)
+The negative binomial pmf induces the following recursion relation.  If $X \sim NB(r,\ p)$, then
+\[ P(X = i+1) = \frac{i(1-p)}{(i+1-r)} \cdot P(X=i),\quad i \geq r\]
+Use this recursion relation to generate 1000 $NB(10,\ 0.6)$ random variates.
+
+
+```{r NegBin, echo=TRUE}
+rTrials = function(p,r)
+{
+  pmf = p^r
+  cdf = pmf
+  j = r
+  u = runif(1)
+  while(u >= cdf)
+  {
+    pmf = ((j*(1-p))/(j+1-r))*pmf
+    cdf = cdf + pmf
+    j = j + 1
+  }
+  return(j)
+}
+NegBinSim = function(p, n, r)
+{
+  return(replicate(n, rTrials(p,r)))
+}
+
+trials = NegBinSim(p, n, r)
+sumGeo = replicate(n, sumOfGeo(r, p))
+```
+
+
+This binomial simulator may be applied directly after changing just three lines: 
+
+* $j=r$
+
+* the recursion relation formula
+
+* `pmf = p^r`
+
+### Report the following for each of the simulations in problems (a) and (b)
+
+* Histogram of the variates
+```{r histy, echo=TRUE}
+hist(trials, br=seq(min(trials)-0.5, max(trials)+0.5))
+hist(sumGeo, br=seq(min(sumGeo)-0.5, max(sumGeo)+0.5))
+```
+ * Mean and standard deviation of the simulated variates  
+  *Mean from NegBin: `r mean(trials)`, Mean from sumGeo: `r mean(sumGeo)`*  
+  *SD from NegBin: `r sqrt(var(trials))`, SD from sumGeo: `r sqrt(var(sumGeo))`*
+
+* Run time: compare computing speed between the two algorithms.  In R, can wrap your algorithm or sequence of operations as follows to time your code.
+```{r timewrapper}
+x = proc.time()
+sumGeo = replicate(n, sumOfGeo(r, p))
+timer = proc.time() - x
+algtimeGeo = timer[3]
+
+x = proc.time()
+trials = NegBinSim(p, n, r)
+timer = proc.time() - x
+algtimeNegBin = timer[3]
+```
+
+### Questions
+
+* How do the histograms compare?
+
+*They are practically identical.*
+
+* How do the mean and standard deviation from the simulations compare to the true mean and standard deviation of a $NB(0.6,\ 10)$ distribution?
+
+*The theoretical mean and standard deviation are*
+$$E[X] = `r round(r/p, digits = 3)`, \quad SD[X] = `r round(sqrt(r*(1-p)/p^2), digits = 3)`$$
+  *which is very close to the simulated mean and standard deviation displayed under the histograms.*
+
+* How do the computing times compare?  Which algorithm is faster?
+
+*sumGeo time: `r algtimeGeo`, NegBin time: `r algtimeNegBin`. The Negative Binomial method was much lower; it's much faster.*
+
+* "Simulation flops": Which simulator do you think uses more uniform random numbers (call to the `runif()` function)?  Why?
+
+*The Geometric simulation uses a lot more calls of `runif()`, as a call is made for each individual geometric trial; as opposed to Negative Binomial method which uses a call to `runif()` for what is the equivalent to 10 geometric trials.*

@@ -1,0 +1,198 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{bm}
+\usepackage{amsthm}
+\usepackage{enumerate}
+\usepackage{graphicx}
+\usepackage{psfrag}
+\usepackage{color}
+\usepackage{url}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{positioning}
+\tikzset{main node/.style={circle,fill=gray!20,draw,minimum size=.5cm,inner sep=0pt},}
+
+\definecolor{codegreen}{rgb}{0,0.5,0}
+\definecolor{codewhite}{rgb}{1,1,1}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{codeblack}{rgb}{0,0,0}
+\definecolor{codeorange}{rgb}{0.8,0.4,0}
+
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{codewhite},   
+    commentstyle=\color{codegray},
+    keywordstyle=\color{codegreen},
+    numberstyle=\color{codegray},
+    stringstyle=\color{codeorange},
+    basicstyle=\ttfamily ,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=4
+}
+\lstset{style=mystyle}
+
+
+\setlength{\hoffset}{-1in}
+\addtolength{\textwidth}{1.5in}
+\setlength{\voffset}{-1in}
+\addtolength{\textheight}{1.5in}
+\newcommand{\be}{\begin{enumerate}}
+\newcommand{\ee}{\end{enumerate}}
+\newcommand{\BigO}[1]{\ensuremath\mathcal{O}\left(#1\right)}
+\newcommand{\il}[1]{\lstinline!#1!}
+\newcommand{\gnorm}[1]{\left|\left|#1\right|\right|}
+\newcommand{\abs}[1]{\left|#1\right|}
+\newcommand{\parens}[1]{\left(#1\right)}
+\newcommand{\bracks}[1]{\left\{#1\right\}}
+\newcommand{\sqbracks}[1]{\left[#1\right]}
+\newcommand{\vep}{\varepsilon}
+\newcommand{\ceiling}[1]{\left\lceil#1\right\rceil}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\distrib}[2]{\text{#1}\left(#2\right)}
+\newcommand{\dd}[1]{\frac{d}{d#1}}
+\newcommand{\abracks}[1]{\left< #1\right>}
+
+\begin{document}
+	\begin{center}
+		\textbf{Spring 2020, Stats 550:\ Homework 18} \\
+		\textbf{Due:\ Thursday, April 30th, 2020} \\
+		\textbf{Joseph Diaz: 819947915}		
+	\end{center}
+\noindent\makebox[\linewidth]{\rule{\paperwidth}{0.4pt}}
+\be
+	\item[21.] Starting at 9 a.m., students arrive to class according to a Poisson process with
+parameter $\lambda = 2$ (units are minutes). Class begins at 9:15 a.m. There are 30
+students.
+	\be[(a)]
+		\item What is the expectation and variance of the number of students in class by
+9:15 a.m.?
+		\begin{proof}[Solution]
+		Let $N(t) \sim \distrib{PoisProc}{\lambda = 2}$. Then
+		$$E\sqbracks{N(15)} = 2\cdot15 = 30$$
+		\end{proof}
+
+		\item Find the probability there will be at least 10 students in class by 9:05 a.m.
+		\begin{proof}[Solution]
+		We want to find 
+		$$P\parens{N(5) \geq 10} = 1 - P\parens{N(5) \leq 9} = 1 - \sum_{k=0}^9 \frac{e^{-10}\parens{10}^k}{k!} \approx 54.20703\%$$
+		\end{proof}
+		
+		\item Find the probability that the last student who arrives is late.
+		\begin{proof}[Solution]
+		We have that $\bracks{N(t) = k} = \bracks{S_k \leq t,\ S_{k+1} > t}$, with $S_k \sim \distrib{Gamma}{k, \lambda =2}$
+		$$P\parens{S_{30} > 15} = 1 - \int_{15}^\infty \frac{2^{30} t^{29} e^{-2t}}{\Gamma\parens{30}}\ dt \approx 47.5717\%$$
+		\end{proof}
+		
+		\item Suppose exactly six students are late. Find the probability that exactly 15
+students arrived by 9:10 a.m.
+		\begin{proof}[Solution]
+		If we have that 6 students are going to be late, then the other 24 will be on time and we want to find the probability that 15 of those students show up in the first 10 minutes which is given by
+		\begin{align*}
+		P\parens{N(10) = 15 \mid N(15) = 24} &= \frac{P\parens{N(10) = 15,\ N(15)=24}}{P\parens{N(15) = 24}} \\
+		&= \frac{P\parens{N(10) = 15,\ N(15) - N(10) = 9}}{P\parens{N(15) = 24}} \\
+		&= \frac{P\parens{N(10) = 15}P\parens{N(5) = 9}}{P\parens{N(15) = 24}} \\
+		&= \frac{\parens{\frac{e^{-20}(20)^{15}}{15!}}\parens{\frac{e^{-10}(10)^{9}}{9!}}}{\frac{e^{-30}(30)^{24}}{24!}}\\
+		&= \binom{24}{15}\frac{(20)^{15}(10)^9}{(30)^{24}} \\
+		&\approx 15.17\%
+		\end{align*}
+		\end{proof}
+
+		\item What is the expected time of arrival of the seventh student who gets
+to class?
+	\begin{proof}[Solution]
+	As we know $S_k \sim \distrib{Gamma}{k, \lambda = 2}$, so 
+	$$E\sqbracks{S_7} = \frac{7}{2} \approx 3.5 \text{ minutes}$$
+	\end{proof}
+	\ee
+	
+	\item[22.] Solve the following integrals without calculus by recognizing the integrand
+as related to a known probability distribution and making the necessary
+substitution(s).
+	\be[(a)] 
+		\item $$\int_{-\infty}^\infty e^{-\frac{(x+1)^2}{18}}\ dx$$
+		\begin{proof}[Solution]
+		We have that
+		\begin{align*}
+		\int_{-\infty}^\infty e^{-\frac{(x+1)^2}{18}}\ dx &= \int_{-\infty}^\infty e^{-\frac{1}{2}\parens{\frac{x+1}{3}}^2}\ dx \\
+		&= \frac{3\sqrt{2\pi}}{3\sqrt{2\pi}}\int_{-\infty}^\infty e^{-\frac{1}{2}\parens{\frac{x+1}{3}}^2}\ dx\\
+		&= 3\sqrt{2\pi}\int_{-\infty}^\infty \frac{1}{3\sqrt{2\pi}}e^{-\frac{1}{2}\parens{\frac{x+1}{3}}^2}\ dx \\
+		\end{align*}
+		Clearly, the integral is equal to the cdf over the whole real line of a random variable $X \sim \distrib{Norm}{-1, 3^2}$; so it equals 1.
+		Therefore
+		$$\int_{-\infty}^\infty e^{-\frac{(x+1)^2}{18}}\ dx = 3\sqrt{2\pi}$$
+		\end{proof}
+		
+		\item $$\int_{-\infty}^\infty xe^{-\frac{(x-1)^2}{2}}\ dx$$
+		\begin{proof}[Solution]
+		We have that
+		\begin{align*}
+		\int_{-\infty}^\infty xe^{-\frac{(x-1)^2}{2}}\ dx &= \int_{-\infty}^\infty xe^{-\frac{1}{2}(x-1)^2}\ dx \\
+		&= \frac{\sqrt{2\pi}}{\sqrt{2\pi}}\int_{-\infty}^\infty xe^{-\frac{1}{2}(x-1)^2}\ dx \\
+		&= \sqrt{2\pi}\int_{-\infty}^\infty x \frac{1}{\sqrt{2\pi}} e^{-\frac{1}{2}(x-1)^2}\ dx \\
+		\end{align*}
+		The integral is $E\sqbracks{X}$ for $X \sim \distrib{Norm}{1, 1}$, so we know that it equals $\mu = 1$ for this distribution. Therefore
+		$$\int_{-\infty}^\infty xe^{-\frac{(x-1)^2}{2}}\ dx = \sqrt{2\pi}$$
+		\end{proof}
+		
+		\item $$\int_0^\infty x^4 e^{-2x}\ dx$$
+		\begin{proof}[Solution]
+		We have that
+		\begin{align*}
+		\int_0^\infty x^4 e^{-2x}\ dx &= \frac{\Gamma\parens{4}}{2^4}\int_0^\infty \frac{2^4 x^4 e^{-2x}}{\Gamma\parens{4}}\ dx
+		\end{align*}
+		So the integral is $E\sqbracks{X}$ for $X \sim \distrib{Gamma}{4, 2}$, which we know equals $\frac{a}{\lambda} = \frac{4}{2} = 2$ for this distribution. Therefore
+		$$\int_0^\infty x^4 e^{-2x}\ dx = \frac{\Gamma\parens{4}}{2^4}\cdot2 = \frac{3!}{2^3} = \frac{3}{4}$$
+		\end{proof}
+		
+		\item $$\int_0^\infty x^s e^{-tx}\ dx$$
+		For positive integer $s$ and positive real $t$.
+		\begin{proof}[Solution]
+		We have that
+		\begin{align*}
+		\int_0^\infty x^s e^{-tx}\ dx &= \frac{\Gamma\parens{s}}{t^s}\int_0^\infty \frac{t^s x^s e^{-tx}}{\Gamma\parens{s}}\ dx
+		\end{align*}
+		So the integral is $E\sqbracks{X}$ for $X \sim \distrib{Gamma}{s, t}$, which we know equals $\frac{a}{\lambda} = \frac{s}{t}$ for this distribution. Therefore
+		$$\int_0^\infty x^s e^{-tx}\ dx = \frac{\Gamma\parens{s}}{t^s}\cdot\frac{s}{t} = \frac{s\Gamma\parens{s}}{t^{s+1}} = \frac{s!}{t^{s+1}}$$
+		\end{proof}
+	\ee
+	
+	\item[28.] If $X$ has a gamma distribution and $c$ is a positive constant, show that $cX$ has
+a gamma distribution. Find the parameters.
+	\begin{proof}[Solution]
+	We have that $X \sim \distrib{Gamma}{a, \lambda}$; which implies that we have 
+	$$f(x) = \frac{\lambda^a x^{a-1}e^{-\lambda x}}{\Gamma\parens{a}}\quad\text{and}\quad F(x) = \int_0^x f(t)\ dt = P\parens{X < x},\quad x > 0$$
+	are the pdf and cdf for $X$ respectively. Now let $Y = cX,\ c >0$. Then the probability that $Y < y,\ y > 0$ is given by:
+	$$P\parens{Y < y} = P\parens{cX < y} = P\parens{X < \frac{y}{c}}$$
+	Let $G(y) = F\parens{\frac{y}{c}}$ be the cdf of $Y$, then
+	$$
+	G(y) = \int_0^{\frac{y}{c}} \frac{\lambda^a t^{a-1}e^{-\lambda t}}{\Gamma\parens{a}}\ dt
+	$$
+	Now we make a substitution: $t = \frac{\tau}{c} \implies c\ dt = d\tau$, which yields new bounds $0,\ y$. So we have
+	\begin{align*}
+	G(y) &= \int_0^{\frac{y}{c}} \frac{c}{c}\frac{\lambda^a t^{a-1}e^{-\lambda t}}{\Gamma\parens{a}}\ dt \\
+	&= \int_0^{y} \frac{\lambda^a \parens{\frac{\tau}{c}}^{a-1}e^{-\lambda \frac{\tau}{c}}}{c\Gamma\parens{a}}\ d\tau \\
+	&= \int_0^{y} \frac{\lambda^a c^{1-a} \tau^{a-1}e^{-\frac{\lambda}{c}\tau}}{c\Gamma\parens{a}}\ d\tau \\
+	&= \int_0^{y} \frac{c\parens{\frac{\lambda}{c}}^a \tau^{a-1}e^{-\frac{\lambda}{c}\tau}}{c\Gamma\parens{a}}\ d\tau \\
+	&= \int_0^{y} \frac{\parens{\frac{\lambda}{c}}^a \tau^{a-1}e^{-\frac{\lambda}{c}\tau}}{\Gamma\parens{a}}\ d\tau
+	\end{align*}
+	Which implies that the pdf of $Y$, denoted $g(y)$, is
+	$$g(y) = \frac{\parens{\frac{\lambda}{c}}^a y^{a-1}e^{-\frac{\lambda}{c}y}}{\Gamma\parens{a}}$$
+	Ultimately, this implies that $Y = cX \sim \distrib{Norm}{a, \frac{\lambda}{c}}$.
+	\end{proof}
+	
+\ee
+
+\noindent\makebox[\linewidth]{\rule{\paperwidth}{0.4pt}}
+	
+\end{document}

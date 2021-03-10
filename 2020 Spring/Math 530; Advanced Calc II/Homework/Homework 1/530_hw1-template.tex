@@ -1,0 +1,136 @@
+\documentclass{article}
+
+% \usepackage{accents}
+\usepackage{amsmath}
+% \usepackage{hyperref}
+\usepackage{amssymb}
+\usepackage{bm}
+%usepackage{amsfonts}%This is to have nice letters
+\usepackage{amsthm}
+\usepackage{enumerate}
+\usepackage{graphicx}
+\usepackage{psfrag}
+\usepackage{multicol}
+%usepackage{showkeys}
+\usepackage{color}
+\usepackage{url}
+% \usepackage{mathabx}
+\usepackage{tikz}
+\usepackage{algpseudocode} 
+\usepackage{mathtools}
+
+%%%% MARGINS
+\setlength{\hoffset}{-0.5in}
+\addtolength{\textwidth}{1.0in}
+\setlength{\voffset}{-0.5in}
+\addtolength{\textheight}{1.0in}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\F}{\mathbb{F}}
+\newcommand{\poly}{\mathcal{P}}
+\newcommand{\LL}{\mathcal{L}}
+\newcommand{\<}{\langle}
+\renewcommand{\>}{\rangle}
+\newcommand{\norm}[1]{\lVert #1 \rVert}
+\DeclareMathOperator{\range}{range}
+\DeclareMathOperator{\nullspace}{null}
+\newcommand{\lowint}[2]{\underline{\int_{#1}^{#2}}}
+\newcommand{\upint}[2]{\overline{\int_{#1}^{#2}}}
+% \DeclareMathOperator{\deg}{deg}
+\begin{document}
+\begin{center}
+    \textbf{Spring 2020, Math 530:\ Problem Set 1} \\
+    \textbf{Riemann Integration} \\
+\end{center}
+
+\begin{enumerate}[(E1)]
+    \item Prove proposition 1.2.1: $\forall P_1,P_2$ partitions of $[a,b]$, we have:
+    $$
+    L(f,P_2) \leq \lowint{a}{b} f(x)dx \leq \upint{a}{b} f(x)dx \leq U(f,P_1)
+    $$
+    \begin{enumerate}
+    \item Prove that for any two partitions $P_1,P_2$, $\sup_{P_2} L(f,P_2) \leq \inf_{P_1}U(f,P_1)$
+    \begin{proof}
+    Let $\varepsilon > 0$.
+    \end{proof}
+    \item Deduce proposition 1.2.1.
+    \begin{proof}
+        
+    \end{proof}
+    \end{enumerate}
+    \item Let $f : [a,b] \to \R$ be bounded and Riemann integrable. Prove that 
+    $$\lowint{a}{b}f(x)dx = \upint{a}{b}f(x)dx$$
+    \begin{enumerate}
+    \item
+    Using proposition 1.2.1, show that the following inequalities hold for all partitions $P$ of $[a,b]$.
+    $$ L(f,P) \leq \upint{a}{b} f(x)dx \leq U(f,P)$$
+    $$-U(f,P) \leq -\lowint{a}{b} f(x)dx \leq -L(f,P)$$
+    \begin{proof}
+        
+    \end{proof}
+    \item 
+    Deduce that 
+    $$ \left| \upint{a}{b}f(x)dx - \lowint{a}{b}f(x)dx \right| \leq U(f,P) - L(f,P)$$    
+    \begin{proof}
+
+    \end{proof}
+    \item Using this inequality, prove proposition 1.2.2.
+    \begin{proof}
+        
+    \end{proof}
+
+    \end{enumerate}
+    \item Prove that if $f$ is Riemann integrable on $[a,b]$, then for every real $c$,
+    $$
+    \int_{a}^{b}cf(x)dx = c\int_{a}^{b}f(x)dx
+    $$
+    \begin{enumerate}
+    \item a
+    Show that for every partition $P$ of $[a,b]$, $U(cf,P) - L(cf,P) = |c|(U(f,P) - L(f,P))$
+    \begin{proof}
+        
+    \end{proof}
+    \item 
+    Prove that $cf$ is Riemann integrable
+    \begin{proof}
+        
+    \end{proof}
+    \item 
+    Prove the original statement using the fact that a Riemann integral can be rewritten as the limit of a Riemann sum.
+    \begin{proof}
+        
+    \end{proof}
+    \end{enumerate}
+    \item 
+    Let $f,g$ be two Riemann integrable functions. Prove that 
+    $$ 
+    \int_{a}^{b} f(x) + g(x)dx = \int_a^b f(x)dx + \int_a^b f(x)dx
+    $$
+    \begin{enumerate}
+    \item 
+    Show that for any partition of $[a,b]$, $U(f+g,P) - L(f+g,P) \leq (U(f,P) - L(f,P)) + (U(g,P) - L(g,P))$
+    \begin{proof}
+        
+    \end{proof}
+    \item 
+    Prove that $f+g$ is Riemann integrable.
+    \begin{proof}
+
+    \end{proof}
+    \item 
+    Prove the original statement using the fact that a Riemann integral can be rewritten as the limit of a Riemann sum.
+    \begin{proof}
+        
+    \end{proof}
+    \end{enumerate}
+    Let $f,g$ be two integrable functions on $[a,b]$, such that $\forall x \in [a,b]$, $f(x) \leq g(x)$. Prove that 
+    $$
+    \int_a^b f(x)dx \leq \int_a^b g(x)dx
+    $$
+    \begin{proof}
+        
+    \end{proof}
+\end{enumerate}
+\end{document}

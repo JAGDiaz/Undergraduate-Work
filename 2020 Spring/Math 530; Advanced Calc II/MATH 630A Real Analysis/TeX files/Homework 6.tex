@@ -1,0 +1,144 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[latin1]{inputenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{graphicx}
+\usepackage{mdframed}
+\usepackage{xcolor}
+\usepackage{amsmath}
+\usepackage[left=0.8in, right=0.8in, top=1.00in, bottom=1.00in]{geometry}
+\usepackage{mathtools}
+\def\multichoose#1#2{\ensuremath{\left(\kern-.3em\left(\genfrac{}{}{0pt}{}{#1}{#2}\right)\kern-.3em\right)}}
+\author{Jackson Autry}
+
+%% New Commands
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\B}{\mathcal{B}}
+\newcommand{\h}{\mathcal{H}}
+\renewcommand{\S}{\mathcal{S}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\LL}{\mathcal{L}}
+\newcommand{\RR}{\mathcal{R}}
+\newcommand{\D}{\mathbb{D}}
+\newcommand{\F}{\mathcal{F}}
+\newcommand{\cl}{\operatorname{cl}}
+\newcommand{\ran}{\operatorname{ran}}
+\newcommand{\norm}[1]{\| #1 \|}
+\newcommand{\inner}[1]{\langle #1 \rangle}
+\renewcommand{\vec}[1]{{\bf #1}}
+
+%%%
+%%% Theorem Styles
+%%%
+% \numberwithin{equation}{section}
+\theoremstyle{plain}
+\newtheorem{Theorem}[equation]{Theorem}
+\newtheorem{Lemma}[equation]{Lemma}
+\newtheorem{Proposition}[equation]{Proposition}
+\newtheorem{Corollary}[equation]{Corollary}
+\theoremstyle{remark}
+\newtheorem{Remark}[equation]{Remark}
+\theoremstyle{definition}
+\newtheorem{Definition}[equation]{Definition}
+\newtheorem{Example}[equation]{Example}
+\newcounter{question}
+\newtheorem{Question}[question]{Question}
+
+\begin{document}
+	\newmdenv[linecolor=gray!40,leftmargin=0,%
+	innerleftmargin=4pt,
+	rightmargin=0pt,
+	innerbottommargin=3pt,
+	skipbelow=4pt,
+	backgroundcolor=gray!40,%
+	innertopmargin=3pt,]{ques}
+
+	
+\begin{center}
+	\textbf{MATH 630A} %############ Insert Course Title! #############
+	
+		Homework 6	%############### Put Homework # ###################
+		
+		Jackson Autry
+\end{center}
+
+\section*{Exercise 1}
+
+	Let $\delta : \mathcal{C}([0,1]) \to \R$ the operator which evaluates a function $f \in \mathcal{C}([0,1])$ at the origin, i.e. $\delta f = f(0).$
+
+\subsection*{1.1. Show that if $\mathcal{C}([0,1])$ is equipped with the max-norm, $\Vert f \Vert_{\infty} = \sup\limits_{x \in [0,1]}\vert f(x) \vert$, then $\delta$ is a bounded operator and compute its norm.}
+
+$$\vert \delta f \vert = \vert f(0) \vert \le \sup\limits_{x \in [0,1]} \vert f(x) \vert = \Vert f \Vert_{\infty},$$
+i.e. $\delta$ is bounded.\\
+Then 
+$$\Vert \delta \Vert = \underset{f \ne 0}{\sup\limits_{f \in \mathcal{C}([0,1])}} \frac{\vert \delta f \vert}{\Vert f \Vert_{\infty}} \le \underset{f \ne 0}{\sup\limits_{f \in \mathcal{C}([0,1])}}\frac{\Vert f \Vert_{\infty}}{\Vert f \Vert_{\infty}} = 1$$
+So $\Vert \delta \Vert \le 1$. We now show $\Vert \delta \Vert \ge 1$.\\
+Let $f(x) = 1$. Then $f(x) \in \mathcal{C}([0,1])$, and $\vert \delta f \vert = \vert 1 \vert =1$, and $\Vert f \Vert_{\infty} = \sup\limits_{x \in [0,1]} \vert 1 \vert = 1$. Thus $\Vert \delta \Vert \ge 1$.\\
+Hence $\Vert \delta \Vert = 1$.
+
+\subsection*{1.2. Show that if $\mathcal{C}([0,1])$ is equipped with the one-norm, $\Vert f\Vert_1 = \int_0^1 \vert f(x) \vert dx$, then $\delta$ is unbounded.}
+
+We show $\ker \delta$ is not closed and so $\delta$ is not bounded.\\
+We study the sequence $\{f_n\}$ defined by $\forall n \in \N, f_n = x^{1/n}$.\\
+Then $\forall n \in \N, f_n \in \mathcal{C}([0,1])$, and $\lim\limits_{n\to \infty} f_n = \lim\limits_{n\to \infty}x^{1/n} = 1 \in \mathcal{C}([0,1])$.\\
+But $\forall n \in \N, \delta (x^{1/n}) = 0$, and $\delta 1 = 1$. Hence $f_n \in \ker \delta,$ but $\lim\limits_{n\to \infty}f_n = 1 \not\in \ker\delta$, i.e. $\ker \delta$ is not closed.\\
+Hence $\delta$ is unbounded.
+
+\pagebreak
+\section*{Exercise 2}
+Let $T \in \mathcal{B}(\mathcal{C}([0,1]))$ defined by
+$$\forall f \in \mathcal{C}([0,1]), \forall x\in [0,1], (Tf)(x) = xf(x)$$
+and consider that $\mathcal{B}(\mathcal{C}([0,1]))$ is equipped with the max-norm. Find $\Vert T\Vert$.
+
+$$\Vert T \Vert = \underset{\Vert f \Vert_{\infty} = 1}{\sup\limits_{f \in \mathcal{C}([0,1])}} \Vert Tf \Vert_{\infty}$$
+If $\Vert f \Vert_{\infty} = 1$, then $\sup\limits_{x \in [0,1]} \vert f(x) \vert = 1$. So\\
+$\Vert Tf \Vert_{\infty} = \sup\limits_{x \in [0,1]} \vert x f(x) \vert \le \sup\limits_{x \in [0,1]} \vert x \vert \sup\limits_{x \in [0,1]}\vert f(x) \vert = \sup\limits_{x \in [0,1]} \vert x \vert = 1$.\\
+Thus $\Vert T \Vert \le 1$. We now show that $\Vert T \Vert \ge 1$.\\
+Let $f(x) = 1$. Then $f\in\mathcal{C}([0,1])$ and $\Vert f \Vert_{\infty} = 1$.\\
+Then $\Vert Tf \Vert_{\infty} = \sup\limits_{x \in [0,1]} \vert x (1) \vert = \sup\limits_{x \in [0,1]} \vert x \vert = 1$\\
+Thus $\Vert T \Vert \ge 1$ and we have that $\Vert T \Vert = 1$.
+
+\section*{3}
+Let a linear operator $A:\R^n \to \R^m$, $A$ can be written as a matrix, let write this matrix as $A = (A_1 A_2 \ldots A_n)$ where $\forall i = 1,2,\ldots,n$, $A_i$ represents the $i-th$ column of $A$.
+
+\subsection*{3.1. Find $\Vert A \Vert$ when $\R^n$ and $\R^m$ are both equipped with $\Vert . \Vert_{\ell^1}$}
+\begin{flalign*}
+	\Vert A \Vert & = \underset{\Vert x \Vert_{\ell^1} = 1}{\sup\limits_{x \in \R^n}} \Vert Ax \Vert_{\ell^1} = \underset{\Vert x \Vert_{\ell^1} = 1}{\sup\limits_{x \in \R^n}} \left\Vert \sum_{i = 1}^{n} A_i x_i \right\Vert_{\ell^1} \le \underset{\Vert x \Vert_{\ell^1} = 1}{\sup\limits_{x \in \R^n}} \sum_{i = 1}^n \Vert A_i x_i \Vert_{\ell^1} = \underset{\Vert x \Vert_{\ell^1} = 1}{\sup\limits_{x \in \R^n}} \sum_{i = 1}^n \vert x_i \vert \Vert A_i \Vert_{\ell^1} &&\\
+	&\le \underset{\Vert x \Vert_{\ell^1} = 1}{\sup\limits_{x \in \R^n}} \sum_{i = 1}^n \vert x_i \vert \max\limits_{j = 1,2,\ldots n} \Vert A_j \Vert_{\ell^1} = \underset{\Vert x \Vert_{\ell^1} = 1}{\sup\limits_{x \in \R^n}} \max\limits_{j = 1,2,\ldots n} \Vert A_j \Vert_{\ell^1} \sum_{i = 1} \vert x_i \vert \\
+	&= \max\limits_{j = 1,2,\ldots n} \Vert A_j \Vert_{\ell^1} \underset{\Vert x \Vert_{\ell^1} = 1}{\sup\limits_{x \in \R^n}}  \sum_{i = 1} \vert x_i \vert = \max\limits_{j = 1,2,\ldots n} \Vert A_j \Vert_{\ell^1} \underset{\Vert x \Vert_{\ell^1} = 1}{\sup\limits_{x \in \R^n}} \Vert x \Vert_{\ell^1}  = \max\limits_{j = 1,2,\ldots n} \Vert A_j \Vert_{\ell^1}
+\end{flalign*}
+
+Thus $\Vert A \Vert \le \max\limits_{j = 1,2,\ldots n} \Vert A_j \Vert_{\ell^1}$. We now show $\Vert A \Vert \ge \max\limits_{j = 1,2,\ldots n} \Vert A_j \Vert_{\ell^1}$.\\
+Let $j \in \{1,2,\ldots,n\}$ such that $\Vert A_j \Vert_{\ell^1} = \max\limits_{i = 1,2,\ldots,n} \Vert A_i \Vert_{\ell^1}$ and $e_j$ be the vector whose $j-th$ entry is 1 and the rest $0$. Clearly $\Vert e_j \Vert_{\ell^1} = 1$, and we have $Ae_j = A_j$, so 
+$$\Vert Ae_j \Vert_{\ell^1} = \Vert A_j \Vert_{\ell^1} = \max\limits_{i = 1,2,\ldots,n} \Vert A_i \Vert_{\ell^1}$$
+Thus $\Vert A \Vert \ge \max\limits_{j = 1,2,\ldots n} \Vert A_j \Vert_{\ell^1}$, and so we have\\
+$\Vert A \Vert = \max\limits_{i = 1,2,\ldots,n} \Vert A_i \Vert_{\ell^1}$.
+
+\pagebreak
+\subsection*{3.2. Find $\Vert A \Vert$ when $\R^n$ and $\R^m$ are both equipped with $\Vert . \Vert_{\ell^{\infty}}$}
+
+Denote $A_{ij}$ the element of $A$ in the $i-th$ column and the $j-th$ row.\\
+If $\Vert x \Vert_{\ell^{\infty}} = 1,$ then $\forall i = 1,2,\ldots, n, \vert x_i \vert \le 1$. Then we have
+\begin{flalign*}
+	\Vert A \Vert & = \underset{\Vert x \Vert_{\ell^{\infty}} =1}{\sup\limits_{x\in \R^n}} \left\Vert \sum_{i =1}^n A_ix_i \right\Vert = \underset{\Vert x \Vert_{\ell^{\infty}} =1}{\sup\limits_{x\in \R^n}} \left(\max\limits_{j = 1,2,\ldots m} \left\vert \sum_{i = 1}^n A_{ij}x_i\right\vert\right) \le \underset{\Vert x \Vert_{\ell^{\infty}} =1}{\sup\limits_{x\in \R^n}} \left(\max\limits_{j = 1,2,\ldots m}  \sum_{i = 1}^n \vert A_{ij}\vert \vert x_i\vert\right) &&\\
+	&\le \underset{\Vert x \Vert_{\ell^{\infty}} =1}{\sup\limits_{x\in \R^n}} \left(\max\limits_{j = 1,2,\ldots m} \sum_{i = 1}^n \vert A_{ij}\vert \right) = \max\limits_{j = 1,2,\ldots m} \sum_{i = 1}^n \vert A_{ij} \vert
+\end{flalign*}
+Thus $\Vert A \Vert \le \max\limits_{j = 1,2,\ldots m} \sum\limits_{i = 1}^n \vert A_{ij} \vert$. We now show that $\Vert A \Vert \ge \max\limits_{j = 1,2,\ldots m} \sum\limits_{i = 1}^n \vert A_{ij} \vert$.\\
+Let $A_{\ast k} = (A_{1k}, A_{2k}, \cdots, A_{nk})$ be the row of $A$ such that $\sum\limits_{i=1}^n \vert A_{ik} \vert = \max\limits_{j = 1,2,\ldots m} \sum\limits_{i=1}^n \vert A_{ij} \vert$ and $x = (x_1,x_2,\ldots, x_n) \in \R^n$ defined by $\forall i= 1,2,\ldots, n, x_i = \begin{cases}
+1 & A_{ik} \ge 0 \\ -1 & A_{ik} < 0
+\end{cases}$. Then $\Vert x \Vert_{\ell^{\infty}} = 1$.\\
+Furthermore, $\forall i = 1,2,\ldots, n, A_{ik} x_i = \vert A_{ik} \vert$, and since \\
+$\forall j = 1,2,\ldots m, \left\vert \sum\limits_{i=1}^n A_{ij}x_i \right\vert \le \sum\limits_{i = 1}^n \vert A_{ij}x_i \vert \le \sum\limits_{i=1}^n \vert A_{ik} \vert$, we have\\
+\begin{flalign*}
+\Vert Ax \Vert_{\ell^{\infty}} = \left\Vert \sum_{i =1}^n A_ix_i \right\Vert_{\ell^{\infty}} = \max_{j=1,2,\ldots,m} \left\vert \sum_{i = 1}^n A_{ij} x_i \right\vert = \sum_{i =1}^n \vert A_{ik} \vert = \max_{j=1,2,\ldots,m} \sum_{i =1}^n \vert A_{ij}\vert &&
+\end{flalign*}
+
+Thus $\Vert A \Vert \ge \max\limits_{j = 1,2,\ldots m} \sum\limits_{i = 1}^n \vert A_{ij} \vert$ and we have\\
+$\Vert A \Vert = \max\limits_{j = 1,2,\ldots m} \sum\limits_{i = 1}^n \vert A_{ij} \vert$.
+
+	
+\end{document}

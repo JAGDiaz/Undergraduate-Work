@@ -1,0 +1,249 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{bm}
+\usepackage{amsthm}
+\usepackage{enumerate}
+\usepackage{graphicx}
+\usepackage{psfrag}
+\usepackage{color}
+\usepackage{url}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{positioning}
+\tikzset{main node/.style={circle,fill=gray!20,draw,minimum size=.5cm,inner sep=0pt},}
+
+\definecolor{codegreen}{rgb}{0,0.5,0}
+\definecolor{codewhite}{rgb}{1,1,1}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{codeblack}{rgb}{0,0,0}
+\definecolor{codeorange}{rgb}{0.8,0.4,0}
+
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{codewhite},   
+    commentstyle=\color{codegray},
+    keywordstyle=\color{codegreen},
+    numberstyle=\color{codegray},
+    stringstyle=\color{codeorange},
+    basicstyle=\ttfamily ,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=4
+}
+\lstset{style=mystyle}
+
+
+\setlength{\hoffset}{-1in}
+\addtolength{\textwidth}{1.5in}
+\setlength{\voffset}{-1in}
+\addtolength{\textheight}{1.5in}
+\newcommand{\be}{\begin{enumerate}}
+\newcommand{\ee}{\end{enumerate}}
+\newcommand{\BigO}[1]{\ensuremath\mathcal{O}\left(#1\right)}
+\newcommand{\il}[1]{\lstinline!#1!}
+\newcommand{\gnorm}[1]{\left|\left|#1\right|\right|}
+
+
+\begin{document}
+	\begin{center}
+		\textbf{Spring 2020, Stats 550:\ Homework 8} \\
+		\textbf{Due:\ Thursday, March 19th, 2020} \\
+		\textbf{Joseph Diaz: 819947915}
+	\end{center}
+\noindent\makebox[\linewidth]{\rule{\paperwidth}{0.4pt}}
+\section*{Chapter 3}
+\be 
+	\item[2.] Suppose $A$, $B$, and $C$ are independent events with respective probabilities
+$1/3$, $1/4$, and $1/5$. Find
+\be[(a)]
+	\item $P(ABC)$\\
+	The events are independent so the probability is:
+	$$P(ABC) = P(A)P(B)P(C) = \frac{1}{3}\cdot\frac{1}{4}\cdot\frac{1}{5} = \frac{1}{60} = 1.\bar{6}\%$$
+	
+	\item $P(A \cup B \cup C)$\\
+	With inclusion-exclusion, we have:
+	\begin{align*}
+	P(A \cup B \cup C) &= P(A) + P(B) + P(C)\\ &\quad - P(AB) - P(BC) - P(AC) + P(ABC)\\
+	&= \frac{1}{3} + \frac{1}{4} + \frac{1}{5} - \left(\frac{1}{12} + \frac{1}{20} + \frac{1}{15}\right) + \frac{1}{60}\\
+	&= \frac{3}{5} = 60\%
+	\end{align*}	 
+	
+	\item $P(AB|C)$\\
+	As the events are independent, we have that:
+	$$P(AB|C) = \frac{P(ABC)}{P(C)} = \frac{P(AB)P(C)}{P(C)} = P(AB) = \frac{1}{12} = 8.\bar{3}\%$$
+	
+	\item $P(B|AC)$\\
+	As the events are independent, we have that:
+	$$P(C|AB) = \frac{P(CAB)}{P(AB)} = \frac{P(C)P(AB)}{P(AB)} = P(C) = \frac{1}{5} = 20\%$$
+	
+	\item $P$(At most one of the three events occurs)\\
+	We denote $D$ the event that at most one of $A$, $B$, or $C$ occurs. To calculate this, we'll consider these mutually exclusive events:
+	\begin{align*}
+	P(D) &= P(AB^cC^c)+P(A^cBC^c)+ P(A^cB^cC)+P(A^cB^cC^c)\\
+	&= P(A)\left(1-P(B)\right)\left(1-P(C)\right)\\ &\quad + P(B)\left(1-P(A)\right)\left(1-P(C)\right)\\ &\quad + P(C)\left(1-P(A)\right)\left(1-P(B)\right)\\ &\quad + \left(1-P(A)\right)\left(1-P(B)\right)\left(1-P(C)\right)\\
+	&= \frac{1}{3}\cdot\frac{3}{4}\cdot\frac{4}{5} + \frac{1}{4}\cdot\frac{2}{3}\cdot\frac{4}{5} + \frac{1}{5}\cdot\frac{2}{3}\cdot\frac{3}{4} + \frac{2}{3}\cdot\frac{3}{4}\cdot\frac{4}{5}\\
+	&=\frac{1}{5} + \frac{2}{15} + \frac{1}{10} + \frac{2}{5}\\
+	&= \frac{5}{6} = 83.\bar{3}\%
+	\end{align*}
+	
+\ee
+	\item[4.] Toss two dice. Let $A$ be the event that the first die rolls 1, 2, or 3. Let $B$ be
+the event that the first die rolls 3, 4, or 5. Let $C$ be the event that the sum of
+the dice is 9. Show that $P(ABC) = P(A)P(B)P(C)$, but no pair of events is independent.
+\begin{proof}[Solution]
+First, we recognize:
+$$P(A) = \frac{1}{2},\ P(B) = \frac{1}{2},\ P(C) = \frac{1}{9}$$
+Which means the only way for $A$ and $B$ to both occur is if the first die rolls a 3; then the only way for $C$ to occur is if the second die rolls a 6. So based on this we have only one way rolls a 3 and then 6:
+$$P(ABC) = \frac{1}{36} = \frac{1}{2}\cdot\frac{1}{2}\cdot\frac{1}{9} = P(A)P(B)P(C)$$
+But these events are not pairwise independent because:
+\begin{align*}
+P(A|B) = \frac{1}{36} \neq P(A)\\
+P(A|C) = \frac{1}{36} \neq P(A)\\
+P(B|C) = \frac{1}{12} \neq P(B)
+\end{align*}
+As independent events satisfy the equation:
+$$P(A|B) = P(A)$$
+Therefore, we can conclude that $P(ABC) = P(A)P(B)P(C)$, while $A$, $B$, and $C$ are not pairwise independent.
+\end{proof}
+	
+	\item[8.] There is a 50-50 chance that the queen carries the gene for hemophilia. If she
+is a carrier, then each prince has a 50-50 chance of having hemophilia.
+\be[(a)] 
+	\item If the queen has had three princes without the disease, what is the probability the queen is a carrier.
+	\begin{proof}[Solution]
+	Let $Q$ be the event that the Queen has the gene for hemophilia, and let $S_i$ be the event that the $i^{\text{th}}$ prince born has hemophilia. Given these definitions we have that:
+	$$P(Q) = P(Q^c) = \frac{1}{2},\ P(S_i|Q) = P(S_i^c|Q) = \frac{1}{2},\ P(S_i|Q^c) = 0,\ P(S_i^c|Q^c) = 1$$
+	Then the probability we are interested in is:
+	\begin{align*}
+	P(Q|S_1^c S_2^c S_3^c) &= \frac{P(S_1^c S_2^c S_3^c|Q)P(Q)}{P(S_1^c S_2^c S_3^c|Q)P(Q) + P(S_1^c S_2^c S_3^c|Q^c)P(Q^c)}\\
+	&= \frac{P(S_1^c|Q)P(S_2^c|Q)P(S_3^c|Q)P(Q)}{P(S_1^c|Q)P(S_2^c|Q)P(S_3^c|Q)P(Q) + P(S_1^c|Q^c)P(S_2^c|Q^c)P(S_3^c|Q^c)P(Q^c)}\\
+	&= \frac{\left(\frac{1}{2}\right)^4}{\left(\frac{1}{2}\right)^4 + 1^3\cdot\frac{1}{2}} = \frac{1}{9}
+	\end{align*}
+	So the probability that the Queen carries the gene given that her first 3 sons don't have the disease is $1/9 = 11.\bar{1}\%$.
+	\end{proof}
+
+	\item If there is a fourth prince, what is the probability that he will have hemophilia?
+	\begin{proof}[Solution]
+	With the same definitions as above, the probability we're interested in is:
+	\begin{align*}
+	P(S_4|S_1^c S_2^c S_3^c) &= \frac{P(S_1^c S_2^c S_3^cS_4)}{P(S_1^c S_2^c S_3^c|Q)P(Q) + P(S_1^c S_2^c S_3^c|Q^c)P(Q^c)}\\
+	&= \frac{P(S_1^c)P(S_2^c)P(S_3^c)P(S_4)P(Q)}{P(S_1^c|Q)P(S_2^c|Q)P(S_3^c|Q)P(Q) + P(S_1^c|Q^c)P(S_2^c|Q^c)P(S_3^c|Q^c)P(Q^c)}\\
+	&= \frac{\left(\frac{1}{2}\right)^5}{\left(\frac{1}{4}\right)^4 + 1^3\cdot\frac{1}{2}}\\
+	&= \frac{1}{18}
+	\end{align*}
+	So the probability that a fourth prince has hemophilia is $1/18 = 5.\bar{5}\%$.
+	\end{proof}
+\ee
+	
+	\item[11.] Suppose $X_1,X_2,X_3$ are i.i.d. random variables, each uniformly distributed
+on $\{1, 2, 3\}$. Find the probability function for $X_1 + X_2 + X_3$. That is, find
+$P(X_1 + X_2 + X_3 = k)$, for $k = 3, . . . , 9$.
+\begin{proof}[Solution]
+\begin{align*}
+P(X_1+X_2+X_3 = 3) = \frac{1}{27}\ &\ P(X_1+X_2+X_3 = 4) = \frac{3}{27}\\
+P(X_1+X_2+X_3 = 5) = \frac{6}{27}\ &\ P(X_1+X_2+X_3 = 6) = \frac{7}{27}\\
+P(X_1+X_2+X_3 = 7) = \frac{6}{27}\ &\ P(X_1+X_2+X_3 = 8) = \frac{3}{27}\\
+P(X_1+X_2\ + &\ X_3 = 9) = \frac{1}{27}
+\end{align*}
+\end{proof}
+	
+	\item[21.] Every person in a group of 1000 people has a 1\% chance of being infected by
+a virus. The process of being infected is independent from person to person.
+Using random variables, write expressions for the following probabilities and
+solve them with R.
+\be[(a)] 
+	\item The probability that exactly 10 people are infected.\\
+	Letting $X$ be the number of people infected with the virus, and noticing that this situation fits a binomial distribution:
+	$$P(X=10) = \binom{1000}{10}(.01)^{10}(.99)^{990} \approx 12.57\%$$
+	
+	\item That probability that at least 16 people are infected.\\
+	Similar to ~(a), we have:
+	$$P(X > 15) = 1 - P(X \leq 15) = 1 - \sum_{k=0}^{15}\binom{1000}{k}(.01)^k(.99)^{1000-k}$$
+	$$\Rightarrow P(X > 15) = 1 - 0.9521294 = 0.04787059 \approx 4.79\%$$
+	
+	\item The probability that between 12 and 14 people are infected.\\
+		Similar to ~(a), we have:
+		\begin{align*}
+		P(12 \leq X \leq 14) &= \sum_{k=12}^{14}\binom{1000}{k}(.01)^k(.99)^{1000-k}\\
+		&= 0.1596178 \approx 15.96\%
+		\end{align*}
+	
+	\item The probability that someone is infected.\\
+	Again, like ~(a):
+	\begin{align*}
+	P(X > 0) &= 1 - P(X=0)\\
+	&= 1 - \binom{1000}{0}(.01)^0(.99)^{1000}\\
+	&= 1 - .000043171\\
+	&= .9999568 \approx 99\% 
+	\end{align*}
+	
+\ee
+	
+	\item[23.] For the following situations, identify whether or not $X$ has a binomial
+distribution. If it does, give $n$ and $p$; if not, explain why.
+\be[(a)]
+	\item Every day Amy goes out for lunch there is a 25\% chance she will choose
+pizza. Let $X$ be the number of times she chose pizza last week.\\
+In this case $X$ has a binomial distribution, with $n = 7$ and $p=.25$.
+	
+	\item Brenda plays basketball, and there is a 60\% she makes a free throw. Let
+$X$ be the number of successful baskets she makes in a game.\\
+In this case $X$ has a binomial distribution, with $n$ being the number of free throws and $p = .6$.
+	
+	\item A bowl contains 100 red candies and 150 blue candies. Carl reaches and
+takes out a sample of 10 candies. Let $X$ be the number of red candies in his sample.\\
+In this case $X$ does not have a binomial distribution, as the probability of getting a red or blue in each ``trial'' is dependent on previous trials. 
+	
+	\item Evan is reading a 600-page book. On even-numbered pages, there is a 1\%
+chance of a typo. On odd-numbered pages, there is a 2\% chance of a typo.
+Let $X$ be the number of typos in the book.\\
+As it is, $X$ does not have a binomial distribution as the probability of finding typos on each page is not uniform. If $X_o$ and $X_e$ were random variables representing the number of odd and even pages (respectively) with typos, where $n_o = n_e = 300$, and $p_o=.02$ and $p_e = .01$; then each individual random variable would be binomially distributed.   
+
+	\item Fran is reading a 600-page book. The number of typos on each page has a
+Bernoulli distribution with $p = 0.01$. Let $X$ be the number of typos in the
+book.\\
+$X$ does not have a binomial distribution, because $X$ does not represent the number of successes in $n$ Bernoulli trials, but the total number of typos in the book. If $X$ represented the number of pages containing typos, with $p =0.01$ and $n = 600$, then $X$ would have a binomial distribution.
+\ee
+	
+	\item[25.] A bag of 16 balls contains one red, three yellow, five green, and seven blue
+balls. Suppose four balls are picked, sampling with replacement.
+\be[(a)]
+	\item Find the probability that the sample contains at least two green balls.\\
+	Since we are only concerned with the number of green balls in a sample of four balls and the probability of getting a green ball is equal and independent (due to sampling with replacement) in each trial, then if $X$ is the number of green balls sampled in 4 trials $X$ will have a binomial distribution with $p=\frac{5}{16}$ and $n=4$. With this in mind, the probability we want is:
+	\begin{align*}
+	P(X\geq 2) &= 1 - P(X<2)\\
+	&= 1 - \sum_{k=0}^1\binom{4}{k}\left(\frac{5}{16}\right)^k\left(\frac{11}{16}\right)^{4-k}\\
+	&= .3704 \approx 37.04\%
+	\end{align*}
+	
+	\item Find the probability that each of the balls in the sample is a different color.\\
+	The probability we are interested in is the product of the  probability of each individual ball color:
+	$$\frac{1}{16}\cdot\frac{7}{16}\cdot\frac{3}{16}\cdot\frac{5}{16} = \frac{105}{16^4} = .0016 = .16\%$$
+	
+	\item Repeat these two problems for the case when the sampling is without
+replacement.
+\be[(a)] 
+	\item We will simply count all the ways to get 2 or more green balls and divide by the number of ways to choose 4 balls from 16:
+	$$\frac{\binom{5}{2}\binom{11}{2} + \binom{5}{3}\binom{11}{1} + \binom{5}{4}\binom{11}{0}}{\binom{16}{4}} = .36538 = 36.54\%$$
+		
+	\item This strategy is similar to the one with replacement, but each subsequent probability increases as the number of balls in the bag decreases:
+	$$\frac{1}{16}\cdot\frac{7}{15}\cdot\frac{3}{14}\cdot\frac{5}{13} = \frac{105}{43680} = .0024 = .24\%$$
+	
+\ee
+	
+\ee
+	
+\ee
+
+\noindent\makebox[\linewidth]{\rule{\paperwidth}{0.4pt}}
+	
+\end{document}

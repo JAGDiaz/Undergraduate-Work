@@ -1,0 +1,234 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{bm}
+\usepackage{amsthm}
+\usepackage{enumerate}
+\usepackage{graphicx}
+\usepackage{psfrag}
+\usepackage{color}
+\usepackage{url}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{positioning}
+\tikzset{main node/.style={circle,fill=gray!20,draw,minimum size=.5cm,inner sep=0pt},}
+
+\definecolor{codegreen}{rgb}{0,0.5,0}
+\definecolor{codewhite}{rgb}{1,1,1}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{codeblack}{rgb}{0,0,0}
+\definecolor{codeorange}{rgb}{0.8,0.4,0}
+
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{codewhite},   
+    commentstyle=\color{codegray},
+    keywordstyle=\color{codegreen},
+    numberstyle=\color{codegray},
+    stringstyle=\color{codeorange},
+    basicstyle=\ttfamily ,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=4
+}
+\lstset{style=mystyle}
+
+
+\setlength{\hoffset}{-1in}
+\addtolength{\textwidth}{1.5in}
+\setlength{\voffset}{-1in}
+\addtolength{\textheight}{1.5in}
+\newcommand{\be}{\begin{enumerate}}
+\newcommand{\ee}{\end{enumerate}}
+\newcommand{\BigO}[1]{\ensuremath\mathcal{O}\left(#1\right)}
+\newcommand{\il}[1]{\lstinline!#1!}
+\newcommand{\gnorm}[1]{\left|\left|#1\right|\right|}
+\newcommand{\abs}[1]{\left|#1\right|}
+\newcommand{\parens}[1]{\left(#1\right)}
+\newcommand{\bracks}[1]{\left\{#1\right\}}
+\newcommand{\sqbracks}[1]{\left[#1\right]}
+\newcommand{\vep}{\varepsilon}
+\newcommand{\ceiling}[1]{\left\lceil#1\right\rceil}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\distrib}[2]{\text{#1}\left(#2\right)}
+\newcommand{\dd}[1]{\frac{d}{d#1}}
+\newcommand{\abracks}[1]{\left< #1\right>}
+
+\begin{document}
+	\begin{center}
+		\textbf{Spring 2020, Stats 550:\ Homework 19} \\
+		\textbf{Due:\ Tuesday, May 5th, 2020} \\
+		\textbf{Joseph Diaz: 819947915}
+	\end{center}
+\noindent\makebox[\linewidth]{\rule{\paperwidth}{0.4pt}}
+\subsection*{Chapter 7}
+\be
+	\item[29.] A density function is proportional to $f(x) = x^3(1 - x)^7$, for $0 < x < 1$.
+	\be[(a)] 
+		\item Find the constant of proportionality.
+		\begin{proof}[Solution]
+		Let $X \sim \distrib{Beta}{4,8}$, with pdf $g(x) = cf(x)$. As the pdf of $X$ we have that
+		$$\int_0^1 g(x)\ dx = 1$$
+		with that, we get:
+		\begin{align*}
+		\int_0^1 g(x)\ dx &= c\int_0^1 f(x)\ dx \\
+		&= c\int_0^1 x^3(1-x)^7\ dx \\
+		&= \frac{c}{1320}
+		\end{align*}
+		so $$\frac{c}{1320} = 1 \implies c = 1320 = \frac{\Gamma(12)}{\Gamma(4)\Gamma(8)}$$
+		and the pdf of $X$ is $g(x) = \frac{\Gamma(12)}{\Gamma(4)\Gamma(8)}x^3(1-x)^7$.
+		\end{proof}
+		
+		\item Find the mean and variance of the distribution.
+		\begin{proof}[Solution]
+		With the same $X$ as (a), we have:
+		$$E\sqbracks{X} = \frac{4}{12} = \frac{1}{3},\quad V\sqbracks{X} = \frac{32}{12^2 13} = \frac{2}{117}$$
+		\end{proof}
+		
+		\item Use R to find $P\parens{X >0.5}$.
+		\begin{proof}[Solution]
+		Using \il{pbeta(.5, 4, 8, lower.tail = FALSE)} we have
+		$$P\parens{X > .5} \approx 11.32812\%$$
+		\end{proof}
+		
+	\ee
+	
+	\item[31.] \textbf{Order statistics.} Suppose $X_1,\ \cdots,\ X_{100} \sim \distrib{Unif}{0,1}$ are independent.
+	\be[(a)] 
+		\item Find the probability the 25th smallest variable is less than 0.20.
+		\begin{proof}[Solution]
+		Let $\parens{X_{(1)},\ \cdots,\ X_{(100)}}$ be the order statistics for $X_1,\ \cdots,\ X_{100}$, and for $k = 1,\ \cdots,\ 100$ we have that $X_{(k)} \sim \distrib{Beta}{k, 101 - k}$.
+		We want to find $P\parens{X_{(25)} < .2}$, so $X_{(25)} \sim \distrib{Beta}{25, 76}$, and 
+		$$P\parens{X_{(25)} < .2} = \int_0^{0.} \frac{\Gamma(101)}{\Gamma(25)\Gamma(76)}x^{24}(1-x)^{75}\ dx \approx 13.13532\%$$
+		\end{proof}
+		
+		\item Find $E\sqbracks{X_{(95)}}$ and $V\sqbracks{X_{(95)}}$.
+		\begin{proof}[Solution]
+		We have that $X_{(95)} \sim \distrib{Beta}{95, 6}$, then the expectation and variance are
+		$$E\sqbracks{X} = \frac{95}{101} \approx .9406,\quad V\sqbracks{X} = \frac{570}{101^2 102} \approx .0005$$
+		\end{proof}
+		
+		\item The \textit{range} of a set of numbers is the difference between the maximum and
+the minimum. Find the expected range.
+	The range of the order statistics for $X_1,\ \cdots,\ X_{100}$ would be $X_{(100)} - X_{(1)}$. So the expected value of this difference is:
+	\begin{align*}
+	E\sqbracks{X_{(100)} - X_{(1)}} &= E\sqbracks{X_{(100)}} - E\sqbracks{X_{(1)}} \\
+	&= \frac{100}{101} - \frac{1}{101} \\
+	&= \frac{99}{101}
+	\end{align*}
+
+	\ee
+	
+	\item[34.] Derive the variance of a beta distribution with parameters $a$ and $b$.
+	\begin{proof}[Derivation]
+	Let $X \sim \distrib{Beta}{a,b}$, to derive $V\sqbracks{X}$, we'll use the formula:
+	$$V\sqbracks{X} = E\sqbracks{X^2} - E\sqbracks{X}^2$$
+	We already know the expectation of $X$, so
+	$$E\sqbracks{X}^2 = \frac{a^2}{(a+b)^2}$$
+	So we'll focus on finding $E\sqbracks{X^2}$:
+	\begin{align*}
+	E\sqbracks{X^2} &= \int_0^1 \frac{\Gamma(a+b)}{\Gamma(a)\Gamma(b)}x^2x^{a-1}(1-x)^{b-1}\ dx \\
+	&= \frac{\Gamma(a+b)}{\Gamma(a)\Gamma(b)}\int_0^1 x^{a+1}(1-x)^{b-1}\ dx \\
+	&= \parens{\frac{\Gamma(a+b)}{\Gamma(a)\Gamma(b)}}\parens{\frac{\Gamma(a+2)\Gamma(b)}{\Gamma(a+ 2 +b)}}\int_0^1\frac{\Gamma(a + 2+b)}{\Gamma(a+2)\Gamma(b)} x^{a+1}(1-x)^{b-1}\ dx 
+	\end{align*}
+	The integral is now the cdf of some random variable $Y \sim \distrib{Beta}{a+2, b}$ from 0 to 1, so we may conclude that it equals 1. Therefore:
+	\begin{align*}
+	E\sqbracks{X^2} &= \parens{\frac{\Gamma(a+b)}{\Gamma(a)\Gamma(b)}}\parens{\frac{\Gamma(a+2)\Gamma(b)}{\Gamma(a+ 2 +b)}} \\
+	&= \frac{\Gamma(a+b)\Gamma(a+2)}{\Gamma(a)\Gamma(a+2+b)} \\
+	&= \frac{\Gamma(a+b)(a+1)a\Gamma(a)}{\Gamma(a)(a+b+1)(a+b)\Gamma(a+b)} \\
+	&= \frac{a(a+1)}{(a+b)(a+b+1)} 
+	\end{align*}
+	With this, we have that 
+	\begin{align*}
+	V\sqbracks{X} &= \frac{a(a+1)}{(a+b)(a+b+1)} - \frac{a^2}{(a+b)^2} \\
+	&= \frac{a(a+1)(a+b) - a^2(a+ b + 1)}{(a+b)^2(a+b+1)} \\
+	&= \frac{a^3 + a^2b + a^2 + ab - a^3 -a^2b -a^2}{(a+b)^2(a+b+1)} \\
+	V\sqbracks{X} &= \frac{a^3 + a^2b + a^2 +ab}{(a+b)^2(a+b+1)}
+	\end{align*}
+	As desired.
+	\end{proof}
+	
+	\item[35.] Let $X \sim \distrib{Beta}{a, b}$. Find the distribution of $Y = 1 - X$.
+	\begin{proof}[Solution]
+	We have that the pdf and cdf of $X$ are
+	$$f(x) = \frac{\Gamma(a+b)}{\Gamma(a)\Gamma(b)}x^{a-1}(1-x)^{b-1},\quad P\parens{X < x} = F(x)= \int_0^x \frac{\Gamma(a+b)}{\Gamma(a)\Gamma(b)}t^{a-1}(1-t)^{b-1}\ dt, \quad 0 \leq x \leq 1$$
+	With this, the cdf of $Y$ is
+	$$P\parens{Y < y} = P\parens{1-X < y} = P\parens{1-y < X} = 1 - P\parens{X < 1-y}$$
+	Let $G(y) = 1 - F(1-y)$ be the cdf of $Y$, then:
+	\begin{align*}
+	G(y) &= 1 - \int_0^{1-y} \frac{\Gamma(a+b)}{\Gamma(a)\Gamma(b)}t^{a-1}(1-t)^{b-1}\ dt \\
+	&= 1 + \int_1^y \frac{\Gamma(a+b)}{\Gamma(a)\Gamma(b)}(1-u)^{a-1}u^{b-1}\ du \ \parens{\text{let } u = 1-t} \\
+	&= 1 - \int_y^1 \frac{\Gamma(a+b)}{\Gamma(a)\Gamma(b)}u^{b-1}(1-u)^{a-1}\ du \\
+	&= \int_0^y \frac{\Gamma(a+b)}{\Gamma(a)\Gamma(b)}u^{b-1}(1-u)^{a-1}\ du
+	\end{align*}
+	By the fundamental theorem of calculus we have that
+	$$g(y) = G'(y) = \frac{\Gamma(a+b)}{\Gamma(a)\Gamma(b)}y^{b-1}(1-y)^{a-1}$$
+	As $g(y)$ is the pdf of $Y$, we have that $Y \sim \distrib{Beta}{b,a}$.
+	\end{proof}
+	
+	\item[38.] In a population, suppose personal income above \$15,000 has a Pareto distribution
+with $a = 1.8$ (units are \$10,000). Find the probability that a randomly
+chosen individual has income greater than \$60,000.
+\begin{proof}[Solution]
+Let $X \sim \distrib{Pareto}{1.5, 1.8}$ (units of $m,\ X$ are \$10,000) be the personal income of a population. So the probability we are interested in is given by:
+$$P\parens{X>6} = \int_6^\infty \parens{1.8}\frac{1.5^{1.8}}{t^{2.8}}\ dt = \parens{\frac{1.5}{6}}^{1.8} \approx 8.247\%$$
+\end{proof}
+	
+	\item[39.] In Newman (2005), the population of U.S. cities larger than 40,000 is modeled
+with a Pareto distribution with $a = 2.30$. Find the probability that a random
+city’s population is greater than $k = 3,\ 4,\ 5$, and 6 standard deviations above
+the mean.
+\begin{proof}[Solution]
+Let $X \sim \distrib{Pareto}{4, 2.3}$ (units of $m,\ X$ are 10,000 people) with $\mu = \frac{am}{a-1} = \frac{2.3\cdot4}{1.3}$ and $\sigma = \sqrt{\frac{am^2}{(a-1)^2(a-2)}} = \sqrt{\frac{2.3\cdot16}{(1.3)^2(.3)}}$, so the probabilities we are interest in are given by:
+\begin{align*}
+P\parens{X > 3\sigma + \mu} &= P\parens{X > 32.6357} \approx .8\%\\
+P\parens{X > 4\sigma + \mu} &= P\parens{X > 41.1553} \approx .46\%\\
+P\parens{X > 5\sigma + \mu} &= P\parens{X > 49.675} \approx .304\%\\
+P\parens{X > 6\sigma + \mu} &= P\parens{X > 58.1946} \approx .2\%
+\end{align*}
+\end{proof}
+	
+	\item[41.] Let $X \sim \distrib{Exp}{a}$. Let $Y = me^X$. Show that $Y \sim \distrib{Pareto}{m, a}$.
+\begin{proof}[Solution]
+Let $f(x),\ F(x)$ be the pdf and cdf, respectively, of $X$; given by
+$$f(x) = ae^{ax},\quad F(x) = P\parens{X < x} = \int_0^x ae^{-at}\ dt,\quad x >0$$
+Given out definition of $Y$, we also have
+$$P\parens{Y < y} = P\parens{me^X < y} = P\parens{e^X < \frac{y}{m}} = P\parens{X < \ln\parens{\frac{y}{m}}},\ y > m$$
+Let $G(y) = F\parens{\frac{y}{m}}$ be the cdf of $Y$, now:
+\begin{align*}
+G(y) &= \int_0^{\ln\parens{\frac{y}{m}}} a e^{-at}\ dt \\
+&= \int_m^y ae^{-a\ln\parens{\frac{u}{m}}}\cdot\frac{1}{u}\ du\ \parens{\text{Let } t = \ln\parens{\frac{u}{m}}} \\
+&= \int_m^y a\parens{\frac{m}{u}}^a\cdot\frac{1}{u}\ du \\
+&= \int_m^y a\frac{m^a}{u^{a+1}}\ du
+\end{align*}
+Then by the fundamental theorem of calculus we have that
+$$g(y) = G'(y) = a\frac{m^a}{y^{a+1}}$$
+Which implies that $g(y)$ is the pdf of $Y$, and $Y \sim \distrib{Pareto}{m,a}$.
+\end{proof}
+	
+	\item[43.] The ``99-10'' rule on the Internet says that 99\% of the content generated in
+Internet chat rooms is created by 10\% of the users. If the amount of chat room
+content has a Pareto distribution, find the value of the parameter $a$.
+\begin{proof}[Solution]
+Let $X \sim \distrib{Pareto}{m,a}$ be the amount of content generated by users in an internet chat room. To find $a$, first we need to determine the $x$ that separates the top 10\% of content creators from the rest:
+$$P\parens{X > x} = \int_x^\infty a\frac{m^a}{t^{a+1}}\ dt = \parens{\frac{m}{x}}^{a-1} = \frac{1}{10}$$
+$$\Rightarrow x = m10^{\frac{1}{a}}$$
+Now we use the Lorenz Function with the total amount of content to find the value of $a$ for $X$:
+$$L\parens{m10^{\frac{1}{a}}} = \parens{\frac{m}{m10^{\frac{1}{a}}}}^{a-1} = \frac{99}{100}$$
+$$\Rightarrow a = \frac{1}{1+\log_{10}\parens{\frac{99}{100}}} \approx 1.0044$$
+So for this ``99-10'' rule to be consistent with reality, the distribution would need to be $X \sim \distrib{Pareto}{m,1.0044}$.
+\end{proof}
+	
+\ee
+\noindent\makebox[\linewidth]{\rule{\paperwidth}{0.4pt}}
+	
+\end{document}

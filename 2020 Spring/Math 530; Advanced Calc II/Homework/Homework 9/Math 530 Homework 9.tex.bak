@@ -1,0 +1,245 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{bm}
+\usepackage{amsthm}
+\usepackage{enumerate}
+\usepackage{graphicx}
+\usepackage{psfrag}
+\usepackage{color}
+\usepackage{url}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{positioning}
+\tikzset{main node/.style={circle,fill=gray!20,draw,minimum size=.5cm,inner sep=0pt},}
+
+\definecolor{codegreen}{rgb}{0,0.5,0}
+\definecolor{codewhite}{rgb}{1,1,1}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{codeblack}{rgb}{0,0,0}
+\definecolor{codeorange}{rgb}{0.8,0.4,0}
+
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{codewhite},   
+    commentstyle=\color{codegray},
+    keywordstyle=\color{codegreen},
+    numberstyle=\color{codegray},
+    stringstyle=\color{codeorange},
+    basicstyle=\ttfamily ,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=4
+}
+\lstset{style=mystyle}
+
+
+\setlength{\hoffset}{-1in}
+\addtolength{\textwidth}{1.5in}
+\setlength{\voffset}{-1in}
+\addtolength{\textheight}{1.5in}
+\newcommand{\be}{\begin{enumerate}}
+\newcommand{\ee}{\end{enumerate}}
+\newcommand{\BigO}[1]{\ensuremath\mathcal{O}\left(#1\right)}
+\newcommand{\il}[1]{\lstinline!#1!}
+\newcommand{\gnorm}[1]{\left|\left|#1\right|\right|}
+\newcommand{\abs}[1]{\left|#1\right|}
+\newcommand{\parens}[1]{\left(#1\right)}
+\newcommand{\bracks}[1]{\left\{#1\right\}}
+\newcommand{\sqbracks}[1]{\left[#1\right]}
+\newcommand{\vep}{\varepsilon}
+\newcommand{\ceiling}[1]{\left\lceil#1\right\rceil}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\distrib}[2]{\text{#1}\left(#2\right)}
+\newcommand{\dd}[1]{\frac{d}{d#1}}
+\newcommand{\abracks}[1]{\left< #1\right>}
+
+\begin{document}
+	\begin{center}
+		\textbf{Spring 2020, Math 530:\ Homework 9} \\
+		\textbf{Due:\ Wednesday, May 6th, 2020} \\
+		\textbf{Joseph Diaz: 819947915}
+	\end{center}
+\noindent\makebox[\linewidth]{\rule{\paperwidth}{0.4pt}}
+\be[(E1)]
+	\item Let the inner product space $\parens{V,\ \abracks{\cdot,\cdot}}$ and a sequence of vectors $\bracks{x_n}$ in $V$. Assume that $\exists x \in V,\ \lim_{n\to\infty} x_n = x$. Prove that 
+	$$\forall v \in V,\ \lim_{n\to\infty}\abracks{x_n, v} = \abracks{x, v}$$
+	\begin{proof}
+	Let $d(x,y) = \gnorm{x - y},\ \gnorm{x} = \sqrt{\abracks{x,x}},\ x,y \in V$ be the norm induced by the inner product space.
+	We have that $\exists x \in V,\ \lim_{n\to\infty} x_n = x$ which implies:
+	$$\forall \vep >0,\ \exists N \in \N:\ \forall n \geq N,\ \gnorm{x_n - x} < \vep$$
+	Let $v \in V$, then:
+	\begin{align*}
+	\abracks{x_n, v} - \abracks{x,v} &= \abracks{x_n - x, v} \\
+	\abs{\abracks{x_n, v} - \abracks{x,v}} &= \abs{\abracks{x_n - x, v}} \\
+	&\leq \gnorm{x_n - x}\cdot\gnorm{v} \\
+	& < \vep\gnorm{v}
+	\end{align*}
+	So we have $\abs{\abracks{x_n, v} - \abracks{x,v}} < \vep\gnorm{v}$; now let
+	$$\forall v \in V,\ \tilde{\vep} = \vep\gnorm{v},\ \exists \tilde{N} \in \N:\ \forall n \geq \tilde{N},\ \abs{\abracks{x_n, v} - \abracks{x,v}} < \tilde{\vep}$$
+	This implies that 
+	$$\forall v \in V,\ \lim_{n\to\infty}\abracks{x_n, v} = \abracks{x, v}$$
+	\end{proof}
+	
+	\item Let $\parens{V,\ \gnorm{\cdot}}$ be a normed vector space. Let $\bracks{x_n}$ be a sequence in $V$ such that $\exists x \in V,\ \lim_{n\to\infty} x_n = x$. Prove that
+	$$\lim_{n\to\infty}\gnorm{x_n} = \gnorm{x}$$
+	\begin{proof}
+	We have that $\exists x \in V,\ \lim_{n\to\infty} x_n = x$, which implies:
+	$$\forall \vep >0,\ \exists N \in \N:\ \forall n \geq N,\ \gnorm{x_n - x} < \vep$$
+	We also have that 
+	$$\Big|\gnorm{x_n} - \gnorm{x}\Big| \leq \gnorm{x_n - x} < \vep$$
+	By the \textit{reverse} triangle inequality. That gives
+	$$\forall \vep >0,\ \exists N \in \N:\ \forall n \geq N,\ \Big|\gnorm{x_n} - \gnorm{x}\Big| < \vep$$
+	Which implies 
+	$$\lim_{n\to\infty}\gnorm{x_n} = \gnorm{x}$$
+	\end{proof}
+	
+	\item Let the inner product space $\parens{V,\ \abracks{\cdot,\cdot}}$ and a sequence of vectors $\bracks{x_n}$ in $V$. Assume that $\exists x \in V,\ \lim_{n\to\infty} x_n = x$. Let a vector $y \in V$ such that $\forall n \in \N,\ x_n \perp y$. Show that $x\perp y$.
+	\begin{proof}
+	We have that $\exists x \in V,\ \lim_{n\to\infty} x_n = x$, and $\forall n \in \N,\ x_n \perp y \iff \abracks{x_n, y} = 0$. To show that $x \perp y$, we will show that $\abracks{x,y} = 0$. From (E1), we know that $\forall v \in V,\ \lim_{n\to\infty}\abracks{x_n,v} = \abracks{x,v}$, with 
+	$$\forall v \in V,\ \forall \vep > 0 ,\ \exists N \in \N:\ \forall n \geq N,\ \abs{\abracks{x_n, v} - \abracks{x,v}} < \vep$$
+	So for $y$, we have
+	$$
+	\abs{\abracks{x_n, y} - \abracks{x,y}} = \abs{0-\abracks{x,y}} = \abs{\abracks{x,y}} < \vep
+	$$
+	Since we have $\forall \vep > 0,\ \abs{\abracks{x,y}} < \vep$, this implies $\abs{\abracks{x,y}} = \abracks{x,y} = 0$ which in turn implies $x \perp y$.
+	\end{proof}
+	
+	\item Let $u \in V$ be an arbitrary vector and let $r > 0$. Let $v, w \in V$ be two vectors such that $\gnorm{u-v} < r$ and $\gnorm{u-w} < r$. Denote, $\forall t \in \sqbracks{0,1},\ z = tv + (1-t)w$. Show that $\gnorm{u-z} < r$.
+	\begin{proof}
+	We have 
+	\begin{align*}
+	z &= tv + (1-t)w \\
+	 &= tv + w -tw \\
+	 &= w + t(v-w) \\
+	u - z &= u -w - t(v-w) \\
+	\gnorm{u - z} &= \gnorm{u -w - t(v-w)} \\
+	&\leq \gnorm{u -w} \\
+	\gnorm{u - z}&< r
+	\end{align*}
+	As desired.
+	\end{proof}
+	
+	\item Let $\parens{V,\ \abracks{\cdot,\cdot}}$ be an inner-product space. The set of vectors $\bracks{u_1,\ \cdots,\ u_k},\ u_i \in V,\ \forall i \in \bracks{1,\ \cdots,\ k}$ is said to be an orthonormal set if $\forall i \in \bracks{1,\ \cdots,\ k},\ \gnorm{u_i} = 1$ and $\forall i,j \in \bracks{1,\ \cdots,\ k}, i \neq j, \abracks{u_i, u_j} = 0$. Given an arbitrary set of coefficients $\alpha_i \in \R,\ i \in \bracks{1,\ \cdots,\ k}$, we denote the vector
+	$$u = \alpha_1u_1 + \cdots + \alpha_ku_k$$
+	Prove that 
+	$$\gnorm{u} = \sqrt{\sum_{i=1}^k \alpha_i^2}$$ 
+	\begin{proof}
+	We have that $\parens{V,\ \abracks{\cdot,\cdot}}$ is an inner-product space and that $\bracks{u_1,\ \cdots,\ u_k} \subset V$ is an orthonormal set, therefore:
+	\begin{align*}
+	\gnorm{u} &= \sqrt{\abracks{u,u}} \\
+	&= \sqrt{\abracks{\alpha_1u_1 + \cdots + \alpha_ku_k,\ \alpha_1u_1 + \cdots + \alpha_ku_k}} \\
+	&= \sqrt{\sum_{1 \leq i, j \leq k} \abracks{\alpha_iu_i,\ \alpha_ju_j}} \\
+	\end{align*}
+	From the second to the third line, we use the distributive property of the inner product. As $\bracks{u_1,\ \cdots,\ u_k}$ is an orthonormal set, we have that 
+	$$i\neq j \implies \abracks{\alpha_iu_i,\ \alpha_ju_j} = \alpha_i\alpha_j \abracks{u_i,\ u_j} = \alpha_i\alpha_j\cdot0 = 0$$
+	and
+	$$i = j \implies \abracks{\alpha_iu_i,\ \alpha_ju_j} = \abracks{\alpha_iu_i,\ \alpha_iu_i} = \alpha_i^2\abracks{u_i,u_i} = \alpha_i^2\gnorm{u_i}^2 =  \alpha_i^2$$
+	So we may rewrite the sum inside the square root as
+	$$\sum_{1 \leq i, j \leq k} \abracks{\alpha_iu_i,\ \alpha_ju_j} = \alpha_1^2 + \alpha_2^2 + \cdots + \alpha_{k-1}^2 + \alpha_k^2 = \sum_{i=1}^k \alpha_i^2$$
+	Which implies
+	$$\gnorm{u} = \sqrt{\sum_{i=1}^k \alpha_i^2}$$
+	as desired.
+	\end{proof}
+	
+	\item Determine whether the following sets are open, closed, or neither. You must justify your answer!
+	\be[a.]
+		\item $X = \parens{0,\infty}$
+		\begin{proof}[Solution]
+		Let $\parens{\R,\ \abs{\cdot}}$ have $X$ as a subset.\\
+		\textit{Openness}:\\
+		We have that $\forall x \in X,\ x > 0$, so let $\vep = x$, then:
+		$$B_x(x) = \bracks{y\in \R \Big| \abs{x-y} < x}$$
+		\begin{align*}
+		\Rightarrow \abs{x-y} < x \\
+		-x < x-y < x \\
+		-2x < -y < 0 \\
+		0 < y < 2x 
+		\end{align*}
+		So we have that 
+		$$B_x(x) = (0, 2x) \subset X$$
+		So $X$ is open.\\
+		\textit{Closedness}:\\
+		We will show that $X$ is not closed by showing that $X^c = (-\infty,0]$ is not open. There exists $x \in X^c$ such that $\forall \vep >0,\ B_\vep (x) \not\subset X^c$. Indeed, let $x = 0$, then
+		$$B_\vep(0) = \bracks{y \in \R \Big| \abs{0 - y}< \vep}$$
+		But clearly,
+		$$B_\vep(0) = \parens{-\vep,\vep} \not\subset X^c$$
+		So we may conclude that $X^c$ is not open, and that $X$ is not closed.
+			
+	
+		\end{proof}
+		
+		\item $X = \Q$
+		\begin{proof}[Solution]
+		Let $\parens{\R,\ \abs{\cdot}}$ be a metric space which has $\Q$ as a subset. The set of rationals is neither open or closed, because for any $x \in \Q$, the open ball $B_\vep(x) = \parens{x-\vep,\ x+\vep}$ must contain irrational numbers, i.e. $B_\vep(x) \not\subset \Q$; so $\Q$ is not open. Now, if we consider $\Q^c = \R \backslash \Q$, then for any $x \in \Q^c$ the open ball $B_\vep(x) = \parens{x-\vep,\ x+\vep}$ must contain rational numbers and $B_\vep(x) \not\subset \Q^c$. As neither $\Q$ or $\Q^c$ are open, by Prop 5.1.3 we can also conclude that neither of them are closed either. So $\Q$ is neither open nor closed. 
+		\end{proof}
+		
+		\item $X = \bracks{x \in \R \mid x^2 > 4}$
+		\begin{proof}[Solution]
+		Let $\parens{\R,\ \abs{\cdot}}$ have $X$ as a subset, and $X = \parens{-\infty,-2}\cup\parens{2,\infty}$, based on it's definition.\\
+		\textit{Openness}:\\
+		Let 
+		$$X_1 = \parens{-\infty,-2} \quad X_2 = \parens{2,\infty}$$
+		so, clearly, $X = X_1\cup X_2$. Now to show that $X$ is open, we'll show that both $X_1$ and $X_2$ are open. We have that $\forall x \in X_1,\ x < -2$, so let $\vep = \abs{x+2}$, then:
+		$$B_\vep(x) = \bracks{y\in \R \Big| \abs{x-y} < \abs{x+2}}$$
+		\begin{align*}
+		\Rightarrow \abs{x-y} < \abs{x+2} \\
+		-\abs{x+2} < x-y < \abs{x+2} \\
+		-\abs{x+2} - x < -y < \abs{x+2} -x \\
+		-\abs{x+2} + x < y < \abs{x+2} + x \\
+		x+2+x < y < -x-2 + x \\
+		2x+2 < y < -2 
+		\end{align*}
+		So we have that 
+		$$B_\vep(x) = (2x+2, -2) \subset X_1$$
+		So $X_1$ is open. Now $\forall x \in X_2,\ x > 2$, so let $\vep = x-2$, then:
+		$$B_\vep(x) = \bracks{y\in \R \Big| \abs{x-y} < x-2}$$
+		\begin{align*}
+		\Rightarrow \abs{x-y} < x-2 \\
+		-x+2 < x-y < x-2 \\
+		-x+2 - x < -y < x-2 -x \\
+		-2x+2 < y < -2 \\
+		2 < y < 2x-2 
+		\end{align*}
+		So we have that 
+		$$B_\vep(x) = (2, 2x-2) \subset X_2$$
+		and $X_2$ is open.\\
+		The union of open sets is an open so we may conclude that $X = X_1 \cup X_2$ is an open set.
+		\textit{Closedness}:\\
+		We will show that $X$ is not closed by showing that $X^c = \sqbracks{-2,2}$ is not open. There exists $x \in X^c$ such that $\forall \vep >0,\ B_\vep (x) \not\subset X^c$. Indeed, letting $x = -2$ or $x = 2$, gives 
+		$$B_\vep(2) = \bracks{y \in \R \Big| \abs{2 - y}< \vep} \qquad B_\vep(-2) = \bracks{y \in \R \Big| \abs{-2 - y}< \vep}$$
+		But clearly,
+		$$B_\vep(-2) = \parens{-2-\vep,-2+\vep} \not\subset X^c \qquad B_\vep(2) = \parens{2-\vep,2+\vep} \not\subset X^c$$
+		So we may conclude that $X^c$ is not open, and that $X$ is not closed.
+			
+	
+		\end{proof}
+		
+		\item $X = \bracks{x = \parens{x_1,x_2} \in \R^2 \mid x_1^2 > x_2}$
+		\begin{proof}[Solution]
+		Let $\parens{\R^2, \gnorm{\cdot}_2}$ be a metric space which has $X$ as a subset. So any open ball in $X$ would be 
+		$$
+		B_\vep (x) = \bracks{y \in X \Big| \gnorm{x-y}_2 < \vep}
+		$$
+		The definition of $X$ constrains the elements of any given $x$ to the points beneath a parabola that is itself not in $X$. If we let $\vep = d$ be the shortest distance between any given point under the parabola and the parabola itself; then, by definition, we have $B_d(x) = \bracks{y \in \R \Big| \gnorm{x-y} < d}$. This is true for any $x \in X$, so we may conclude that $X$ is open.
+		On the other hand, considering that $X^c$ contains the parabola; we have may points $x \in X^c$, for which any $\vep > 0$ gives and open ball that is not a subset of $X^c$. $X^c$ is not open
+		
+		\end{proof}
+		
+	\ee
+	
+\ee
+\noindent\makebox[\linewidth]{\rule{\paperwidth}{0.4pt}}
+	
+\end{document}

@@ -1,0 +1,252 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{bm}
+\usepackage{amsthm}
+\usepackage{enumerate}
+\usepackage{graphicx}
+\usepackage{psfrag}
+\usepackage{color}
+\usepackage{url}
+
+	
+\setlength{\hoffset}{-0.5in}
+\addtolength{\textwidth}{1.0in}
+\setlength{\voffset}{-0.5in}
+\addtolength{\textheight}{1.0in}
+\newcommand{\be}{\begin{enumerate}}
+\newcommand{\ee}{\end{enumerate}}
+%\newcommand{\deg}{\text{deg}}
+
+\begin{document}
+	\begin{large}
+	\textbf{Joseph Diaz}
+	\begin{center}
+		\textbf{Spring 2020, Stats 550:\ Homework 3} \\
+		\textbf{Due:\ Tuesday, February 11th, 2020} \\
+	\end{center}
+\noindent\makebox[\linewidth]{\rule{\paperwidth}{0.4pt}}
+\section*{Chapter 1}
+\be
+	\item[10.] A random experiment has three possible outcomes a, b, and c, with
+$$P(a) = p, P(b) = p^2, and P(c) = p$$
+What choice(s) of $p$ makes this a valid probability model?
+	\begin{proof}[Solution]
+	As the sum of the probabilities of all possible outcomes of an experiment must equal 1. We conclude:
+	\begin{align*}
+	P(a) + P(b) + P(c) = 1 \\
+	p + p^2 + p = 1 \\
+	p^2 + 2p = 1 \\
+	p^2 + 2p + 1 = 2 \\
+	(p+1)^2 = 2 \\
+	p + 1 = \pm\sqrt{2} \\
+	p = \pm\sqrt{2} -1
+	\end{align*}
+	$p$ is a probability, so we'll discard the 
+	possibility that $p = -\sqrt{2} - 1$ as probability 
+	are defined to be $0 \leq p \leq 1$. So the value of 
+	$p$ we're interested in is:
+	$$p = \sqrt{2} - 1 \approx .4142$$
+	\end{proof}
+	
+	
+	\item[11.] Let $P_1$ and $P_2$ be two probability functions on $\Omega$. Define a new function $P$
+such that $P(A) = \frac{P_1(A)+P_2(A)}{2}$. Show the $P$ is a probability function.
+	\begin{proof}[Solution]
+	We will show that $P$ has the 3 properties of a probability function:
+	\be[1)]
+		\item $P$ is defined:
+		$$P(\omega) = \frac{P_1(\omega)+P_2(\omega)}{2},\ \forall \omega \in \Omega$$
+		$P_1, P_2$ are probability functions, so
+		$$\forall \omega \in \Omega: P_1(\omega), P_2(\omega) \geq 0$$ Therefore:
+		$$P(\omega) = \frac{P_1(\omega)+P_2(\omega)}{2} \geq 0,
+\ \forall \omega \in \Omega$$
+		
+		\item Again by the definition of $P$:
+		\begin{align*}
+		\sum_{\omega \in \Omega} P(\omega) &= \sum_{\omega \in \Omega} \left(\frac{P_1(\omega)+P_2(\omega)}{2}\right) \\
+		&= \frac{1}{2}\sum_{\omega \in \Omega} P_1(\omega)+\frac{1}{2}\sum_{\omega \in \Omega}P_2(\omega) \\
+		&= \frac{1}{2} + \frac{1}{2} \\
+		&= 1
+		\end{align*}
+		
+
+		\item Again by the definition of $P$, $\forall A \subseteq \Omega$:
+		\begin{align*}
+		\sum_{\omega\in A}P(\omega) &= \sum_{\omega \in \Omega} \left(\frac{P_1(\omega)+P_2(\omega)}{2}\right) \\
+		 &= \frac{1}{2}\sum_{\omega \in A} P_1(\omega)+\frac{1}{2}\sum_{\omega \in A}P_2(\omega) \\
+		 &= \frac{1}{2}P_1(A) + \frac{1}{2}P_2(A)\\
+		 &= \frac{P_1(A)+P_2(A)}{2} \\
+		 &= P(A)
+		\end{align*}
+	\ee
+	There $P$ is a probability function on $\Omega$
+	\end{proof}
+	
+	\item[14.] A club has 10 members and is choosing a president, vice-president, and
+treasurer. All selections are equally likely.
+	\be
+	\item[(a)]
+ What is the probability that Tom is selected president?
+ 	\begin{proof}[Solution]
+ 	There are 10 members of the club, so the probability that Tom is chosen as president is $\frac{1}{10} = 10\%$.
+ 	\end{proof}
+ 	\item[(b)]
+What is the probability that Brenda is chosen president and Liz is chosen treasurer?
+	\begin{proof}[Solution]
+	Under the assumption that club members can only serve in one position at once: the probability that Brenda is chosen president is $\frac{1}{10}$, and the probability that Liz is then chosen treasurer is $\frac{1}{9}$, so the probability that they're both chosen for these positions is:
+	$$\frac{1}{10 \cdot 9} \approx 1.11\%$$
+	\end{proof}
+	\ee
+	
+	\item[17.] Suppose you throw five dice and all outcomes are equally likely.
+	\be
+	\item[(a)] What is the probability that all dice are the same? (In the game of Yahtzee, this is known as a yahtzee.)
+	\begin{proof}[Solution]
+	There are 6 ways to get the same number on 5 different 
+	dice and $6^5$ possible outcomes when rolling 5 dice.
+	So the probability that all 5 are the same number is:
+	$$\frac{6}{6^5} = \frac{1}{6^4} \approx .08\%$$
+	\end{proof}
+	\item[(b)] What is the probability of getting at least one 4?
+	\begin{proof}[Solution]
+	The probability of getting at least one 4 is equal to the complement of getting no 4s at all. The probability of getting no 4s is $\frac{1}{5^5}$, so the probability of getting at least one 4 is:
+	$$1 - \frac{1}{5^5} \approx 99\%$$
+	
+	\end{proof}
+	\item[(c)] What is the probability that all the dice are different?
+	\begin{proof}[Solution]
+	There are $6\cdot5\cdot4\cdot3\cdot2 = 6!$ ways to get a different number on each die, and $6^5$ possible 5 dice rolls so the probability that each die is different is:
+	$$\frac{6!}{6^5} \approx 9.26\%$$
+	\end{proof}
+	\ee	
+	
+	\item[18.] Amy is picking her fall term classes. She needs to fill three time slots, and there
+are 20 distinct courses to choose from, including probability 101, 102, and 103.
+She will pick her classes at random so that all outcomes are equally likely.
+	\be
+	\item[(a)] What is the probability that she will get probability 101?
+	\begin{proof}[Solution]
+	If she gets into probability 101, then there $\binom{19}{2}$ ways to complete her schedule and $\binom{20}{3}$ possible schedules. So the probability is:
+	$$\frac{\binom{19}{2}}{\binom{20}{3}} = .15 = 15\%$$
+	\end{proof}
+	\item[(b)] What is the probability that she will get probability 101 and
+Probability 102?
+	\begin{proof}[Solution]
+	If she gets into probability 101 and 102, then there $\binom{18}{1}$ ways to complete her schedule and $\binom{20}{3}$ possible schedules. So the probability is:
+	$$\frac{\binom{18}{1}}{\binom{20}{3}} \approx .016 = 1.6\%$$
+	\end{proof}
+	\item[(c)] What is the probability she will get all three probability courses?
+	\begin{proof}[Solution]
+	If she gets into probability 101, 102 and 103, then there $\binom{17}{0} = 1$ ways to complete her schedule and $\binom{20}{3}$ possible schedules. So the probability is:
+	$$\frac{1}{\binom{20}{3}} \approx .00087 = 0.087\%$$
+	\end{proof}
+	\ee
+		
+	\item[20.] Suppose $P(A) = 0.40, P(B) = 0.60$, and $P(A \cup B) = 0.80$. Find
+	\be
+	\item[(a)] $P(A^c \cap B^c)$.
+	\begin{proof}[Solution]
+	First, $P(A^c \cap B^c) = P\big((A\cup B)^c\big)$, then consider that 
+	$$P\big((A\cup B)^c\big) + P\big(A\cup B\big) = 1$$
+	Then:
+	\begin{align*}
+	P\big((A\cup B)^c\big) &= 1 - P\big(A\cup B\big)  \\
+	&= 1 - .8
+	\end{align*}
+	$$\Rightarrow P(A^c \cap B^c) = .2$$
+	\end{proof}
+	\item[(b)] $P(A \cap B)$.
+	\begin{proof}[Solution]
+	To find this, we'll use:
+	\begin{align*}
+	P(A \cup B) = P(A) + P(B) - P(A \cap B) \\
+	.8 = .6 + .4 - P(A \cap B) \\
+	P(A \cap B) = 1 - .8 
+	\end{align*}
+	$$\Rightarrow P(A \cap B) = .2$$
+	\end{proof}
+	\item[(c)] $P(A^c \cup B^c)$.
+	\begin{proof}[Solution]
+	First, $P(A^c \cup B^c) = P\big((A\cap B)^c\big)$, and $P\big((A\cap B)^c\big) + P(A \cap B) = 1$, so $$P\big((A\cap B)^c\big) = 1 - P(A \cap B)$$
+	$P(A \cap B)$ is found in Part~(b), and:
+	$$\Rightarrow P(A^c \cup B^c) = .8$$
+	\end{proof}
+	\ee
+	
+	\item[21.] Suppose A and B are mutually exclusive, with P(A) = 0.30 and P(B) =
+0.60. Find the probability that
+	\be
+	\item[(a)] At least one of the two events occurs
+	\begin{proof}[Solution]
+	The probability of least one event occurring is 
+	$$P(A \cup B) = P(A) + P(B) = 0.3 + 0.6 = 0.9$$
+	\end{proof}
+	\item[(b)] Both of the events occur
+	\begin{proof}[Solution]
+	The events are mutually exclusive, so the probability of both events occurring is
+	$$P(A \cap B) = 0$$
+	\end{proof}
+	\item[(c)] Neither event occurs
+	\begin{proof}[Solution]
+	The Probability that no events occur
+	$$P\big(A^c \cap B^c\big) = P\big((A \cup B)^c\big)$$
+	$$\Rightarrow P\big((A\cup B)^c\big) = 1 - P(A\cup B)$$
+	$$\Rightarrow P\big((A\cup B)^c\big) = .1$$
+	\end{proof}
+	\item[(d)] Exactly one of the two events occur
+	\begin{proof}[Solution]
+	The events are mutually exclusive, so the probability that exactly one event occurs is equal to the probability of at least one happening
+	$$P(A \cup B) = .9$$
+	\end{proof}
+	\ee
+		
+	\item[22.] Suppose $P(A \cup B) = 0.6$ and $P(A \cup B^c) = 0.8$. Find $P(A)$.
+	\begin{proof}[Solution]
+	To find $P(A)$, we'll use:
+	\begin{align*}
+	P(A) + P(A^c) = 1 \\
+	P(A \cup B) + P\big((A \cup B)^c\big) = 1 \\
+	P(A \cup B^c) + P\big((A \cup B^c)^c\big) = 1
+	\end{align*}
+	Using our conditions, we have that:
+	\begin{align*}
+	P\big((A \cup B)^c\big) = 1 - P(A \cup B) = .4 \\
+	P\big((A \cup B^c)^c\big) = 1  - P(A \cup B^c) = .2 \\
+	P(A) = 1 - P(A^c)
+	\end{align*}
+	To find $P(A^c)$, we'll consider:
+	\begin{align*}
+	A^c &= (A\cup B)^c \cup \big(B \cap (A \cap B)^c\big) \\
+	&= (A\cup B)^c \cup \big(B \cap (A^c \cup B^c)\big) \\
+	&= (A\cup B)^c \cup \big(B \cap A^c \cup B \cap B^c\big) \\
+	&= (A\cup B)^c \cup \big(B \cap A^c \cup \emptyset\big) \\
+	&= (A\cup B)^c \cup \big(B \cap A^c\big)
+	\end{align*}
+	The sets $(A\cup B)^c$ and $\big(B \cap A^c\big)$ 
+	are disjoint, so:
+	$$P(A^c) = P\Big((A\cup B)^c \cup \big(B \cap A^c\big)\Big) = P\big((A\cup B)^c\big) + P\Big(\big(B \cap A^c\big)\Big)$$
+	$\big(B \cap A^c\big) = (A \cup B^c)^c$, so:
+	$$P(A^c) = .4 + .2 = .6$$
+	And finally:
+	$$P(A) = 1 - P(A^c) = 1 - .6 = .4$$
+	\end{proof}
+	
+	\item[26.] See the assignment of probabilities to the Venn diagram in Figure 1.4. Find
+the following:
+	\be
+	\item[(a)] $P$(No events occur): h
+	\item[(b)] $P$(Exactly one event occurs): a, c, f
+	\item[(c)] $P$(Exactly two events occur): b, d, e
+	\item[(d)] $P$(Exactly three events occur): g
+	\item[(e)] $P$(At least one event occurs): a, c, f, b, d, e, g
+	\item[(f)] $P$(At least two events occur): b, d, e, g
+	\item[(g)] $P$(At most one event occurs): h, a, c, f
+	\item[(h)] $P$(At most two events occur): h, a, c, f, b, d, e
+	\ee
+		
+\ee
+\noindent\makebox[\linewidth]{\rule{\paperwidth}{0.4pt}}
+	
+	\end{large}
+\end{document}

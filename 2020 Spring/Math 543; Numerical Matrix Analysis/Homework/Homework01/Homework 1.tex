@@ -1,0 +1,98 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{bm}
+\usepackage{amsthm}
+\usepackage{enumerate}
+\usepackage{graphicx}
+\usepackage{psfrag}
+\usepackage{color}
+\usepackage{url}
+
+\setlength{\hoffset}{-0.5in}
+\addtolength{\textwidth}{1.0in}
+\setlength{\voffset}{-0.5in}
+\addtolength{\textheight}{1.0in}
+%\newcommand{\deg}{\text{deg}}
+\newcommand{\kg}{\text{kg}}
+\newcommand{\g}{\text{g}}
+\newcommand{\m}{\text{m}}
+\newcommand{\s}{\text{s}}
+
+\begin{document}
+	\begin{large}
+	\textbf{Joseph Diaz}
+	\begin{center}
+		\textbf{Spring 2020, Math 543:\ Homework 1} \\
+		\textbf{Due:\ Friday, February 7th, 2020} \\
+	\end{center}
+	\noindent\makebox[\linewidth]{\rule{\paperwidth}{0.4pt}}
+\noindent	
+Suppose the masses $m_1, m_2, m_3, m_4$ are located at positions $x_1, x_2, x_3, x_4$ in a line and connected by springs with spring constants $k_{12}, k_{23}, k _{34}$ whose natural lengths are $\ell_{12}, \ell_{23}, \ell_{34}$.
+Let $f_1, f_2, f_3, f_4$ denote the rightward forces located on the masses, i.e. $f_1 = k_{12} (x_2 - x_1 - \ell_{12})$.
+	\begin{figure}[h]
+  	\includegraphics[width=\linewidth]{Homework 1 Figure.jpg}
+  	\centering
+	\end{figure}
+\begin{enumerate}[(a)]
+\item Write the $4 \times 4$ matrix equation relating the column vectors $\vec{f}$ and $\vec{x}$. Let $K$ denote the matrix in this equation.
+\begin{proof}[Solution]
+The forces on each mass are given by:
+\begin{align*}
+f_1 &= k_{12}((x_2-x_1) - \ell_{12})\\
+f_2 &= k_{12}(\ell_{12} - (x_2 - x_1)) + k_{23}((x_3-x_2) - \ell_{23})\\
+f_3 &= k_{23}(\ell_{23}- (x_3 - x_2)) + k_{34}((x_4-x_3) - \ell_{34})\\
+f_4 &= k_{34}(\ell_{34} -(x_4-x_3))
+\end{align*}
+Which, when expressed as a matrix vector product, is:
+$$\vec{f} = K\vec{x} + \vec{\ell}$$
+$$\Rightarrow \left(\begin{matrix}
+f_1 \\ f_2 \\ f_3 \\ f_4
+\end{matrix}\right) = 
+\left(\begin{matrix}
+-k_{12} & k_{12} & 0 & 0 \\ 
+k_{12} & -(k_{12} + k_{23}) & k_{23} & 0 \\
+0 & k_{23} & -(k_{23} + k_{34}) & k_{34} \\
+0 & 0 & k_{34} & -k_{34}
+\end{matrix}\right) \left(\begin{matrix}
+x_1 \\ x_2 \\ x_3 \\ x_4
+\end{matrix}\right) + 
+\left(\begin{matrix}
+-k_{12}\ell_{12} \\ k_{12}\ell_{12}-k_{23}\ell_{23} \\ k_{23}\ell_{23}-k_{34}\ell_{34} \\ k_{34}\ell_{34}
+\end{matrix}\right)
+$$
+\end{proof}
+\item What the dimensions (units) of the entries of $K$ in the physics sense?
+\begin{proof}[Solution]
+For a mass on a spring; Hooke's law states:
+$$F = kx$$
+So the force on the mass on the spring is proportional to the displacement of the mass relative to the resting position. The entries of $K$ are the spring constants of Hooke's law for each of the springs in our spring-mass system, and with dimensional analysis we can determine the dimensions of the $k$'s:
+\begin{align*}
+F &= kx\\
+[F] &= [k][x]\\
+\frac{\kg\ \m}{\s^2} &= [k]\m \\
+\Rightarrow [k] &= \frac{\kg}{\s^2} 
+\end{align*}
+So the dimension of the entries of $K$ is kilograms per second squared.
+\end{proof}
+\item What are the dimensions (units) of $\det{(K)}$, again in the physics sense?
+\begin{proof}[Solution]
+The determinant of a matrix is the signed hyper-volume of the $n$-dimensional parallelepiped that the columns of the matrix create. In this case, $\det{(K)}$ is the dimension of the entries of $K$ to the fourth power, as the dimension of $K$ is $4\times4$. So:
+$$\left[\det{(K)}\right] = \left(\frac{\kg}{\s^2}\right)^4 = \frac{\kg^4}{\s^8}$$
+\end{proof}
+
+\item Suppose $K$ is given numerical values based on the units meters, kilograms and seconds. Now the system is rewritten with a matrix $K'$ based on centimeters, grams, and seconds. What is the relationship of $K'$ to $K$?
+What is the relationship of $\det{(K')}$ to $\det{(K)}$?
+\end{enumerate}
+\begin{proof}[Solution]
+Changing the units of the entries of $K$ in such a way yields:
+$$[k] = \frac{\kg}{\s^2} = \frac{1000\ \g}{\s^2} = 1000[k']$$
+So the entries of $K'$ would be $1000$ larger than those of $K$, to account for the smaller units.\\
+The determinant of $K'$ relative to $K$ would be:
+$$\left[\det{(K)}\right] = \frac{\kg^4}{\s^8} = \frac{(1000\ \g)^4}{\s^8} = \frac{10^{12}\ \g^4}{\s^8} = 10^{12}\left[\det{(K')}\right]$$
+So $\det{(K')}$ would be $10^{24}$ times larger than $\det{(K)}$ to, again, account for the smaller units of $K'$.
+\end{proof}
+\noindent\makebox[\linewidth]{\rule{\paperwidth}{0.4pt}}
+	
+	\end{large}
+\end{document}

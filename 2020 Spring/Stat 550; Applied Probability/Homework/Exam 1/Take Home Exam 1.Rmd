@@ -1,0 +1,176 @@
+---
+title: 'Take Home Exam 1'
+author: "Joseph Diaz"
+date: "Spring 2020"
+output:
+  pdf_document: default
+---
+```{r poiss, echo=FALSE}
+poiss = function(n)
+{
+  lam = .6*31
+  k = 0:n
+  p = exp(-lam)*sum((lam^k)/factorial(k))
+  return(1 - p)
+}
+```
+# 1. 
+Ellise is a car dealer for Tesla's Model X, which costs on average $100,000 and if he sells a car he receives a %20 commission. However, the probability of the number of cars he sells in a given day follows a Pois(0.6) distribution. Assume independence.
+\begin{itemize}
+  \item[a.] Find the probability that he sells more than 2 cars in a given day.\\
+  Let $X$ be the Random Variable that represents the number of cars that Ellise sells in a given day. We are trying to find:
+  $$P(X > 2)$$
+  We will find this using $P(X > 2) = 1 - P(X\leq 2)$. Then:
+  $$P(X\leq 2) = \sum_{k=0}^2 \frac{e^{-0.6}(0.6)^k}{k!} = e^{-0.6}\left(1 + 0.6 + \frac{(0.6)^2}{2}\right) = .9769 = 97.7\%$$
+  Finally, the probability that Ellise sells more than 2 cars in any given day is
+  $$P(X>2) = 1 - P(X\leq2) = 100\%-97.7\% = 2.3\%$$
+  \item[b.] Find the probability that he sells more than 60 cars in March 2020.\\
+  If the our $\lambda$ for a single day is .6, then our $\lambda_m$ for the whole month is $\lambda_m = \lambda\cdot31 = 18.6$. 
+  So to find the probability that Ellise sells more than 60 Teslas in March 2020 ($P(X>60)$), we'll find $P(X\leq 60)$; as:
+  $$P(X>60) = 1 - P(X\leq60)$$
+  Then with R we can calculate $1 - P(X\leq60)$ to be `r poiss(60)*100`\%. So, it's very unlikely that Ellise will sell more than 60 cars that month.
+  
+  
+  \item[c.] Find the expected value of the commission he will receive in March 2020.
+  From part ~b we have that $\lambda_m = 18.6$ and for every Tesla that Ellise earns $\frac{\$100,000}{5} = \$20,000$. The expected value of $X$ which Poisson distributed is $E[X] = \lambda_m$; so Ellise's expected earnings for March 2020 are:
+  $$ \$20,000E[X] =  \$20,000\lambda_m = \$20,000*18.6 = \$372,000 $$
+\end{itemize}
+  
+# 2.
+In the gambling card game of War, each person, including the dealer, is dealt a card from an ordinary deck, and the person with the highest valued card wins, where dealer automatically wins ties. The cards are replaced in the deck each round. (Ace is the highest.)
+
+  * Simulate 10 games of you against the dealer and determine the number of times you win. Repeat this process 100 more times and plot your findings on a histogram with a density curve.
+```{r Problem2a, echo=TRUE}
+#2a
+
+war=function(n)
+{
+  games = matrix(sample(1:13, 2*n, replace=TRUE), nrow=2, byrow = FALSE)
+  outcomes = games[1,1:n] > games[2,1:n]
+  return(outcomes)
+}
+wins = replicate(100, sum(war(10)))
+hist(wins, probability =TRUE)
+lines(density(wins))
+```
+  * Simulate 100 games and graphically display the cumulative proportion of winning.
+```{r Problem2b, echo=TRUE}
+#2b
+plot(cumsum(as.numeric(war(100))), type="l", col ="red", ylab = "Cumulative Wins", xlab = "Games", main="Cumulative wins over 100 games.")
+```
+  * Simulate 10, 100, 1000, 10000 games of you against the dealer. Create a table for the number of wins for each, the probability of winning a given game, etc.
+```{r Problem2c, echo=TRUE, results='asis', warning=FALSE}
+#2c
+library(knitr)
+library(xtable)
+library(pander)
+
+numtrials = formatC(c(10, 100, 1000, 10000), digits=0, format="d", flag="#")
+num.heads = c(sum(war(10)), sum(war(100)), sum(war(1000)), sum(war(10000)))
+num.heads = formatC(num.heads, digits=0, format="d", flag="#")
+
+prop.heads = c(mean(war(10)), mean(war(100)), mean(war(1000)), mean(war(10000)))
+prop.heads = formatC(signif(prop.heads,digits=6), digits=2, format="f", flag="#")
+table.elts = rbind(numtrials, num.heads, prop.heads)
+row.names(table.elts) = cbind("# Trials", "Number of wins", "Proportion of wins")
+lab1.table = xtable(table.elts, caption = "Proportion of heads for a given number of tosses of a tails-biased coin.", label="cointoss", align = "|l|rrrr|")
+pander(lab1.table)
+```
+  * What does part (b) show about the law of large numbers?  
+  In spite of a win being less likely than not on each individual trial, the overall total of wins still trends upwards.
+  * Find the theoretical probability of winning a single hand of the game.  
+  Let $\{1,2,\cdots, 13\}$ represent the 2 card, 3 card, upto the Ace card of any suit. Then let $X$ be the random variable that represent your card, and let $Y$ be the random variable that represents the dealer's card. Then the probability that you beat the dealer is represented by:
+  $$P(X>Y)$$
+  To find this probability, we'll consider that each variable is discrete and uniformly distributed; so $P(X > Y) + P(X = Y) + P(X < Y) = 1$. We may also conclude that $P(X > Y) = P(X < Y)$. So:
+  \begin{align*}
+  &P(X > Y) + P(X = Y) + P(X < Y) = 1\\
+  &P(X > Y) + P(X < Y) = 1 - P(X = Y)\\
+  &2P(X > Y)= 1 - P(X = Y)\\
+  &P(X>Y) = \frac{1-P(X=Y)}{2}
+  \end{align*}
+  $P(X=Y) = \frac{1}{13}\cdot\frac{1}{13} = \frac{1}{169}$, so:
+  $$P(X>Y) = \frac{1-\frac{1}{169}}{2} = \frac{168}{2\cdot169} \approx 49.7\%$$
+
+
+
+
+# 3.
+The game "Laura's Dice Game" works as follows: It costs \$5 to play. You roll 2 dice. If the sum of the rolls is a 5 through 9 you lose your \$5, if the sum is a 3, 4, 10 or 11 you get your \$5 back, and if the sum is a 2 or 12 you win \$30.  
+  * Present the distribution of your winnings as a table.
+```{r Problem3a, echo = TRUE}
+library(knitr)
+library(xtable)
+library(pander)
+numbers = c("2, 12","3, 4, 10, 11","5, 6, 7, 8, 9")
+outcome = c("Win", "Tie", "Lose")
+num.heads = c(25, 0, -5)
+prop.heads = c(1/18, 5/18, 12/18)
+prop.heads = formatC(signif(prop.heads,digits=6), digits=3, format="f", flag="#")
+table.elts = rbind(numbers, outcome, num.heads, prop.heads)
+row.names(table.elts) = cbind("Dice Sum","Outcome", "Winnings", "Probability")
+lab1.table = xtable(table.elts, caption = "Laura's Dice Game", label="cointoss", align = "|l|rrr|")
+pander(lab1.table)
+```
+
+
+  * Simulate the game 1,000 times. Present the expected value of the winnings.  
+```{r Problem3b, echo=TRUE}
+LaurasGame=function(n)
+{
+  rolls = matrix(sample(1:6, 2*n, replace = TRUE), nrow = 2, byrow = FALSE)
+  sums = rolls[1,1:n] + rolls[2,1:n]
+  for(i in 1:n)
+  {
+    if(sums[i] %in% c(2,12))
+    {
+      sums[i] = 25
+    }
+    else if(sums[i] %in% c(3,4,10,11))
+    {
+      sums[i] = 0
+    }
+    else
+    {
+      sums[i] = -5
+    }
+  }
+  return(sums)
+}
+outcomes = LaurasGame(1000)
+cumul = cumsum(outcomes)
+```
+  *As the expected value can be seen as the total of the winning of the game, we have that the sum of all game outcomes is `r cumul[1000]`*
+
+  * Expand upon the table in part (a) to include the empirical distribution of the winnings from the simulation in part (b).
+  
+```{r Problem3c, echo=TRUE}
+wins = 0
+ties = 0
+losses = 0
+for(i in 1:1000)
+{
+  if(outcomes[i] == 25)
+    wins = wins + 1
+  if(outcomes[i] == 0)
+    ties = ties + 1
+  if(outcomes[i] == -5)
+    losses = losses + 1
+}
+things = c(wins, ties, losses)
+library(knitr)
+library(xtable)
+library(pander)
+numbers = c("2, 12","3, 4, 10, 11","5, 6, 7, 8, 9")
+outcome = c("Win", "Tie", "Lose")
+num.heads = c(25, 0, -5)
+prop.heads = c(1/18, 5/18, 12/18)
+prop.heads = formatC(signif(prop.heads,digits=6), digits=3, format="f", flag="#")
+table.elts = rbind(numbers, outcome, num.heads, prop.heads, things)
+row.names(table.elts) = cbind("Dice sum","Outcome", "Winnings", "Probability", "Outcomes per 1000 games")
+lab1.table = xtable(table.elts, caption = "Laura's Dice Game", label="cointoss", align = "|l|rrr|")
+pander(lab1.table)
+```
+  * Would you play this game? Why or why not?
+  *No. As the table and expected value calculation show, you're not likely to win anything given multiple games. In fact, it's significantly more likely that you'd lose than win any given game, and the cumulative loss over 1,000 game is around $2,000.*
+
+

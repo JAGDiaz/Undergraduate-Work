@@ -1,0 +1,176 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[latin1]{inputenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{graphicx}
+\usepackage{mdframed}
+\usepackage{xcolor}
+\usepackage{amsmath}
+\usepackage[left=0.8in, right=0.8in, top=1.00in, bottom=1.00in]{geometry}
+\usepackage{mathtools}
+\def\multichoose#1#2{\ensuremath{\left(\kern-.3em\left(\genfrac{}{}{0pt}{}{#1}{#2}\right)\kern-.3em\right)}}
+\author{Jackson Autry}
+
+%% New Commands
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\B}{\mathcal{B}}
+\newcommand{\h}{\mathcal{H}}
+\renewcommand{\S}{\mathcal{S}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\LL}{\mathcal{L}}
+\newcommand{\RR}{\mathcal{R}}
+\newcommand{\D}{\mathbb{D}}
+\newcommand{\F}{\mathcal{F}}
+\newcommand{\cl}{\operatorname{cl}}
+\newcommand{\ran}{\operatorname{ran}}
+\newcommand{\norm}[1]{\| #1 \|}
+\newcommand{\inner}[1]{\langle #1 \rangle}
+\renewcommand{\vec}[1]{{\bf #1}}
+
+%%%
+%%% Theorem Styles
+%%%
+% \numberwithin{equation}{section}
+\theoremstyle{plain}
+\newtheorem{Theorem}[equation]{Theorem}
+\newtheorem{Lemma}[equation]{Lemma}
+\newtheorem{Proposition}[equation]{Proposition}
+\newtheorem{Corollary}[equation]{Corollary}
+\theoremstyle{remark}
+\newtheorem{Remark}[equation]{Remark}
+\theoremstyle{definition}
+\newtheorem{Definition}[equation]{Definition}
+\newtheorem{Example}[equation]{Example}
+\newcounter{question}
+\newtheorem{Question}[question]{Question}
+
+\begin{document}
+	\newmdenv[linecolor=gray!40,leftmargin=0,%
+	innerleftmargin=4pt,
+	rightmargin=0pt,
+	innerbottommargin=3pt,
+	skipbelow=4pt,
+	backgroundcolor=gray!40,%
+	innertopmargin=3pt,]{ques}
+
+	
+\begin{center}
+	\textbf{MATH 630A} %############ Insert Course Title! #############
+	
+		Homework 4	%############### Put Homework # ###################
+		
+		Jackson Autry
+\end{center}
+
+\section*{Exercise 1}
+
+\begin{ques}
+	Let $A = \{\frac{1}{n} : n \in \N \}$
+\end{ques}
+
+\subsection*{1.1}
+\begin{ques}
+	Find the cluster points of $A$.
+\end{ques}
+	
+	We claim that $\{0\}$ is the cluster point of $A$.\\
+	
+	For any $\epsilon > 0$, let $N > \frac{1}{\epsilon}$. Then $\frac{1}{N} \in A$, and $\frac{1}{N} \in B_{\epsilon} (0)$. So $0$ is a cluster point of $A$.\\
+	
+	For any $\frac{1}{n} \in A$, the next closest point is at a distance $\frac{1}{n^2 + n}$ away. So setting $\epsilon = \frac{1}{n^2 + n + 1} > 0$, we have $A \cap B_{\epsilon}(\frac{1}{n}) = \emptyset$, hence $\frac{1}{n}$ is not a cluster point.\\
+	
+	For any point $x$ not in $A$ other than $0$, we have one of the following:\\
+	1) $x < 0$ and $B_{\vert x \vert} (x) \cap A = \emptyset$,\\
+	2) $x > 1$ and $B_{(x-1)/2}(x) \cap A = \emptyset$, or\\
+	3) $x$ is in between $\frac{1}{n}$ and $\frac{1}{n+1}$ for some $n \in \N$. Let $m = \max(\vert x- \frac{1}{n}\vert, \vert x - \frac{1}{n+1}\vert)$. Then $B_{\frac{m}{2}}(x) \cap A = \emptyset$.\\
+	
+	Hence $\{0\}$ is the only cluster point of $A$.
+	
+\subsection*{1.2}
+\begin{ques}
+	Is $A$ closed? Give the closure of $A$.
+\end{ques}	
+	
+	$A$ is not closed as $\{0\} \not\in A$. $\bar{A} = A \cup \{0\}$.
+	
+\subsection*{1.3}
+\begin{ques}
+	Is $A$ dense in $\R$ (equipped with the usual metric)?
+\end{ques}
+	
+	No, for example $\pi \in \R$ but $\pi \not\in \bar{A}$.
+	
+\pagebreak
+\section*{Exercise 2}
+\begin{ques}
+	Are the following sets $A$ compact in $X$?
+\end{ques}
+
+\subsection*{2.1}
+\begin{ques}
+	$A = [a,b],a,b \in \R$ and $X = \R$ equipped with the discrete metric, i.e. $d(x,y) = \begin{cases}
+	0 & \text{if } x = y \\
+	1 & \text{otherwise}
+	\end{cases}$
+\end{ques}
+	
+	$A$ is not compact in $X$. Indeed, setting $c = b-a$, let the sequence $\{x_n\} = \{b- \frac{c}{n}\}$. Suppose towards a contradiction $\{x_n\}$ had a subsequence that converged to a point $x \in [a,b]$. Setting $\epsilon = \frac{1}{2}$, then $\exists N,M \in \N, N<M$ where $d(b-\frac{c}{N},x) < \frac{1}{2} \implies d(b- \frac{c}{N},x) = 0 \Leftrightarrow b- \frac{c}{N} = x$ and $d(b-\frac{c}{M},x) < \frac{1}{2} \implies d(b-\frac{c}{M},x) = 0 \Leftrightarrow b-\frac{c}{M} = x$. Then $b-\frac{c}{N} = b-\frac{c}{M} \Leftrightarrow N = M$ a contradiction. So $A$ is not closed and hence $A$ is not compact.
+	
+\subsection*{2.2}
+\begin{ques}
+	$A = \{(x,y) \in \R^2 : x^2 + y^2 = 1 \}$ and $X = \R^2$ equipped with the euclidean metric.
+\end{ques}
+	
+	$A$ is compact, as $A$ is closed and bounded. To see $A$ is closed, consider $\R^2\backslash A$. This is open, since for any $x \in \R^2 \backslash A$, let $\epsilon = \begin{cases*}
+	d(x,0) &  if $d(x,0) < 1$\\
+	d(x,0) - 1 & if $d(x,0) > 1$
+	\end{cases*}$. Then $B_\epsilon(x) \subset \R^2 \backslash A$. So $R^2 \backslash A$ is open, hence $A$ is closed. $A$ is bounded (obviously?).
+	
+\subsection*{2.3}
+\begin{ques}
+	$A = \{(x,y)\in \R^2 : x^2 + y^2 > 1\}$ and $X = \R^2$ equipped with the euclidean metric.
+\end{ques}
+	
+	$A$ is not compact as $A$ is not closed (or bounded). Let $\{x_n\} = \{(1+\frac{1}{n},0)\}$. We have $\forall n \in \N$, $x_n \in A$. Now, $\lim\limits_{n \rightarrow \infty} x_n = (\lim\limits_{n \rightarrow \infty}1 + \frac{1}{n},\lim\limits_{n \rightarrow \infty}0) = (1,0) \not\in A$. So $A$ is not closed.
+	
+\section*{Exercise 3}
+
+\begin{ques}
+	Show that $A = \{ \frac{1}{n} : n \in \N \}$ is not compact by using open covers
+\end{ques}
+	
+	Take the collection of open balls $\{ B_{\epsilon_n}(\frac{1}{n})\}$ where $\epsilon_n = \frac{1}{n^2 + n + 1}$. Since $d(\frac{1}{n},\frac{1}{n+1}) = \vert \frac{1}{n} - \frac{1}{n+1} \vert = \frac{1}{n^2 + n}$, we have $d(\frac{1}{n},\frac{1}{n+1}) < d(\frac{1}{n-1},\frac{1}{n})$, and so $\forall n \in \N, B_{\epsilon_n}(\frac{1}{n}) \cap A = \{ \frac{1}{n} \}$. This way, we need infinitely many open balls to cover $A$. Indeed, if we take any finite number, $\{B_{\epsilon_{n_i}}(n_i)\}$, let $N = \max (n_i)$. Then $\frac{1}{N+1}$ is not covered.\\
+	Hence $A$ is not compact.
+
+\pagebreak	
+\section*{Exercise 4}
+
+\begin{ques}
+	Show that the union of two compact sets is compact.
+\end{ques}
+	
+	Let $S_1, S_2$ be two compact sets and $S = S_1 \cup S_2$. Let $\F$ be an open cover (not necessarily finite) of $S$. Then partition $\F$ into two parts, where for each set $X$ of $\F$, $X$ is in the first part if $X \cap S_1 \neq \emptyset$ and $X$ is in the second part if $X \cap S_1 = \emptyset$. Then the first part is an open cover of $S_1$ and the second is an open cover of $S_2$ (since $\F$ covered both). Since $S_1,S_2$ are compact, there exists a finite subcover of the first and a finite subcover of the second. Let us denote these $\F_1, \F_2$ respectively. Then $\F_1 \cup \F_2$ is a finite open cover of $S$, moreover, $\F_1 \cup \F_2$ is a finite subcover of $S$.
+	
+\section*{Exercise 5}
+
+\begin{ques}
+	Let $\R$ equipped with the metric $\forall x,y\in \R, d(x,y) = \vert \arctan(x) - \arctan(y) \vert$. Show that $\R$ is not sequentially compact with respect to that metric.
+\end{ques}
+	
+	Consider the function $f:(\R,d) \rightarrow (\R,\vert.\vert)$ where $f(x) = \vert \arctan(x) \vert$. Then $f(\R) = [0,\frac{\pi}{2})$. Using the contrapositive of Theorem 3.4.2, we show $f$ is continuous and $[0,\frac{\pi}{2})$ is not compact, and so $(\R,d)$ is not compact.\\
+	Let $\{x_n\} \in R$ such that $\lim\limits_{n \rightarrow \infty}x_n = x_0 \in \R$. Then we have
+	\begin{flalign*}
+	&\forall \epsilon > 0, \exists N \in \N, \forall n \in \N, n \ge N, d(x_n,x_0) < \epsilon &&\\
+	\Longleftrightarrow & \forall \epsilon > 0, \exists N \in \N, \forall n \in \N, n \ge N, \vert \arctan(x_n) - \arctan(x_0) \vert < \epsilon
+	\end{flalign*}
+	But $\vert \arctan(x_n) - \arctan(x_0) \vert \ge \vert \vert \arctan(x_n) \vert - \vert \arctan(x_0) \vert \vert = \vert f(x_n) - f(x_0) \vert$, so necessarily we have\\
+	$\forall \epsilon > 0, \exists N \in \N, \forall n \in \N, n \ge N, \vert f(x_n) - f(x_0) \vert < \epsilon$,\\
+	i.e. $\lim\limits_{n \rightarrow \infty}f(x_n) = f(x_0)$. So $f$ is continuous.\\
+	Now, $[0,\frac{\pi}{2})$ is not closed, so it is not compact.\\
+	Hence $(\R,d)$ is not compact.
+	
+\end{document}

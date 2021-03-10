@@ -1,0 +1,123 @@
+---
+title: 'Lab 4: Simulation'
+author: 'Joseph Diaz'
+output:
+  pdf_document
+date: "Spring 2020"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+### The problem
+
+In this task, we will evaluate an original implementation of the `rand` command in *Matlab* for generating uniform random numbers.  The random number generator has formulation
+
+\[ X_{n+1} = 16807 X_n mod (2^{31}-1).\]
+
+Ammend the code chunk above to generate 1000 random uniform variates from this random number generator.
+
+```{r rand, echo=FALSE}
+
+rando = function(n, seed)
+{
+  for(i in 1:n)
+  {
+    seed<-c(seed, (65539*seed[i])%%(2^31) - 1)
+  }
+  return(seed[2:n])
+}
+x = rando(1000,1)
+#par(mfrow=c(2,1))
+# histogram of the n RANDU variates
+hist(x, main="", xlab="RANDU variates", ylab="Frequencies")
+
+# empirical distribution function of the n RANDU variates and
+# uniform(0, 1) probability plot
+plot.ecdf(x, verticals= TRUE, do.p = FALSE, main="", ylab="Probability")
+abline(0,1)
+
+# Kolmogorov-Smirnov test of RANDU variates against U(0, 1) distribution
+ks.test(x,"punif",0,1)
+```
+
+### Questions:
+
+* Do the pseudo-random numbers appear uniformly distributed?  Why or why not?
+
+*They do. The height of the bars on the histogram are approximately the same, which is indicative of each random value having a similar frequency. And the second plot mirrors a uniform probability plot.0*
+
+* What are your conclusions from the Kolmogorov-Smirnov test at the $\alpha = 0.05$ level?
+
+*We have that the p-value is less than 5%, so we reject the null hypothesis.*
+
+## Task 2: Simulation of discrete distributions
+
+A bag contains one red, two blue, three green, and four yellow marbles. A sample of three marbles is taken without replacement. Let B denote the number of blue marbles and Y denote the number of yellow marbles in the sample. The probabilities of each outcome is as follows:
+
+### The problem
+
+Perform a simulation experiment of drawing three marbles from the bag 10,000 times.  I have initialized storage vectors for you.
+```{r task2, echo=TRUE}
+# True values:
+# P(0 blue) = 56/120; P(1 blue) = 56/120; P(2 blue) = 8/120
+# P(0 Y) = 20/120; P(1 Y) = 60/120; P(2 Y) = 36/120; P(3 Y) = 4/120
+marbs = function()
+{
+  samp = 
+    sample(c("r","b","b","g","g","g","y","y","y","y"),3)
+  blues = sum(samp=="b") 
+  yellows = sum(samp=="y") 
+  return(c(blues, yellows))
+}
+
+simnum = 10000 
+bluyel = replicate(simnum, marbs())
+blue = bluyel[1,1:simnum]
+yellow = bluyel[2, 1:simnum]
+
+
+t = table(blue)
+b = append(t, NA, after=length(blue))
+s = table(yellow)
+
+disp = data.frame(b,s)
+names(disp) = c("Blue Marbles","  ", "Yellow Marbles")
+disp
+```
+
+### Reporting and questions
+
+By empirical pmf (probability mass function), we mean the proportion of experiments in which we draw 0 marbles of the given color, 1 marble of the given color, 2 marbles of the given color, and 3 marbles of the given color.  So if $B$ is a random variable denoting the number of blue marbles drawn, the empirical pmf is an estimate of $P(B=0)$, $P(B=1)$, $P(B=2)$, and $P(B=3)$.
+
+* Present the empirical pmf of the number of blue marbles drawn.
+$$P(B = 0) = \frac{`r sum(blue == 0)`}{10000} = `r round(sum(blue == 0)/100, digits = 3)`\%$$
+$$P(B = 1) = \frac{`r sum(blue == 1)`}{10000} = `r round(sum(blue == 1)/100, digits = 3)`\%$$
+$$P(B = 2) = \frac{`r sum(blue == 2)`}{10000} = `r round(sum(blue == 2)/100, digits = 3)`\%$$
+
+* Present the empirical pmf of the number of yellow marbles drawn.
+$$P(Y = 0) = \frac{`r sum(yellow == 0)`}{10000} = `r round(sum(yellow == 0)/100, digits = 3)`\%$$
+$$P(Y = 1) = \frac{`r sum(yellow == 1)`}{10000} = `r round(sum(yellow == 1)/100, digits = 3)`\%$$
+$$P(Y = 2) = \frac{`r sum(yellow == 2)`}{10000} = `r round(sum(yellow == 2)/100, digits = 3)`\%$$
+$$P(Y = 3) = \frac{`r sum(yellow == 3)`}{10000} = `r round(sum(yellow == 3)/100, digits = 3)`\%$$
+
+* Present the mean and variance of the number of blue marbles drawn.
+$$E[B] = `r mean(blue)`,\quad V[B] = `r var(blue)`$$
+
+* Present the mean and variance of the number of yellow marbles drawn.
+$$E[Y] = `r mean(yellow)`,\quad V[Y] = `r var(yellow)`$$
+
+* Compare the empirical pmf with the true values.
+
+\begin{align*}
+\text{Empirical} \quad  & \quad \text{True}\\
+P(B = 0) = `r round(sum(blue == 0)/10000, digits = 3)`,\quad & \quad P(B = 0) = \frac{56}{120} = `r 56/120`\\
+P(B = 1) = `r round(sum(blue == 1)/10000, digits = 3)`,\quad & \quad P(B = 1) = \frac{56}{120} = `r 56/120`\\
+P(B = 2) = `r round(sum(blue == 2)/10000, digits = 3)`,\quad & \quad P(B = 2) = \frac{8}{120} = `r 8/120`\\
+P(Y = 0) = `r round(sum(yellow == 0)/10000, digits = 3)`,\quad & \quad P(Y = 0) = \frac{20}{120} = `r 20/120`\\
+P(Y = 1) = `r round(sum(yellow == 1)/10000, digits = 3)`,\quad & \quad P(Y = 1) = \frac{60}{120} = `r 60/120`\\
+P(Y = 2) = `r round(sum(yellow == 2)/10000, digits = 3)`,\quad & \quad P(Y = 2) = \frac{36}{120} = `r 36/120`\\
+P(Y = 3) = `r round(sum(yellow == 3)/10000, digits = 3)`,\quad & \quad P(Y = 3) = \frac{4}{120} = `r 4/120`\\
+\end{align*}
+

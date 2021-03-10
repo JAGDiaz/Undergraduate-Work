@@ -1,0 +1,296 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{bm}
+\usepackage{amsthm}
+\usepackage{enumerate}
+\usepackage{graphicx}
+\usepackage{psfrag}
+\usepackage{color}
+\usepackage{url}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{positioning}
+\tikzset{main node/.style={circle,fill=gray!20,draw,minimum size=.5cm,inner sep=0pt},}
+
+\definecolor{codegreen}{rgb}{0,0.5,0}
+\definecolor{codewhite}{rgb}{1,1,1}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{codeblack}{rgb}{0,0,0}
+\definecolor{codeorange}{rgb}{0.8,0.4,0}
+
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{codewhite},   
+    commentstyle=\color{codegray},
+    keywordstyle=\color{codegreen},
+    numberstyle=\color{codegray},
+    stringstyle=\color{codeorange},
+    basicstyle=\ttfamily ,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=4
+}
+\lstset{style=mystyle}
+
+
+\setlength{\hoffset}{-1in}
+\addtolength{\textwidth}{1.5in}
+\setlength{\voffset}{-1in}
+\addtolength{\textheight}{1.5in}
+\newcommand{\be}{\begin{enumerate}}
+\newcommand{\ee}{\end{enumerate}}
+\newcommand{\BigO}[1]{\ensuremath\mathcal{O}\left(#1\right)}
+\newcommand{\il}[1]{\lstinline!#1!}
+\newcommand{\gnorm}[1]{\left|\left|#1\right|\right|}
+\newcommand{\abs}[1]{\left|#1\right|}
+\newcommand{\parens}[1]{\left(#1\right)}
+\newcommand{\bracks}[1]{\left\{#1\right\}}
+\newcommand{\sqbracks}[1]{\left[#1\right]}
+\newcommand{\vep}{\varepsilon}
+\newcommand{\ceiling}[1]{\left\lceil#1\right\rceil}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\distrib}[2]{\text{#1}\left(#2\right)}
+\newcommand{\dd}[1]{\frac{d}{d#1}}
+\newcommand{\abracks}[1]{\left< #1\right>}
+
+\begin{document}
+	\begin{center}
+		\textbf{Spring 2020, Math 530:\ Final Exam} \\
+		\textbf{Due:\ Sunday, May 17th, 2020} \\
+		\textbf{Joseph Diaz: 819947915}
+	\end{center}
+\noindent\makebox[\linewidth]{\rule{\paperwidth}{0.4pt}}
+\be[(E1)]
+	\item Find the values of $p > 0$, such that the following series converges absolutely:
+	$$\sum_{n=2}^\infty \frac{1}{n\ln(n) \parens{\ln\parens{\ln(n)}}^p}$$
+	\begin{proof}[Solution]
+	To find the values of $p$ we're interested in, we'll use the integral test; but instead of looking at the sum itself, we'll examine 
+	$$\sum_{n=3}^\infty \frac{1}{n\ln(n) \parens{\ln\parens{\ln(n)}}^p}$$
+	After all, removing a finite number of terms from the sum will not change it's convergence. Now, we have that 
+	$$a_n = \frac{1}{n\ln(n) \parens{\ln\parens{\ln(n)}}^p} \implies \abs{a_n} = f(n)$$
+	and $\forall x \geq 3,\ f(x) > 0$ and 
+	$$f'(x) = -\frac{\ln^{-1 - p}(\ln(x)p + (1 + \ln(x)) \ln(\ln(x))))}{x^2 \ln^2(x)} < 0$$
+	so $f(x)$ is decreasing on $[3,\infty)$. Which means we may determine the behavior of the series with regard to $p$ using:
+	$$\int_3^\infty f(x)\ dx$$
+	Now 
+	\begin{align*}
+	\int_3^\infty f(x)\ dx &= \lim_{b\to\infty}\int_3^b \frac{1}{x\ln(x) \parens{\ln\parens{\ln(x)}}^p}\ dx \\
+	&= \lim_{b\to\infty} \int_{\ln\parens{\ln(3)}}^{\ln\parens{\ln(b)}}\frac{1}{u^p}\ du\ (\text{Let } u = \ln\parens{\ln(x)})\\
+	&= \lim_{b\to\infty} \sqbracks{\frac{u^{1-p}}{1-p}}_{\ln\parens{\ln(3)}}^{\ln\parens{\ln(b)}} \\
+	&= \lim_{b\to\infty}\parens{\frac{1}{1-p}\parens{\parens{\ln\parens{\ln(b)}}^{1-p}-\parens{\ln\parens{\ln(3)}}^{1-p}}}
+	\end{align*}
+	Now, we consider different values of $p$:
+	\begin{itemize}
+		\item[$p < 1$:] This implies $0 < 1 - p$. Let $\alpha = 1 - p$, then:
+		$$\lim_{b\to\infty}\parens{\frac{1}{\alpha}\parens{\parens{\ln\parens{\ln(b)}}^\alpha-\parens{\ln\parens{\ln(3)}}^\alpha}} \to \infty$$
+		So the integral does not converge for $p < 1$.
+		
+		\item[$p = 1$:] This implies $1 - p = 0$ and so clearly the integral does not converge for $p = 1$ due the scalar $\frac{1}{1-p}$.
+		
+		\item[$p > 1$:] This implies $1 - p < 0$. Let $-\alpha = 1 - p$, for some $\alpha > 0$, then:
+		$$\lim_{b\to\infty}\parens{-\frac{1}{\alpha}\parens{\parens{\ln\parens{\ln(b)}}^{-\alpha}-\parens{\ln\parens{\ln(3)}}^{-\alpha}}} = \lim_{b\to\infty}\parens{-\frac{1}{\alpha}\parens{\frac{1}{\parens{\ln\parens{\ln(b)}}^{\alpha}}-\frac{1}{\parens{\ln\parens{\ln(3)}}^{\alpha}}}}$$
+		$$\Rightarrow -\frac{1}{\alpha}\parens{\frac{1}{\parens{\ln\parens{\ln(\infty)}}^{\alpha}}-\frac{1}{\parens{\ln\parens{\ln(3)}}^{\alpha}}} = \frac{1}{\alpha\parens{\ln\parens{\ln(3)}}^{\alpha}} < \infty$$
+	\end{itemize}
+	By the Integral Test, we have that the series 
+	$$\sum_{n=3}^\infty \frac{1}{n\ln(n) \parens{\ln\parens{\ln(n)}}^p}$$
+	diverges for $0 < p \leq 1$ and converges for $p > 1$.
+	\end{proof}
+	
+	\item Let $w : \sqbracks{0,1} \to \R$ be a continuous function, such that $\forall x \in \parens{0,1},\ w(x) > 0$. We define the \textit{weighted supremum} norm as 
+	$$\forall f \in \mathcal{C}\parens{\sqbracks{0,1}},\ \gnorm{f}_w = \sup_{x\in\sqbracks{0,1}}w(x)\abs{f(x)}$$
+	\be[1.]
+		\item Show that $\gnorm{\cdot}_w$ is indeed a norm on $\mathcal{C}\parens{\sqbracks{0,1}}$. (\textit{Hint}: be careful of the endpoints!) 
+		\begin{proof}
+		To show that $\gnorm{\cdot}_w$ is a norm, we need to show that $\forall f,g,h \in \mathcal{C}\parens{\sqbracks{0,1}},\ \alpha \in \R$, that it satisfies the following properties
+		\be[(i)]
+			\item $\gnorm{f}_w\geq 0$ and $\gnorm{f}_w = 0 \iff f(x) = 0$\\
+			We have that the norm is the supremum of $w(x)\abs{f(x)}$ over $x\in[0,1]$. Naturally, $\abs{f(x)} \geq 0,\ \forall x \in [0,1]$, but we only have that $w(x) > 0$ for $x\in(0,1)$, so for $x = 0$ or $x = 1,\ w(x)$ may be zero or negative; but the norm is a supremum, so the norm will always take the greatest of the values of $w(x)\abs{f(x)}$ over all $x \in [0,1]$ which will be positive for $f(x) \neq 0$ over all $x$, or zero if $f(x) = 0$ over all $x$. Which means that $\gnorm{f}_w \geq 0$. This also implies that $f(x) = 0,\ \forall x \in [0,1] \implies \gnorm{f}_w = 0$. Now, we will show the converse:
+			$$\gnorm{f}_w = 0 \implies 0 = \sup_{x\in[0,1]}w(x)\abs{f(x)} \implies f(x) = 0,\forall x \in [0,1]$$
+			because $w(x)$ cannot be zero everywhere.
+			
+			\item $\gnorm{\alpha f}_w = \abs{\alpha}\gnorm{f}_w$ \\
+			We have that
+			$$\gnorm{\alpha f}_w = \sup_{x\in\sqbracks{0,1}}w(x)\abs{\alpha f(x)} = \sup_{x\in\sqbracks{0,1}}w(x)\abs{\alpha}\abs{f(x)} = \abs{\alpha}\sup_{x\in\sqbracks{0,1}}w(x)\abs{f(x)} = \abs{\alpha}\gnorm{f}_w$$
+			\item $\gnorm{f+g}_w \leq \gnorm{f}_w + \gnorm{g}_w$ \\
+			We have that 
+			\begin{align*}
+			\gnorm{f+g}_w &= \sup_{x\in\sqbracks{0,1}}w(x)\abs{f(x) + g(x)} \\
+			&\leq \sup_{x\in\sqbracks{0,1}}w(x)\parens{\abs{f(x)} + \abs{g(x)}} \\
+			&\leq \sup_{x\in\sqbracks{0,1}}w(x)\abs{f(x)} + \sup_{x\in[0,1]}w(x)\abs{g(x)} \\
+			&\leq \gnorm{f}_w + \gnorm{g}_w
+			\end{align*}
+			So
+			$$\gnorm{f+g}_w \leq \gnorm{f}_w + \gnorm{g}_w$$
+		\ee
+		Therefore, $\gnorm{\cdot}_w$ satisfies the properties of a norm over $\mathcal{C}\parens{\sqbracks{0,1}}$.
+		\end{proof}
+		
+		\item Show that $\gnorm{\cdot}_w$ is equivalent to $\gnorm{\cdot}_\infty$. (\textit{Hint}: introduce the min and max of $w$.)
+		\begin{proof}
+		First, we define 
+		$$\forall f \in \mathcal{C}\parens{\sqbracks{0,1}},\ \gnorm{f}_\infty = \max_{x\in[0,1]}\abs{f(x)}$$
+		as a norm over $\mathcal{C}\parens{\sqbracks{0,1}}$. Now, as $w(x)$ is continuous on $[0,1]$, by the Extreme Value Theorem $w$ attains its minimum and maximum on $[0,1]$, which we denote 
+		$$W_l = \min_{x\in[0,1]}w(x),\  W_g = \max_{x\in[0,1]}w(x)$$
+		so that we have 
+		$$W_l \leq w(x) \leq W_g,\ \forall x \in [0,1]$$
+		Also by the EVT and the definition of $\gnorm{\cdot}_\infty$, we have that $\exists x_0 \in [0,1]: f(x) \leq \abs{f(x_0)} = \gnorm{f}_\infty, \forall x \in [0,1]$. Now,
+		\begin{align*}
+		w(x) &\leq W_g \\
+		w(x)\abs{f(x)} &\leq W_g\abs{f(x)} \\
+		&\leq W_g\abs{f(x_0)} \\
+		w(x)\abs{f(x)} &\leq W_g\gnorm{f}_\infty \\
+		\sup_{x\in[0,1]}w(x)\abs{f(x)} &\leq \sup_{x\in[0,1]}W_g\gnorm{f}_\infty \\
+		\gnorm{f}_w &\leq W_g\gnorm{f}_\infty \\
+		\Rightarrow \frac{1}{W_g} \gnorm{f}_w &\leq \gnorm{f}_\infty
+		\end{align*}
+		Then, 
+		\begin{align*}
+		W_l &\leq w(x) \\
+		W_l\abs{f(x_0)} &\leq w(x)\abs{f(x_0)} \\
+		&\leq \sup_{x\in[0,1]}w(x)\abs{f(x_0)} \\
+		W_l\gnorm{f}_\infty &\leq \gnorm{f}_w \\
+		\Rightarrow \gnorm{f}_\infty &\leq \frac{1}{W_l}\gnorm{f}_w
+		\end{align*}
+		So we have that
+		$$\frac{1}{W_g} \gnorm{f}_w \leq \gnorm{f}_\infty \leq \frac{1}{W_l}\gnorm{f}_w$$
+		Which implies that $\gnorm{\cdot}_w$ and $\gnorm{\cdot}_\infty$ are equivalent on $\mathcal{C}\parens{\sqbracks{0,1}}$.
+		\end{proof}
+	\ee
+	
+	\item Topology!
+	\be[1.]
+		\item Show that $A = \bracks{x \in \R \Big| x^2 > x}$ is not sequentially compact.
+		\begin{proof}
+		We have that $A = \bracks{x \in \R \Big| x^2 > x} = \parens{-\infty, 0}\cup \parens{1,\infty}$. To show that $A$ is not sequentially compact, we will show that $A$ is either not closed or not bounded.\\
+		\textit{Closedness}:\\
+		To show that $A$ is not closed, we will show that $A^c$ is not open. Indeed, if $A = \parens{-\infty, 0}\cup \parens{1,\infty}$, then $A^c = [0,1]$; and let $y \in A^c$, then
+		\begin{align*}
+		y = 1, \forall \vep > 0, B_\vep(y) &= \bracks{y_1 \in \R \Big| \abs{1-y_1} < \vep} \\
+		&= \parens{1-\vep, 1+\vep} \not\subset A^c
+		\end{align*}
+		So $A^c$ is not open, therefore $A$ is not closed. As both boundedness and closedness are required, $A$ is not sequentially compact.
+		\end{proof}
+		
+		\item Let $d : \R^n \times \R^n \to \R$ be an arbitrary distance function. Let $u \in \R^n,\ d(u,0) < \infty$ and $0 < r < \infty$, we define $C = \bracks{v \in \R^n \Big| d(u,v) \leq r}$. Show that $C$ is sequentially compact. (\textit{Hint}: for the boundedness of $C$, show that $\forall v \in C,\ d(v,0) < \infty$.)
+		\begin{proof}
+		To show that $C$ is sequentially compact, we'll show that $C$ is closed and bounded.\\
+		\textit{Closedness}:\\
+		Based on it's definition, we have that $C = \bar{B}_r(u)$ is a closed ball of radius $r$ centered at $u$ in $\R^n$. To show that it is closed, we want to show that $C^c = \bracks{w\in \R^n \Big| d(u,w) > r}$ is open. Let $w \in C^c$, so $d(u,w) > r$, and define $\delta = d(u,w) - r$. Now let $b \in B_\delta(w)$, then by the reverse triangle inequality:
+		\begin{align*}
+		d(u,b) &\geq \abs{d(u,w) - d(w,b)} \\
+		&= d(u,w) - d(w,b) \\
+		&> d(u,w) - \delta \\
+		&= r
+		\end{align*}
+		Which implies that $b \in C^c$, and $B_\delta(w) \subset C^c$.  In other words
+		$$\forall w \in C^c,\ \delta = d(u,w) - r,\ B_\delta(w) \subset C^c$$
+		So $C^c$ is open, and we may conclude that $C$ is closed.\\
+		\textit{Boundedness}:\\
+		By the reverse triangle inequality, we have $\forall v \in C$:
+		$$r \geq d(u,v) \geq \abs{d(u,0)-d(0,v)}$$
+		\begin{align*}
+		\Rightarrow \abs{d(u,0) - d(0,v)} \leq r \\
+		-r \leq  d(u,0) - d(0,v) \leq r \\
+		-r \leq  d(0,v) - d(u,0) \leq r \\
+		d(u,0) - r \leq d(v,0) \leq d(u,0) + r
+		\end{align*}
+		We know that $d(u,0) < \infty$ and $0<r<\infty$, so $d(v,0)$ is also bounded as $d(v,0) \in \sqbracks{d(u,0)-r, d(u,0) + r}$. As such, $\forall \vep > 0,\ \exists\mathfrak{F} = \bigcup_k B_\vep(v_k) \supset C,\ v_k \in C : \forall v \in C,\ \exists k,\ d(v,v_k) < \vep$, so $C$ is bounded.\\
+		\textit{Conclusion}:\\
+		We have that $C$ is both closed and bounded, so $C$ is sequentially compact.
+		\end{proof}
+	\ee
+	
+	\item Does this integral converge?
+		$$\int_{-1}^1 \frac{2^{\sin^{-1}(x)}}{1-x}\ dx$$
+	\begin{proof}[Solution]
+	This integral diverges. First, let us consider that for $x \in [-1,1]$, we have
+	\begin{align*}
+	-\frac{\pi}{2} \leq \sin^{-1}(x) \leq \frac{\pi}{2} \\
+	2^{-\frac{\pi}{2}} \leq 2^{\sin^{-1}(x)} \leq 2^{\frac{\pi}{2}} \\
+	\frac{2^{-\frac{\pi}{2}}}{1-x} \leq \frac{2^{\sin^{-1}(x)}}{1-x} \leq \frac{2^{\frac{\pi}{2}}}{1-x} \\
+	\end{align*}
+	Now let 
+	$$f(x) = \frac{2^{-\frac{\pi}{2}}}{1-x},\qquad g(x) = \frac{2^{\sin^{-1}(x)}}{1-x}$$
+	Both $f(x)$ and $g(x)$ are non-negative and $f(x) \leq g(x),\ \forall x \in [-1,1]$. Now
+	\begin{align*}
+	\int_{-1}^1 f(x)\ dx &= \lim_{\vep \to 0^+} \int_{-1}^{1-\vep}\frac{2^{-\frac{\pi}{2}}}{1-x}\ dx \\
+	&= 2^{-\frac{\pi}{2}}\lim_{\vep \to 0^+} \int_{-1}^{1-\vep}\frac{1}{1-x}\ dx \\
+	&= 2^{-\frac{\pi}{2}}\lim_{\vep \to 0^+} -\ln\parens{1-x}\Big|_{-1}^{1-\vep} \\
+	&= -2^{-\frac{\pi}{2}}\lim_{\vep \to 0^+} \Big(\ln\parens{1-(1-\vep)} - \ln\parens{1-(-1)}\Big) \\
+	&= -2^{-\frac{\pi}{2}}\lim_{\vep \to 0^+} \Big(\ln\parens{\vep} - \ln\parens{2}\Big) \\
+	&= -2^{-\frac{\pi}{2}}\Big(-\infty - \ln\parens{2}\Big) \to \infty
+	\end{align*}
+	We have that $\int_{-1}^1 f(x)\ dx \to \infty$, and $f(x) \leq g(x)$; so by the comparison test we may conclude that 
+	$$\int_{-1}^1g(x)\ dx = \int_{-1}^1 \frac{2^{\sin^{-1}(x)}}{1-x}\ dx \to \infty$$
+	as well.
+	\end{proof}
+		
+	\item Let $\mathcal{C}^1\parens{\sqbracks{a,b}}$ be the set of real-valued functions defined on $\sqbracks{a,b}$ with continuous derivatives on $\sqbracks{a,b}$. Let
+	$$\forall f,g \in \mathcal{C}^1\parens{\sqbracks{a,b}},\ d\parens{f,g} = \sup_{x\in\sqbracks{a,b}}\abs{f'(x) - g'(x)}$$
+	where $f'$ denotes the derivative of $f$. Is $d$ a metric on $\mathcal{C}^1\parens{\sqbracks{a,b}}$?
+	\begin{proof}
+	$d$ is not a metric on $\mathcal{C}^1\parens{\sqbracks{a,b}}$, because it doesn't satisfy one of the properties of a metric, namely:
+	$$\forall f,g \in \mathcal{C}^1\parens{\sqbracks{a,b}},\ d(f,g) = 0 \implies f=g$$
+	The contrapositive of which is
+	$$\forall f,g \in \mathcal{C}^1\parens{\sqbracks{a,b}},\ f\neq g \implies d(f,g)\neq 0$$ 
+	Indeed, let $f \in \mathcal{C}^1\parens{\sqbracks{a,b}}$ and $g = f + c,\ c \in \R$. So clearly, $g \in \mathcal{C}^1\parens{\sqbracks{a,b}}$ and $f \neq g$, yet:
+	$$d(f,g) = \sup_{x\in[a,b]}\abs{f'(x) - g'(x)} = 0$$
+	because $f$ and $g$ only differ by a constant, so $f'(x) = g'(x), \forall x \in[a,b]$ therefore	
+	$$\sup_{x\in[a,b]}\abs{f'(x) - g'(x)} = \sup_{x\in[a,b]}\abs{f'(x) - f'(x)} = \sup_{x\in[a,b]}0 = 0$$
+	As such, $d$ does not satisfy one of the properties of a metric, and it is not a metric on $\mathcal{C}^1\parens{\sqbracks{a,b}}$. 
+	\end{proof}
+	
+	\item Let a sequence of functions be defined by $\forall n \in N,\ \forall x \in \sqbracks{0,\pi},\ f_n(x) = \sin^n(x)$.
+	\be[1.] 
+		\item Find the pointwise convergence $f(x)$.
+		\begin{proof}[Solution]
+		To find the pointwise convergence $f(x)$, we'll consider different values of $x$ in turn.
+		\be 
+			\item[$x=0$:] $f_n(0) = \sin^n(0) = 0$, so 
+			$$\lim_{n\to\infty}f_n(0) = 0$$
+			
+			\item[$0 < x <\frac{\pi}{2}$:] $f_n(x) = \sin^n(x)$. Seeing as $0< \sin(x) < 1$ for $\forall x$ in this interval, we have
+			$$\lim_{n\to\infty}f_n(x) = \lim_{n\to\infty}\sin^n(x) = 0$$
+			
+			\item[$x= \frac{\pi}{2}$:] $f_n\parens{\frac{\pi}{2}} = \sin^n\parens{\frac{\pi}{2}} = 1^n = 1$, so 
+			$$\lim_{n\to\infty}f_n\parens{\frac{\pi}{2}} = 1$$
+			
+			\item[$\frac{\pi}{2}< x < \pi$:] $f_n(x) = \sin^n(x)$. Seeing as $0< \sin(x) < 1$ for $\forall x$ in this interval, we have
+			$$\lim_{n\to\infty}f_n(x) = \lim_{n\to\infty}\sin^n(x) = 0$$
+			
+			\item[$x=\pi$:] $f_n(\pi) = \sin^n(\pi) = 0$, so 
+			$$\lim_{n\to\infty}f_n(\pi) = 0$$
+		\ee
+		So the pointwise converge of $f_n(x)$ is
+		$$f(x) = \left\{\begin{array}{cl}
+		0, & 0 \leq x < \frac{\pi}{2} \\
+		1, & x = \frac{\pi}{2} \\
+		0, & \frac{\pi}{2} < x \leq \pi
+		\end{array}\right.
+		$$
+		\end{proof}
+		
+		\item Does this sequence converge uniformly?
+		\begin{proof}[Solution]
+		This sequence does \textit{not} converge uniformly. Let $\vep = \frac{1}{2}$, and we have $\forall n \in \N,\ \lim_{x\to\frac{\pi}{2}} f_n(x) = \lim_{x\to\frac{\pi}{2}} \sin^n(x) = 1$, so
+		$$\exists x \in \parens{0,\frac{\pi}{2}},\ \abs{f_n(x) - f(x)} = \abs{1-0} \geq \vep$$
+		So $f_n(x)$ does not converge uniformly on $\sqbracks{0,\frac{\pi}{2}}$, and, subsequently, $f_n(x)$ does not converge uniformly on $\sqbracks{0,\pi}$.
+		\end{proof}
+		
+	\ee
+	 
+\ee
+\noindent\makebox[\linewidth]{\rule{\paperwidth}{0.4pt}}
+	
+\end{document}

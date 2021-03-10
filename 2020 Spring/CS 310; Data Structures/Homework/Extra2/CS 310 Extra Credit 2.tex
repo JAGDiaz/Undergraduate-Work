@@ -1,0 +1,184 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{bm}
+\usepackage{amsthm}
+\usepackage{enumerate}
+\usepackage{graphicx}
+\usepackage{psfrag}
+\usepackage{color}
+\usepackage{url}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{positioning}
+\tikzset{main node/.style={circle,fill=gray!20,draw,minimum size=.5cm,inner sep=0pt},}
+
+\definecolor{codegreen}{rgb}{0,0.5,0}
+\definecolor{codewhite}{rgb}{1,1,1}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{codeblack}{rgb}{0,0,0}
+\definecolor{codeorange}{rgb}{0.8,0.4,0}
+
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{codewhite},   
+    commentstyle=\color{codegray},
+    keywordstyle=\color{codegreen},
+    numberstyle=\color{codegray},
+    stringstyle=\color{codeorange},
+    basicstyle=\ttfamily ,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=4
+}
+\lstset{style=mystyle}
+
+
+\setlength{\hoffset}{-1in}
+\addtolength{\textwidth}{1.5in}
+\setlength{\voffset}{-1in}
+\addtolength{\textheight}{1.5in}
+\newcommand{\be}{\begin{enumerate}}
+\newcommand{\ee}{\end{enumerate}}
+\newcommand{\BigO}[1]{\ensuremath\mathcal{O}\left(#1\right)}
+\newcommand{\il}[1]{\lstinline!#1!}
+\newcommand{\gnorm}[1]{\left|\left|#1\right|\right|}
+\newcommand{\abs}[1]{\left|#1\right|}
+\newcommand{\parens}[1]{\left(#1\right)}
+\newcommand{\bracks}[1]{\left\{#1\right\}}
+\newcommand{\sqbracks}[1]{\left[#1\right]}
+\newcommand{\vep}{\varepsilon}
+\newcommand{\ceiling}[1]{\left\lceil#1\right\rceil}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\distrib}[2]{\text{#1}\left(#2\right)}
+\newcommand{\dd}[1]{\frac{d}{d#1}}
+\newcommand{\abracks}[1]{\left< #1\right>}
+
+\begin{document}
+	\begin{center}
+		\textbf{Spring 2020, CS 310:\ Extra Credit 2} \\
+		\textbf{Due:\ Thursday, May 7th, 2020} \\
+		\textbf{Joseph Diaz: 819947915}
+	\end{center}
+\noindent\makebox[\linewidth]{\rule{\paperwidth}{0.4pt}}
+\be[1.] 
+	\item What is the tightest bound $\BigO{}$ for the following:
+	\be [(a)]
+		\item $f(N) = (1/2)(N\log N) + (\log N)^2 \ \implies\ \BigO{N\log N}$
+		
+		\item $f(N) = N^2 (N + N\log N + 1000) \ \implies \ \BigO{N^3 \log N}$
+		
+		\item $f(N) = N^2\log N + 2^N \ \implies \ \BigO{2^N}$
+		
+		\item $f(N) = \parens{(1/2)(3N + 5 + N)}^4 \ \implies \ \BigO{N^4}$
+		
+		\item $f(N) = \parens{2N + 5 + N^4}/N \ \implies \ \BigO{N^3}$
+		
+		\item $f(N) = \log_{10}(2^N) \ \implies \BigO{N}$
+		
+		\item $f(N) = N! + 2N \ \implies \ \BigO{N!}$
+		
+		\item $f(N) = (N\cdot N \cdot N \cdot N + 2N)^2 \ \implies \ \BigO{N^8}$
+		
+		\item $f(N) = N^{1/2} + \log N \ \implies \ \BigO{N^{1/2}}$
+		
+		\item $f(N) = N \log(100^3) \ \implies \ \BigO{N}$
+		
+	\ee
+	
+	\item Give the tightest bound in terms of Big O, of the following code snippets
+	\be[(a)]
+		\item 
+		\begin{lstlisting}[language=java]
+public type something(n)
+{
+	result = 0;
+ 	while (n > 1)
+ 	{
+		n /= 2;
+		result += 1;
+	}
+	return result;
+}
+		\end{lstlisting}
+\begin{proof}[Solution]
+$$\BigO{\log(n)}$$
+\end{proof}		
+		\item 
+		\begin{lstlisting}[language=java]
+public type something(n, a[])
+{
+	for (i=0, i<n; i++)
+	{ 
+		if (a[i] == 0)
+		return 0;
+	}
+	return 1;
+}
+		\end{lstlisting}
+		\begin{proof}[Solution]
+$$\BigO{n}$$
+\end{proof}
+		\item 
+		\begin{lstlisting}[language=java]
+public type something(n)
+{
+	result = 0;
+	for (i=0, i<n; i++)
+	{ 
+		for (int j=i; j<n;j++)
+		{
+			result += 1; 
+		}
+	}
+}
+return result;
+}
+		\end{lstlisting}
+		\begin{proof}[Solution]
+$$\BigO{n^2}$$
+\end{proof}
+		\item 
+		\begin{lstlisting}[language=java]
+int count =0;
+for(int i=n;i>0;i/=2)
+	for(int j=0;j<i;j++)
+		count++;
+		\end{lstlisting}
+		\begin{proof}[Solution]
+$$\BigO{n\log(n)}$$
+\end{proof}
+		\item 
+		\begin{lstlisting}[language=java]
+void silly(int n)
+{
+ 	for (int i = 0; i < n * n; ++i)
+ 	{ 
+		for (int j = 0; j < n; ++j)
+		{ 
+			for (int k = 0; k < i; ++k) 
+				System.out.println("k = " + k); 
+			for (int m = 0; m < 100; ++m) 
+				System.out.println("m = " + m);
+ 		} 
+	} 
+}
+		\end{lstlisting}
+		\begin{proof}[Solution]
+$$\BigO{n^5}$$
+\end{proof}
+	\ee 
+\ee
+\noindent\makebox[\linewidth]{\rule{\paperwidth}{0.4pt}}
+	
+\end{document}

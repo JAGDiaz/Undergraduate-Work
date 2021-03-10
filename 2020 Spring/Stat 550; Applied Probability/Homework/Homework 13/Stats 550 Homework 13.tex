@@ -1,0 +1,136 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{bm}
+\usepackage{amsthm}
+\usepackage{enumerate}
+\usepackage{graphicx}
+\usepackage{psfrag}
+\usepackage{color}
+\usepackage{url}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{positioning}
+\tikzset{main node/.style={circle,fill=gray!20,draw,minimum size=.5cm,inner sep=0pt},}
+
+\definecolor{codegreen}{rgb}{0,0.5,0}
+\definecolor{codewhite}{rgb}{1,1,1}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{codeblack}{rgb}{0,0,0}
+\definecolor{codeorange}{rgb}{0.8,0.4,0}
+
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{codewhite},   
+    commentstyle=\color{codegray},
+    keywordstyle=\color{codegreen},
+    numberstyle=\color{codegray},
+    stringstyle=\color{codeorange},
+    basicstyle=\ttfamily ,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=4
+}
+\lstset{style=mystyle}
+
+
+\setlength{\hoffset}{-1in}
+\addtolength{\textwidth}{1.5in}
+\setlength{\voffset}{-1in}
+\addtolength{\textheight}{1.5in}
+\newcommand{\be}{\begin{enumerate}}
+\newcommand{\ee}{\end{enumerate}}
+\newcommand{\BigO}[1]{\ensuremath\mathcal{O}\left(#1\right)}
+\newcommand{\il}[1]{\lstinline!#1!}
+\newcommand{\gnorm}[1]{\left|\left|#1\right|\right|}
+\newcommand{\abs}[1]{\left|#1\right|}
+\newcommand{\parens}[1]{\left(#1\right)}
+\newcommand{\bracks}[1]{\left\{#1\right\}}
+\newcommand{\sqbracks}[1]{\left[#1\right]}
+\newcommand{\distrib}[2]{\text{#1}\left(#2\right)}
+\newcommand{\vep}{\varepsilon}
+\newcommand{\ceiling}[1]{\left\lceil#1\right\rceil}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\N}{\mathbb{N}}
+
+\begin{document}
+	\begin{center}
+		\textbf{Spring 2020, Stats 550:\ Homework 13} \\
+		\textbf{Due:\ Tuesday, April 14th, 2020} \\
+		\textbf{Joseph Diaz: 819947915}
+	\end{center}
+\noindent\makebox[\linewidth]{\rule{\paperwidth}{0.4pt}}
+\section*{Chapter 5}
+\be
+	\item[25.] In a city of 100,000 voters, 40\% are Democrat, 30\% Republican, 20\% Green,
+and 10\% Undecided. A sample of 1000 people is selected.
+	\be[(a)] 
+		\item What is the expectation and variance for the number of Greens in the
+sample?
+	\begin{proof}[Solution]
+	Let $\parens{X_1,\ X_2,\ X_3,\ X_4} \sim \text{Multi}\parens{1000,\ .4,\ .3,\ .2,\ .1}$ where $X_1,\ X_2,\ X_3,\ X_4$ are the number of Democrats, Republicans, Greens, and Undecideds (respectively) in the sample. Then the expected value and variance of the Greens would be the same as that of $X_3 \sim \text{Binom}\parens{1000, .2}$ , so:
+	$$E\sqbracks{X_3} = 1000\cdot0.2 = 200,\ V\sqbracks{X_3} = 1000\cdot0.2\cdot0.8= 160$$
+	\end{proof}
+
+		\item What is the expectation and variance for the number of Greens and
+Undecideds in the sample?
+	\begin{proof}[Solution]
+	From the multinomial distribution from (a), let $X = X_3 + X_4$, then the expected value and variance of the Greens and the Undecideds would be the same as that of $X \sim \text{Binom}\parens{1000, .3}$, so:
+	$$E\sqbracks{X} = 1000\cdot0.3 = 300,\ V\sqbracks{X} = 1000\cdot0.3\cdot0.7= 210$$
+	\end{proof}
+	\ee
+	
+	\item[26.] A random experiment takes $r$ possible values, with respective probabilities
+$p_1,\ \cdots,\ p_r$. Suppose the experiment is repeated $N$ times, where $N$ has a Poisson
+distribution with parameter $\lambda$. For $k = 1,\ \cdots ,\ r$, let $N_k$ be the number of
+occurrences of outcome $k$. In other words, if $N = n$, then $\parens{N_1,\ \cdots , N_r}$ has
+a multinomial distribution.\\
+Show that $N_1,\ \cdots ,\ N_r$ form a sequence of independent Poisson random
+variables and for each $k = 1,\ \cdots ,\ r,\ N_k \sim \text{Pois}\parens{\lambda p_k}$.
+	\begin{proof}
+	We have that $\parens{N_1,\ \cdots , N_r} \sim \distrib{Multi}{N,\ p_1,\ \cdots,\ p_r}$ and $N \sim \distrib{Pois}{\lambda}$. So we have:
+	\begin{align*}
+	P\parens{N = n} &= \frac{e^{-\lambda}\cdot\lambda^n}{n!}\\
+	&= \frac{e^{-\lambda\parens{p_1 + \cdots + p_r}}\cdot\parens{\lambda\parens{p_1 + \cdots + p_r}}^n}{n!}\quad \parens{\text{Here we use:} \sum_{k = 1}^r p_k = 1}\\
+	&= \frac{e^{-\lambda p_1} \cdots e^{-\lambda p_r}\cdot\parens{\lambda p_1 + \cdots + \lambda p_r}^n}{n!}\\
+	&= \frac{e^{-\lambda p_1} \cdots e^{-\lambda p_r}}{n!}\cdot \sum_{x_1 + \cdots + x_r = n}\sqbracks{\frac{n!}{x_1!\cdots x_r!}\parens{\lambda p_1}^{x_1}\cdots\parens{\lambda p_r}^{x_r} }\\
+	&= \sum_{x_1 + \cdots + x_r = n}\sqbracks{\frac{n!e^{-\lambda p_1} \cdots e^{-\lambda p_r}\parens{\lambda p_1}^{x_1}\cdots\parens{\lambda p_r}^{x_r}}{n!x_1!\cdots x_r!} }\\
+	&= \sum_{x_1 + \cdots + x_r = n}\sqbracks{\frac{e^{-\lambda p_1} \cdots e^{-\lambda p_r}\parens{\lambda p_1}^{x_1}\cdots\parens{\lambda p_r}^{x_r}}{x_1!\cdots x_r!}}\\
+	&= \sum_{x_1 + \cdots + x_r = n}\sqbracks{\parens{\frac{e^{-\lambda p_1}\cdot\parens{\lambda p_1}^{x_1}}{x_1!}}\cdots\parens{\frac{e^{-\lambda p_r}\cdot\parens{\lambda p_r}^{x_r}}{x_r!}}}\\
+	&= \sum_{x_1 + \cdots + x_r = n}\sqbracks{P\parens{N_1=x_1}\cdots P\parens{N_r = x_r}}\\
+	\end{align*}
+	$$\Rightarrow P\parens{N_k = x_k} = \frac{e^{-\lambda p_k}\cdot\parens{\lambda p_k}^{x_k}}{x_k!}$$
+	
+	So $N_k \sim \distrib{Pois}{\lambda p_k}$, as desired.
+	\end{proof}
+	
+	\item[27.] Suppose a gene allele takes two forms $A$ and $a$, with $P(A) = 0.20 = 1 -
+P(a)$. Assume a population is in Hardy–Weinberg equilibrium.\\
+		We have that $P(AA) = \frac{1}{25},\ P(Aa) = \frac{8}{25},\ P(aa) = \frac{16}{25}$.
+	\be[(a)]
+		\item Find the probability that in a sample of eight individuals, there is one $AA$,
+two $Aa$'s, and five $aa$'s.
+		
+		\begin{proof}[Solution]
+		Let $\parens{X_{AA},\ X_{Aa},\ X_{aa}} \sim \distrib{Multi}{8,\ \frac{1}{25},\ \frac{8}{25},\ \frac{16}{25}}$, where $X_{AA},\ X_{Aa},\ X_{aa}$ are the number of $AA,\ Aa,\ aa$ in the sample (respectively, also notice we are treating $Aa$ and $aA$ as the same event). Then the probability we are interested in is given by:
+		$$P\parens{X_{AA} = 1,\ X_{Aa} = 2,\ X_{aa} = 5} = \frac{8!}{1!2!5!}\parens{\frac{1}{25}}^1\parens{\frac{8}{25}}^2\parens{\frac{16}{25}}^5 = 7.389\%$$
+		\end{proof}
+
+		\item Find the probability that there are at least seven $aa$'s.
+		\begin{proof}[Solution]
+		If we consider $X_{aa}$ by itself, then $X_{aa} \sim \distrib{Binom}{8,\ \frac{16}{25}}$, and the probability we are interested in is given by:
+		$$P\parens{X_{aa} = 7 \text{ or } X_{aa} = 8} = \binom{8}{7}\parens{\frac{16}{25}}^7\parens{\frac{9}{25}} + \binom{8}{8}\parens{\frac{16}{25}}^8 = 15.481\%$$
+		\end{proof}
+	\ee
+\ee
+\noindent\makebox[\linewidth]{\rule{\paperwidth}{0.4pt}}
+	
+\end{document}

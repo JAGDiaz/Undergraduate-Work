@@ -1,0 +1,121 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[latin1]{inputenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{graphicx}
+\usepackage{mdframed}
+\usepackage{xcolor}
+\usepackage{amsmath}
+\usepackage[left=0.8in, right=0.8in, top=1.00in, bottom=1.00in]{geometry}
+\usepackage{mathtools}
+\def\multichoose#1#2{\ensuremath{\left(\kern-.3em\left(\genfrac{}{}{0pt}{}{#1}{#2}\right)\kern-.3em\right)}}
+\author{Jackson Autry}
+
+%% New Commands
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\B}{\mathcal{B}}
+\newcommand{\h}{\mathcal{H}}
+\renewcommand{\S}{\mathcal{S}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\K}{\mathbb{K}}
+\newcommand{\CC}{\mathcal{C}}
+\newcommand{\LL}{\mathcal{L}}
+\newcommand{\RR}{\mathcal{R}}
+\newcommand{\D}{\mathbb{D}}
+\newcommand{\F}{\mathcal{F}}
+\newcommand{\cl}{\operatorname{cl}}
+\newcommand{\ran}{\operatorname{ran}}
+\newcommand{\norm}[1]{\| #1 \|}
+\newcommand{\inner}[1]{\langle #1 \rangle}
+\renewcommand{\vec}[1]{{\bf #1}}
+
+%%%
+%%% Theorem Styles
+%%%
+% \numberwithin{equation}{section}
+\theoremstyle{plain}
+\newtheorem{Theorem}[equation]{Theorem}
+\newtheorem{Lemma}[equation]{Lemma}
+\newtheorem{Proposition}[equation]{Proposition}
+\newtheorem{Corollary}[equation]{Corollary}
+\theoremstyle{remark}
+\newtheorem{Remark}[equation]{Remark}
+\theoremstyle{definition}
+\newtheorem{Definition}[equation]{Definition}
+\newtheorem{Example}[equation]{Example}
+\newcounter{question}
+\newtheorem{Question}[question]{Question}
+
+\begin{document}
+	\newmdenv[linecolor=gray!40,leftmargin=0,%
+	innerleftmargin=4pt,
+	rightmargin=0pt,
+	innerbottommargin=3pt,
+	skipbelow=4pt,
+	backgroundcolor=gray!40,%
+	innertopmargin=3pt,]{ques}
+
+	
+\begin{center}
+	\textbf{MATH 630A} %############ Insert Course Title! #############
+	
+		Take Home Exam II	%############### Put Homework # ###################
+		
+		Jackson Autry
+\end{center}
+
+\section*{Problem 1}
+
+We show that $T$ is bounded which implies its continuity. Let $f \in \CC_b(\R)$. Since $f$ is bounded, $\max\limits_{x\in\R}\vert f(x) \vert$ exists. Thus we have
+\begin{flalign*}
+	\Vert Tf \Vert_{\infty} &= \max_{x\in\R} \vert 3 f(x) - 2 f(x+4) \vert \le \max_{x\in\R} \left(\vert 3 f(x) \vert + \vert 2 f(x+4) \vert\right) \le \max_{x\in\R} 3 \vert f(x) \vert + \max_{x\in\R} 2\vert f(x+4) \vert &&\\
+	&= 3 \max_{x\in\R} \vert f(x) \vert + 2 \max_{x\in\R} \vert f(x) \vert = 5 \max_{x\in\R} \vert f(x) \vert = 5 \Vert f \Vert_{\infty}
+\end{flalign*}
+Thus $\Vert Tf \Vert_{\infty} \le 5 \Vert f \Vert_{\infty}$ and $T$ is bounded. Hence $T$ is continuous.\\
+Now to find $\Vert T \Vert$, we have $\Vert T \Vert \le 5$. We find a particular $f \in \CC_b(\R)$ such that $\Vert Tf \Vert_{\infty} = 5 \Vert f \Vert_{\infty}$.\\
+Let $f = \begin{cases} -1 & x < -1 \\ x & -1 \le x \le 1 \\ 1 & x > 1 \end{cases}$. Clearly $f \in \CC_b$. Then, $\forall x \in \R, \vert f(x) \vert \le 1$, i.e. $\Vert f \Vert_{\infty} = 1$.\\
+For $x = -2$, $\vert (Tf)x \vert = \vert (Tf)(-2) \vert = \vert 3f(-2) - 2f(-2+4) \vert = \vert -3 - 2 \vert = 5$\\
+Thus $\Vert Tf \Vert_{\infty} \ge 5 = 5\Vert f \Vert_{\infty}$. Hence $\Vert T \Vert \ge 5$. Therefore $\Vert T \Vert = 5$.
+
+\section*{Problem 2}
+We first prove that $T$ is a one-to-one operator. Suppose towards a contradiction $\exists x,y \in M_1, x \ne y, Tx = Ty$. Then\\
+$0 = \Vert 0 \Vert_{M_1} = \Vert Tx - Ty \Vert_{M_1} = \Vert T(x-y) \Vert_{M_1} \ge C\Vert x-y \Vert_{M_1} > 0$ (Since $x -y \ne 0$ and $C < 0$), a contradiction. Hence $T$ is a one-to-one operator.\\
+$\RR(T)$ is a linear subspace of $M_2$, so we can instead define $T: M_1 \to \RR(T)$. Now $T$ is one-to-one and onto and $T^{-1}:\RR(T) \to M_1$ exists. To prove $T^{-1}$ is continuous, we show it is bounded.\\
+We need to show $\exists C'>0, \forall y \in \RR(T), \Vert T^{-1}y\Vert_{M_1} \le C'\Vert y \Vert_{M_2}$. But $T$ is one-to-one, so is $T^{-1}$. Thus $\forall x \in M_1, \exists ! y \in \RR(T), T^{-1}y = x$.\\
+We have by supposition
+\begin{flalign*}
+	& \exists C>0, \forall x \in M_1, \Vert Tx \Vert_{M_2} \ge C \Vert x \Vert_{M_1} &&\\
+	\Longleftrightarrow & \exists C>0, \forall x \in M_1, C\Vert x \Vert_{M_1} \le \Vert Tx \Vert_{M_2}\\
+	\Longleftrightarrow & \exists C>0, \forall x \in M_1, \exists! y \in \RR(T), Tx = y, \Vert T^{-1} y \Vert_{M_1} \le \frac{1}{C} \Vert T(T^{-1}y) \Vert_{M_2}\\
+	\Longleftrightarrow & \exists C>0, \forall y \in \RR(T), \Vert T^{-1} y \Vert_{M_1} \le \frac{1}{C} \Vert y \Vert_{M_2}
+\end{flalign*}
+Thus $T^{-1}$ is bounded and therefore continuous. Furthermore from the last statement we have $\Vert T^{-1} \Vert \le \frac{1}{C}$.
+
+\pagebreak
+\section*{Problem 3}
+\subsection*{3.1}
+Since $\{e_n\}_{n=1}^{\infty}$ is a basis for $\ell^1$, $\forall x = (x_1,x_2,\ldots) \in \ell^1$, $x = \sum\limits_{k=1}^{\infty} x_ke_k$. Then $\forall f \in (\ell^1)^*$, $f$ is a linear operator, so we have $f(x) = f\left(\sum\limits_{k=1}^{\infty} x_ke_k\right) = \sum\limits_{k=1}^{\infty} f(x_ke_k) = \sum\limits_{k=1}^{\infty} x_kf(e_k) = \sum\limits_{k=1}^{\infty} x_k\gamma_k$ where $f(e_n) = \gamma_n$.
+
+\subsection*{3.2}
+Recall that $(\ell^1)^*$, the topological dual of $\ell^1$, is the set of bounded linear functionals over $\ell^1$. No observe $\forall n \in \N, \Vert e_n \Vert_{\ell^1} = 1$. Thus we have\\
+$\exists C > 0, \vert f(e_n) \vert \le C \Vert e_n \Vert = C$, i.e. $\vert \gamma_n \vert = \vert f(e_n) \vert < \infty$. But this is true for all $n \in \N$. Hence for $\gamma = (\gamma_1,\gamma_2,\ldots) = (f(e_1),f(e_2),\ldots)$, we have $\Vert \gamma \Vert_{\ell^{\infty}} = \sup\limits_{k \in \N} \vert \gamma_k \vert < \infty$, i.e. $\gamma \in \ell^{\infty}$.
+
+\subsection*{3.3}
+Let $x,y \in \ell^1$ with $x = (x_1,x_2,\ldots)$ and $y = (y_1,y_2,\ldots)$, and $\lambda,\mu \in \R$. Then\\
+$f(\lambda x + \mu y) = \sum\limits_{k=1}^{\infty} (\lambda x_k + \mu y_k) \gamma_k = \sum\limits_{k=1}^{\infty} \lambda x_k \gamma_k + \mu y_k \gamma_k = \lambda \sum\limits_{k=1}^{\infty} x_k\gamma_k + \mu \sum\limits_{k=1}^{\infty} y_k \gamma_k = \lambda f(x) + \mu f(y)$,\\
+i.e. $f$ is linear. Now to show its boundedness,\\
+$\vert f(x) \vert = \left\vert \sum\limits_{k=1}^{\infty} x_k\gamma_k \right\vert \le \sum\limits_{k=1}^{\infty} \vert x_k \vert \vert \gamma_k \vert \le \sum\limits_{k=1}^{\infty} \vert x_k \vert \sup\limits_{n \in \N} \vert \gamma_n \vert = \sup\limits_{n \in \N} \vert \gamma_n \vert \sum\limits_{k=1}^{\infty} \vert x_k \vert = \Vert \gamma \Vert_{\ell^{\infty}} \Vert x \Vert_{\ell^1}$. Since $\gamma \in \ell^{\infty}$, $\Vert \gamma \Vert_{\ell^{\infty}} < \infty$. Thus we have\\
+$\exists C = \Vert \gamma \Vert_{\ell^{\infty}} > 0, \forall x \in \ell^1, \vert f(x) \vert \le \Vert \gamma \Vert_{\ell^{\infty}}\Vert x \Vert_{\ell^1}$, i.e. $f$ is bounded. Hence $f \in (\ell^1)^*$.
+
+\subsection*{3.4}
+In \textbf{3.3} we showed $\vert f(x) \vert \le \Vert \gamma \Vert_{\ell^{\infty}} \Vert x \Vert_{\ell^1}$, i.e. $\Vert f \Vert \le \Vert \gamma \Vert_{\ell^{\infty}} = \sup\limits_{k \in \N} \vert \gamma_k \vert$. Consider how $f$ acts on the basis elements, $\{e_n\}$.\\
+$\forall k \in \N, \vert f(e_k) \vert = \vert \gamma_k \vert = \vert \gamma_k \vert \Vert e_k \Vert_{\ell^1}$. Thus $\forall k \in \N, \Vert f \Vert \ge \vert \gamma_k \vert$. Since this is for all $k$, we have $\Vert f \Vert \ge \sup\limits_{k \in \N} \vert \gamma_k \vert$. Hence $\Vert f \Vert = \Vert \gamma \Vert$.
+
+
+
+
+\end{document}

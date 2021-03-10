@@ -1,0 +1,150 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[latin1]{inputenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{mdframed}
+\usepackage{xcolor}
+\usepackage{amsmath}
+\usepackage[parfill]{parskip}
+\setlength{\parskip}{0 mm}
+\usepackage[left=0.50in, right=0.50in, top=1.00in, bottom=1.00in]{geometry}
+\author{Jackson Autry}
+\begin{document}
+	\newmdenv[linecolor=gray!40,leftmargin=0,%
+	innerleftmargin=4pt,
+	rightmargin=40pt,
+	innerbottommargin=4pt,
+	skipbelow=1pt,
+	backgroundcolor=gray!40,%
+	innertopmargin=4pt,]{ques}
+
+	
+\begin{center}
+	\textbf{MATH 630A} %############ Insert Course Title! #############
+	
+		Homework Assignment 2		%############### Put Homework # ###################
+	
+\end{center}
+\textbf{1.3}
+\begin{ques}
+	If $x,y,z$ are points in the metric space $(X,d)$, show that
+	$$d(x,y)\ge \vert d(x,z) - d(y,z)\vert$$
+\end{ques}
+	
+	By the triangle inequality, we have
+	\begin{align*}
+	& d(x,z) \le d(x,y) + d(y,z) = d(x,y) + d(z,y)\\
+	\Longleftrightarrow & d(x,y) \ge d(x,z) - d(z,y)
+	\end{align*}
+	
+	Similarly, again by the triangle inequality, we have
+	\begin{align*}
+	& d(y,z) \le d(y,x) + d(x,z) = d(x,y) + d(z,x)\\
+	\Longleftrightarrow & d(x,y) \ge d(y,z) - d(z,x)
+	\end{align*}
+	Hence we have
+	
+	$$d(x,y) \ge \vert d(x,z) - d(z,y) \vert $$
+	
+\textbf{1.4}
+\begin{ques}
+	Suppose that $(X,d_X)$ and $(Y,d_Y)$ are metric spaces. Prove that the Cartesian product $Z = X \times Y$ is a metric space with metric $d$ defined by 
+	$$d(z_1,z_2) = d_X(x_1,x_2) + d_Y(y_1,y_2).$$
+\end{ques}
+	
+	Let $z_1,z_2,z_3 \in Z$ with $z_1 = (x_1,y_2), z_2 = (x_2,y_2), z_3 = (x_3,y_3)$. Then
+	
+	\[
+	d(z_1,z_2) = d_X(x_1,x_2) + d_Y(y_1,y_2) \ge 0 + 0 = 0
+	\]
+	and
+	\begin{align*}
+	d(z_1,z_2) = 0 & \Longleftrightarrow d_X(x_1,x_2) + d_Y(y_1,y_2) = 0 \\
+	& \Longleftrightarrow (d_X(x_1,x_2) = 0) \land (d_Y(y_1,y_2) = 0) \Longleftrightarrow (x_1 = x_2) \land (y_1 = y_2) \\
+	& \Longleftrightarrow z_1 = z_2
+	\end{align*}
+	
+	By the properties of metrics,
+	
+	\[
+	d(z_1,z_2) = d_X(x_1,x_2) + d_Y(y_1,y_2) = d_X(x_2,x_1) + d_Y(y_2,y_1) = d(z_2,z_1)
+	\]
+	
+	and finally
+	
+	\begin{align*}
+	d(z_1,z_2) & = d_X(x_1,x_2) + d_Y(y_1,y_2) \le d_X(x_1,x_3) + d_X(x_3,x_2) + d_Y(y_1,y_3) + d_Y(y_3,y_2)\\
+	& = d_X(x_1,x_3) + d_Y(y_1,y_3) + d_X(x_3,x_2) + d_Y(y_3,y_2) = d(z_1,z_3) + d(z_3,z_2)
+	\end{align*}
+	
+	Hence $d$ defines a metric.
+	
+	
+\pagebreak	
+\textbf{1.5}
+\begin{ques}
+	Suppose that $(X, \Vert . \Vert)$ is a normed linear space. Show that $(X,d)$ defines a metric space where 
+	$$d(x,y) = \frac{\Vert x-y \Vert}{1 + \Vert x-y \Vert}$$
+\end{ques}
+	
+	$\forall x,y \in X$, we have\\
+	
+	$d(x,y) = \frac{\Vert x - y \Vert}{1 + \Vert x - y \Vert}$. $\Vert x - y \Vert \ge 0$ and $1 + \Vert x - y \Vert \ge 0$. So we have $d(x,y) \ge 0$.\\
+	Since $\Vert x - y \Vert \ge 0$, then $d(x,y) = \frac{\Vert x - y \Vert}{1 + \Vert x - y \Vert} = 0 \Longleftrightarrow \Vert x - y \Vert = 0 \Longleftrightarrow x - y  = 0 \Longleftrightarrow x = y$.\\
+	
+	$d(x,y) = \frac{\Vert x - y \Vert}{1 + \Vert x - y \Vert} = \frac{\vert -1 \vert \Vert y - x \Vert}{1 + \vert -1 \vert \Vert y - x \Vert} = \frac{\Vert y - x \Vert}{1 + \Vert y - x \Vert} = d(y,x)$.\\
+	
+	For the triangle inequality, this is tough. So instead we prove the following Proposition.\\
+	\textbf{Proposition}\\
+	Let $f:[0,\infty) \rightarrow [0,\infty)$ be a continuously differentiable function such that $f(0) = 0$ and $f'$ is non-negative and monotone decreasing. Then we have
+	$$\forall s,t \ge 0, 0 \le f(s+t) \le f(s) + f(t)$$
+	and
+	$$\forall s,t \ge 0, 0 \le s \le t, 0 \le f(s) \le f(t)$$
+	
+	\emph{proof.}\\
+	The second follows from $f'\ge 0 \Rightarrow$ if $s\le t$ then $f(s) \le f(t)$ and $f(0) = 0$.\\
+	
+	For the first, observe\\
+	\[
+	\int_0^{s+t} f'(x) dx = f(s+t) - f(0) = f(s_t)
+	\]
+	By splitting the integral, we have
+	\[
+	f(s+t) = \int_0^s f'(x)dx + \int_s^t f'(x)dx = f(s) - f(0) + f(t) -f(s)
+	\]
+	Because of the second part of the proposition, we have
+	$$f(s+t) = f(s) + f(t) - f(s) \leq f(s) + f(t)$$.\\
+	
+	
+	Now observe that $d(x,y) = \frac{\Vert x - y \Vert}{1 + \Vert x - y \Vert}$ is such a function where if $u = \Vert x - y \Vert \in [0, \infty), f(u) = \frac{u}{1 + u}$. Hence we have\\
+	$\forall x,y,z \in X, d(x,y) \leq d(x,z) + d(z,y)$.
+	
+\pagebreak
+\textbf{A}
+\begin{ques}
+	Let the normed vector space $(\mathbb{R}^n, \Vert . \Vert_2)$ where $\Vert . \Vert_2$ is the usual euclidean norm. Show that $(\mathbb{R}, d)$ defines a metric space where 
+	$$\forall x,y \in \mathbb{R}^n, d(x,y) = \begin{cases} \Vert x\Vert_2 + \Vert y \Vert_2 & \text{if} x \neq y \\ 0 & \text{otherwise}
+	\end{cases}$$
+\end{ques}
+	
+	Let $x,y,z \in \mathbb{R}^n$. Then
+	
+	If $x \neq y$, then $d(x,y) = \Vert x \Vert_2 + \Vert y \Vert_2 \geq 0 + 0 = 0$,\\
+	and in this case, $d(x,y) = 0 \Longleftrightarrow x = 0 = y$, a contradiction. \\
+	Therefore we have $d(x,y) = 0 \Longleftrightarrow x = y$.\\
+	
+	If $x \neq y$, then $d(x,y) = \Vert x \Vert_2 + \Vert y \Vert_2 = \Vert y \Vert_2 + \Vert x \Vert_2 = d(y,x)$\\
+	and if $x = y$, then $d(x,y) = 0 = d(y,x)$.\\
+	Hence $d(x,y) = d(y,x)$.\\
+	
+	If $x,y$ and $z$ are distinct, then $d(x,y) = \Vert x \Vert_2 + \Vert y \Vert_2 \leq \Vert x \Vert_2 + 2 \Vert z \Vert_2 + \Vert y \Vert_2 = d(x,z) + d(z,y)$.\\
+	If $x = y \neq z$, then $d(x,y) = 0 \le \Vert x \Vert_2 + 2 \Vert z \Vert_2 + \Vert y \Vert_2 = d(x,z) + d(z,y)$.\\
+	If $x \neq y = z$ then $\Vert y \Vert_2 = \Vert z \Vert_2$ and we have $d(x,y) = \Vert x \Vert_2 + \Vert y \Vert_2 = \Vert x \Vert_2 + \Vert z \Vert_2 = d(x,z) + d(z,y)$.\\
+	Finally, if $x = y = z$, then $d(x,y) = 0 = 0 + 0 = d(x,z) + d(z,y).$
+	
+	Hence $d$ defines a metric.
+	
+	
+\end{document}

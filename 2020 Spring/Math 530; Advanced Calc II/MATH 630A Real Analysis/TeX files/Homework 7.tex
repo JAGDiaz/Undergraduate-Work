@@ -1,0 +1,213 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[latin1]{inputenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{graphicx}
+\usepackage{mdframed}
+\usepackage{xcolor}
+\usepackage{amsmath}
+\usepackage{mathrsfs}
+\usepackage[left=0.8in, right=0.8in, top=1.00in, bottom=1.00in]{geometry}
+\usepackage{mathtools}
+\def\multichoose#1#2{\ensuremath{\left(\kern-.3em\left(\genfrac{}{}{0pt}{}{#1}{#2}\right)\kern-.3em\right)}}
+\author{Jackson Autry}
+
+%% New Commands
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\B}{\mathcal{B}}
+\newcommand{\h}{\mathcal{H}}
+\renewcommand{\S}{\mathcal{S}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\LL}{\mathcal{L}}
+\newcommand{\RR}{\mathcal{R}}
+\newcommand{\D}{\mathbb{D}}
+\newcommand{\F}{\mathcal{F}}
+\newcommand{\cl}{\operatorname{cl}}
+\newcommand{\ran}{\operatorname{ran}}
+\newcommand{\norm}[1]{\| #1 \|}
+\newcommand{\inner}[1]{\langle #1 \rangle}
+\renewcommand{\vec}[1]{{\bf #1}}
+
+%%%
+%%% Theorem Styles
+%%%
+% \numberwithin{equation}{section}
+\theoremstyle{plain}
+\newtheorem{Theorem}[equation]{Theorem}
+\newtheorem{Lemma}[equation]{Lemma}
+\newtheorem{Proposition}[equation]{Proposition}
+\newtheorem{Corollary}[equation]{Corollary}
+\theoremstyle{remark}
+\newtheorem{Remark}[equation]{Remark}
+\theoremstyle{definition}
+\newtheorem{Definition}[equation]{Definition}
+\newtheorem{Example}[equation]{Example}
+\newcounter{question}
+\newtheorem{Question}[question]{Question}
+
+\begin{document}
+	\newmdenv[linecolor=gray!40,leftmargin=0,%
+	innerleftmargin=4pt,
+	rightmargin=0pt,
+	innerbottommargin=3pt,
+	skipbelow=4pt,
+	backgroundcolor=gray!40,%
+	innertopmargin=3pt,]{ques}
+
+	
+\begin{center}
+	\textbf{MATH 630A} %############ Insert Course Title! #############
+	
+		Homework 7	%############### Put Homework # ###################
+		
+		Jackson Autry
+\end{center}
+
+\section*{Exercise 1}
+	\noindent Let $M_2$ be the space of square matrices of size $2\times2$, i.e. $M_{2\times 2}(\R)$. All linear functionals over $M_2$ are completely defined by the choice of a matrix $B \in M_2$ and can be written $\forall A\in M_2, \varphi(x) = tr(B^{\intercal}A)$ where $tr$ is the matrix trace. Show that the canonical basis $\{E_{11},E_{12},E_{21},E_{22}\}$ of $M_2$ where:
+	$$E_{11} = \begin{pmatrix}
+	1 & 0 \\ 0 & 0 
+	\end{pmatrix}
+	;
+	E_{12} = \begin{pmatrix}
+	0 & 1 \\ 0 & 0 
+	\end{pmatrix}
+	;
+	E_{21} = \begin{pmatrix}
+	0 & 0 \\ 1 & 0 
+	\end{pmatrix}
+	;
+	E_{22} = \begin{pmatrix}
+	0 & 0 \\ 0 & 1
+	\end{pmatrix}
+	$$
+	is self=dual.\\
+	
+	We aim to find the dual basis of $\{E_{11},E_{12},E_{21},E_{22}\}$, denoted $\{v_1^*,v_2^*,v_3^*,v_4^*\}$, where $v_i^* \in M_2$, and $\forall A \in M_2, v_i^*(A) = tr(v_i^{*\intercal}A)$.
+	
+	First observe that for any $M = \begin{pmatrix}
+		a_{11} & a_{12} \\ a_{21} & a_{22}
+	\end{pmatrix} \in M_2$, we have \\
+	$M^{\intercal} E_{11} = \begin{pmatrix}
+	a_{11} & a_{21} \\ a_{12} & a_{22}
+	\end{pmatrix} \begin{pmatrix}
+	1 & 0 \\ 0 & 0
+	\end{pmatrix}
+	= \begin{pmatrix}
+	a_{11} & 0 \\ a_{12} & 0
+	\end{pmatrix},$ $M^{\intercal}E_{12} = \begin{pmatrix}
+	a_{11} & a_{21} \\ a_{12} & a_{22}
+	\end{pmatrix} \begin{pmatrix}
+	0 & 1 \\ 0 & 0
+	\end{pmatrix}
+	= \begin{pmatrix}
+	0 & a_{11} \\ 0 & a_{12}
+	\end{pmatrix},$\\
+	$M^{\intercal}E_{21} = \begin{pmatrix}
+	a_{11} & a_{21} \\ a_{12} & a_{22}
+	\end{pmatrix}\begin{pmatrix}
+	0 & 0 \\ 1 & 0
+	\end{pmatrix}
+	= \begin{pmatrix}
+	a_{21} & 0 \\ a_{22} & 0
+	\end{pmatrix},$ $M^{\intercal}E_{22} = \begin{pmatrix}
+	a_{11} & a_{21} \\ a_{12} & a_{22}
+	\end{pmatrix}\begin{pmatrix}
+	0 & 0 \\ 0 & 1
+	\end{pmatrix}
+	= \begin{pmatrix}
+	0 & a_{21} \\ 0 & a_{22}
+	\end{pmatrix}$.\\
+	Thus we have $tr\left(M^{\intercal}E_{11}\right) = a_{11}, tr\left(M^{\intercal}E_{12}\right) = a_{12}, tr\left(M^{\intercal}E_{21}\right) = a_{21},$ and $tr\left(M^{\intercal}E_{22}\right) = a_{22}$.\\
+	Let $v_1^*$ be associated with the matrix $\begin{pmatrix}
+	a_{11} & a_{12} \\ a_{21} & a_{22}
+	\end{pmatrix}$, i.e. $v_1^* = \begin{pmatrix}
+	a_{11} & a_{12} \\ a_{21} & a_{22}
+	\end{pmatrix}$,\\
+	$v_2^*$ be associated with the matrix $\begin{pmatrix}
+	b_{11} & b_{12} \\ b_{21} & b_{22}
+	\end{pmatrix}$, i.e. $v_2^* = \begin{pmatrix}
+	b_{11} & b_{12} \\ b_{21} & b_{22}
+	\end{pmatrix}$,\\
+	$v_3^*$ be associated with the matrix $\begin{pmatrix}
+	c_{11} & c_{12} \\ c_{21} & c_{22}
+	\end{pmatrix}$, i.e. $v_3^* = \begin{pmatrix}
+	c_{11} & c_{12} \\ c_{21} & c_{22}
+	\end{pmatrix}$,\\
+	and $v_4^*$ be associated with the matrix $\begin{pmatrix}
+	d_{11} & d_{12} \\ d_{21} & d_{22}
+	\end{pmatrix}$, i.e. $v_4^* = \begin{pmatrix}
+	d_{11} & d_{12} \\ d_{21} & d_{22}
+	\end{pmatrix}$.\\
+	Then since $\{v_1^*,v_2^*,v_3^*,v_4^*\}$ is the dual basis of $\{E_{11},E_{12},E_{21},E_{22}\}$ we have\\
+	$a_{11} = v_1^*(E_{11}) = 1, a_{12} = v_1^*(E_{12}) = 0, a_{21} = v_1^*(E_{21}) = 0, a_{22} = v_1^*(E_{22}) = 0,$\\
+	$b_{11} = v_2^*(E_{11}) = 0, b_{12} = v_2^*(E_{12}) = 1, b_{21} = v_2^*(E_{21}) = 0, b_{22} = v_2^*(E_{22}) = 0,$\\
+	$c_{11} = v_3^*(E_{11}) = 0, c_{12} = v_3^*(E_{12}) = 0, c_{21} = v_3^*(E_{21}) = 1, c_{22} = v_3^*(E_{22}) = 0,$\\
+	$d_{11} = v_4^*(E_{11}) = 0, d_{12} = v_4^*(E_{12}) = 0, d_{21} = v_4^*(E_{21}) = 0, d_{22} = v_4^*(E_{22}) = 1$,\\
+	and we have\\
+	$v_1^* = \begin{pmatrix}
+	1 & 0 \\ 0 & 0
+	\end{pmatrix} = E_{11}
+	, v_2^* = \begin{pmatrix}
+	0 & 1 \\ 0 & 0
+	\end{pmatrix}
+	= E_{12}, v_3^* = \begin{pmatrix}
+	0 & 0 \\ 1 & 0
+	\end{pmatrix}
+	= E_{21}, v_4^* = \begin{pmatrix}
+	0 & 0 \\ 0 & 1
+	\end{pmatrix}
+	= E_{22}$.
+	Therefore $\{E_{11},E_{12},E_{21},E_{22}\}$ is self-dual.
+	 
+	
+\pagebreak
+\section*{Exercise 2}
+	Let $M$ be a linear vector space of dimension $n$, and let $\{v_1,v_2,\ldots,v_n\}$ be a basis of $M$. Assume $\{f_1,f_2,\ldots,f_n\}$ is a dual basis of $\{v_1,v_2,\ldots,v_n\}$. Find the dual basis $\{g_1,g_2,\ldots,g_n\}$ of $\{v_1 + v_2, v_2, v_3,\ldots,v_n\}$ (using $\{f_1,f_2,\ldots,f_n\}$).\\
+	
+	Since $\{f_1,f_2,\ldots,f_n\}$ is the dual basis of $\{v_1,v_2,\ldots,v_n\}$, we have $f_i(v_j) = \delta_{ij}$. We now look at $\{v_1+v_2,v_2,v_3,\ldots,v_n\}$:\\
+	Using intuition, we first try $g_1 = f_1$: $f_1(v_1+v_2) = f_1(v_1) + f_1(v_2) = 1 + 0 = 1$, and for $j > 1, f_1(v_j) = 0$. Thus $g_1 = f_1$ is valid.\\
+	We now try $g_2 = f_2:$ $f_2(v_1 + v_2) = f_2(v_1) + f_2(v_2) = 0 + 1 \ne 0$, so $g_2 \ne f_2$. Instead we try $g_2 = f_2 - f_1$:\\
+	$(f_2-f_1)(v_1 + v_2) = f_2(v_1 + v_2) - f_1(v_1 + v_2) = f_2(v_1) + f_2(v_2) - f_1(v_1) - f_1(v_2) = 0 + 1 - 1 - 0 = 0$.\\
+	$(f_2 - f_1)(v_2) = f_2(v_2) - f_1(v_2) = 1 - 0 = 1$ and for $j > 2$, $(f_2 - f_1)(v_j) = f_2(v_j) - f_1(v_j) = 0 - 0 = 0$\\
+	Thus $g_2 = f_2 - f_1$ is valid.\\
+	For $i > 2$, we try $g_i = f_i$:\\
+	$f_i(v_1 + v_2) = f_i(v_1) + f_i(v_2) = 0 + 0 = 0$, and for $j > 1$, $f_i(v_j) = \delta_{ij}$ as desired.\\
+	Thus for $i > 2, g_i = f_i$ is valid, and we have\\
+	$\{g_1,g_2,g_3,\ldots,g_n\} = \{f_1,f_2-f_1,f_3,\ldots,f_n\}$ is the dual basis for $\{v_1 + v_2, v_2,v_3,\ldots,v_n\}$.
+	
+\pagebreak
+\section*{Exercise 3}
+Prove Proposition 4.6.6 from the lecture notes:\\
+\begin{itemize}
+	\item $\forall T \in \mathscr{L}(M_1,M_2),\forall \lambda\in\R,(\lambda T)' = \lambda T',$
+	
+	\item $\forall T,S\in\mathscr{L}(M_1,M_2),(T+S)' = T'+S',$
+	
+	\item $\forall T \in \mathscr{L}(M_1,M_2),\forall S \in \mathscr{L}(M_2,M_3)$ and $ST$ exists, $(ST)' = T'S'$,
+	
+	\item $\forall T \in \mathscr{L},$ if $T^{-1}$ exists then $(T')^{-1} \in \mathscr{L}(M^{\ast})$ exists and $(T')^{-1} = (T^{-1})'$.
+\end{itemize}
+
+Using the definition and properties of the dual operator (specifically linearity),
+\begin{itemize}
+	
+	\item We have $\forall x \in M_1, \forall x^* \in M_2^*, \left(T'x^*\right)x = x^*\left(Tx\right) \Leftrightarrow \lambda \left(T'x^*\right)x = \lambda x^*\left(Tx\right)\\
+	 \Leftrightarrow \left((\lambda T')x^*\right)(x) = x^*\left((\lambda T)x\right)$ i.e. $\lambda T' = (\lambda T)'$
+	 
+	 \item We have $\forall x \in M_1, \forall x^* \in M_2^*, (T'x^*)x = x^*(Tx)$ and $(S'x^*)x = x^*(Sx)$. Combining and using linearity we have\\
+	 $(Tx^*)x + (S'x^*)x = x^*(Tx) + x^*(Sx) \Leftrightarrow \left(T'x^* + S'x^*\right)x = x^*\left(Tx + Sx\right)\\
+	 \Leftrightarrow \left((T' + S')x^*\right)x = x^*\left((T + S)x\right)$, i.e. $(T + S)' = T' + S'$.
+	
+	\item We have $ST:M_1 \to M_3$ so $\forall x \in M_1, \forall x^* \in M_2^*, (T'x^*)x = x^*(Tx)$ and $\forall y \in M_2, \forall y^* \in M_3^*, (S'y^*)y = y^*(Sy)$.
+	
+	Since $Tx \in M_2$ and $S'y^* \in M_2^*$, we have $(T'(S'y))x = (S'y^*)(Tx) = y^*(S(Tx))$, i.e. $(ST)' = T'S'$.
+	
+	
+\end{itemize}
+
+\end{document}

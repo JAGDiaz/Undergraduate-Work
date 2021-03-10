@@ -1,0 +1,149 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{bm}
+\usepackage{amsthm}
+\usepackage{enumerate}
+\usepackage{graphicx}
+\usepackage{psfrag}
+\usepackage{color}
+\usepackage{url}
+
+\setlength{\hoffset}{-0.5in}
+\addtolength{\textwidth}{1.0in}
+\setlength{\voffset}{-0.5in}
+\addtolength{\textheight}{1.0in}
+%\newcommand{\deg}{\text{deg}}
+
+\begin{document}
+	\begin{large}
+	\textbf{Joseph Diaz}
+	\begin{center}
+		\textbf{Spring 2020, Stats 550:\ Homework 1} \\
+		\textbf{Due:\ Tuesday, February 4th, 2020} \\
+	\end{center}
+	\noindent\makebox[\linewidth]{\rule{\paperwidth}{0.4pt}}
+	\section*{Chapter 1}
+	\begin{enumerate}[1.]
+		\item Your friend was sick and unable to make today’s class. Explain to your friend,
+using your own words, the meaning of the terms (i) random experiment, (ii)
+sample space, (iii) event, and (iv) random variable.
+		\begin{enumerate}[i.]
+			\item A \textit{Random Experiment} is an activity or process whose outcome is uncertain.
+		
+			\item The \textit{Sample Space} is the set of all possible outcomes from a Random Experiment.
+		
+			\item An \textit{Event} is particular sequence of outcomes from a Random Experiment. Any given Event is a subset of the Sample Space of the associated Random Experiment.
+		
+			\item A \textit{Random Variable} is a way of expressing the possible outcomes of any single Random Experiment numerically.
+		
+		\end{enumerate}
+
+		\textit{For the following problems 1.2–1.5, identify (i) the random experiment, (ii)
+sample space, (iii) event, and (iv) random variable. Express the probability
+in question in terms of the defined random variable, but do not compute the
+probability.	}
+		
+		\item Roll four dice. Consider the probability of getting all fives.
+		\begin{enumerate}[i.]
+			\item Random Experiment: Rolling all 4 dice.
+		
+			\item Sample space: The outcome after rolling all four dice:$$S = \{(a,b,c,d) :\ 1 \leq a,b,c,d \leq 6\}$$
+		
+			\item Event: Getting all fives after rolling all four dice:$$E = (5,5,5,5)$$
+		
+			\item Random Variable: In the rolling of 4 dice, let $X$ be the number of fives rolled. Then the probability of rolling four fives is: $$P(X = 4)$$
+		
+		\end{enumerate}
+		
+		\item A pizza shop offers three toppings: pineapple, peppers, and pepperoni. A
+pizza can have 0, 1, 2, or 3 toppings. Consider the probability that a random
+customer asks for two toppings.	
+		\begin{enumerate}[i.]
+			\item Random Experiment: A customer coming in and ordering a pizza with 1, 2, 3, or no toppings.
+		
+			\item Sample Space: All possible pizzas that customers can order.
+		
+			\item Event: Having a customer come in and order a pizza that has 2 toppings.
+		
+			\item Random Variable: Let $X$ be the number of topping that a customer wants on their pizza, then the probability of a customer ordering a pizza with 2 toppings is:
+			$$P(X=2)$$
+		
+		\end{enumerate}		
+		
+		\item Bored one day, you decide to play the video game Angry Birds until you win.
+Every time you lose, you start over. Consider the probability that you win in
+less than 1000 tries.
+		\begin{enumerate}[i.]
+			\item Random Experiment: Each round of game play.
+		
+			\item Sample Space: Winning or losing a round of game play.
+		
+			\item Event: Winning in fewer than 1000 tries.
+		
+			\item Random Variable: Let $X$ be the number of losses before the first win, then the probability of winning in fewer than 1000 tries is $$P(X < 1000)$$
+ 		
+		\end{enumerate}		
+		
+		\item In Angel’s garden, there is a $3$\% chance that a tomato will be bad. Angel
+harvests 100 tomatoes and wants to know the probability that at most five
+tomatoes are bad.
+		\begin{enumerate}[i.]
+			\item Random Experiment: Checking each tomato to determine if it is rotten or not.
+		
+			\item Sample Space: The state of rotten or not for each of the 100 harvested tomatoes.
+		
+			\item Event: Having at most 5 rotten tomatoes. 
+		
+			\item Random Variable: Let $X$ be the number of rotten tomatoes, then the probability of having at most 5 rotten tomatoes is:
+			$$P(X \leq 5)$$
+		
+		\end{enumerate}
+		
+		\item In two dice rolls, let $X$ be the outcome of the first die, and Y the outcome of
+the second die. Then $X+Y$ is the sum of the two dice. Describe the following
+events in terms of simple outcomes of the random experiment:
+		\begin{enumerate}[(a)]
+			\item $\{X + Y = 4\}$\\
+			The simple events are rolling a 2 for each die, rolling a 3 and then a 1, or rolling a 1 and then a 3.
+			
+			\item $\{X + Y = 9\}$\\
+			The simple events are rolling a 3 and then a 6, rolling a 6 and then a 3, or the reverse of the previous 2 simple events.
+		
+			\item $\{Y = 3\}$\\
+			The simple event is rolling a 3 on the second die.
+			\item $\{X = Y\}$\\
+			The simple event is rolling the first die and then getting the same thing after rolling the second die.
+			
+			\item $\{X > 2Y\}$\\
+			The simple event is rolling the first die and getting a number that is less than half of the first on the second.
+		
+		\end{enumerate}
+		
+		\item A bag contains r red and b blue balls. You reach into the bag and take k balls.
+Let R be the number of red balls you take. Let B be the number of blue balls.
+Express the following events in terms of the random variables R and B:
+		\begin{enumerate}
+			\item You pick no red balls.\\
+			The Random Variable expression is $$R = 0$$
+		
+			\item You pick one red and two blue balls.\\
+			The Random Variable expression is $$R = 1 \text{ and } B=2$$
+		
+			\item You pick four balls.\\
+			The Random Variable expression is $$R + B = 4$$
+		
+			\item You pick twice as many red balls as blue balls.\\
+			The Random Variable expression is $$R = 2B$$
+		\end{enumerate}
+		
+		\item A couple plans to continue having children until they have a girl or until
+they have six children, whichever comes first. Describe a sample space and
+a reasonable random variable for this random experiment.\\\\
+The Sample Space is $$S = \{(0,1), (1,1), (2,1), (3,1), (4,1), (5,1), (6,0)\}$$ where the first number in each ordered pair is the number of boys and the second is the number of girls. An appropriate Random Variable would be to let $B$ be the number of boys among the children. Because even though were interested in the cases in which a daughter is born or we get to six children, calculating the complement ($P(B \leq 6)$) would be easier. 
+		
+	\end{enumerate}
+\noindent\makebox[\linewidth]{\rule{\paperwidth}{0.4pt}}
+	
+	\end{large}
+\end{document}

@@ -1,0 +1,223 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{bm}
+\usepackage{amsthm}
+\usepackage{enumerate}
+\usepackage{graphicx}
+\usepackage{psfrag}
+\usepackage{color}
+\usepackage{url}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{positioning}
+\tikzset{main node/.style={circle,fill=gray!20,draw,minimum size=.5cm,inner sep=0pt},}
+
+\definecolor{codegreen}{rgb}{0,0.5,0}
+\definecolor{codewhite}{rgb}{1,1,1}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{codeblack}{rgb}{0,0,0}
+\definecolor{codeorange}{rgb}{0.8,0.4,0}
+
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{codewhite},   
+    commentstyle=\color{codegray},
+    keywordstyle=\color{codegreen},
+    numberstyle=\color{codegray},
+    stringstyle=\color{codeorange},
+    basicstyle=\ttfamily ,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=4
+}
+\lstset{style=mystyle}
+
+
+\setlength{\hoffset}{-1in}
+\addtolength{\textwidth}{1.5in}
+\setlength{\voffset}{-1in}
+\addtolength{\textheight}{1.5in}
+\newcommand{\be}{\begin{enumerate}}
+\newcommand{\ee}{\end{enumerate}}
+\newcommand{\BigO}[1]{\ensuremath\mathcal{O}\left(#1\right)}
+\newcommand{\il}[1]{\lstinline!#1!}
+\newcommand{\gnorm}[1]{\left|\left|#1\right|\right|}
+\newcommand{\vep}{\varepsilon}
+\newcommand{\abs}[1]{\left\vert#1\right\vert}
+
+
+\begin{document}
+	\begin{center}
+		\textbf{Spring 2020, Math 530:\ Exam 2} \\
+		\textbf{Due:\ Friday, March 27th, 2020} \\
+		\textbf{Joseph Diaz: 819947915}
+	\end{center}
+\noindent\makebox[\linewidth]{\rule{\paperwidth}{0.4pt}}
+\be[(E1)]
+	\item Are the following series convergent? divergent?
+	\be[1.] 
+		\item $$\sum_{n=1}^\infty \frac{3n}{5n+4}$$
+		\begin{proof}[Diverges]
+		To show that this series diverges, we first consider that 
+		$$a_n = \frac{3n}{5n+4}$$
+		Then:
+		$$ \lim_{n\to\infty}a_n = \lim_{n\to\infty} \frac{3n}{5n+4} = \frac{3}{5} \neq 0$$
+		As the sequence $\{a_n\}$ does not converge to 0 as $n$ approaches $\infty$, we may conclude that this series diverges.
+		\end{proof}
+		
+		\item $$\sum_{n=1}^\infty \frac{e^{2n}}{6^{n-1}}$$
+		\begin{proof}[Diverges]
+		We will show that this series diverges using the Ratio Test:
+		$$a_n = \frac{e^{2n}}{6^{n-1}},\ a_{n+1} = \frac{e^{2(n+1)}}{6^{n}}$$
+		Then:
+		\begin{align*}
+		\lim_{n\to\infty} \frac{a_{n+1}}{a_n} &= \lim_{n\to\infty}\left(\frac{e^{2(n+1)}}{6^{n}}\cdot\frac{6^{n-1}}{e^{2n}}\right)\\
+		&= \lim_{n\to\infty}\left(\frac{e^{2n}e^2}{6^{n}}\cdot\frac{6^{n}6^{-1}}{e^{2n}}\right)\\
+		&= \lim_{n\to\infty}\left(\frac{e^2}{6}\right)\\
+		&= \frac{e^2}{6} \approx 1.232 > 1
+		\end{align*}
+		So by the Ratio Test we may conclude that this series diverges.
+		\end{proof}
+	\ee
+	
+	\item Let the sequence of functions $\left\{f_n\right\}$, where $\forall n \in \mathbb{N}, f_n(x) = n^2x^n$ for $0 \leq x \leq 1$. Find the pointwise convergence $f(x)$ of $\left\{f_n\right\}$.
+	\begin{proof}[Solution]
+	To find the pointwise convergence of $f_n(x)$, we'll consider different values of $x \in [0,1]$:
+	\be 
+		\item[$x = 0$:]
+			$f_n(0) = 0$, which implies
+			$$\lim_{n\to\infty}0 = 0$$
+		
+		\item[$x \in (0,1)$:]
+			$f_n(x) = n^2x^n$, which implies
+			$$\lim_{n\to\infty}n^2x^n = \lim_{n\to\infty}\frac{n^2}{x^{-n}} = \lim_{n\to\infty} \frac{n^2}{\left(\frac{1}{x}\right)^n}$$
+			$0\leq x \leq 1 \implies \frac{1}{x} > 1$, so;
+			$$\lim_{n\to\infty} \frac{n^2}{\left(\frac{1}{x}\right)^n} \to \frac{\infty}{\infty}$$
+			Now, using L'H$\hat{\text{o}}$pital's Rule:
+			\begin{align*}
+			\lim_{n\to\infty} \frac{n^2}{\left(\frac{1}{x}\right)^n} &= \lim_{n\to\infty} \frac{2n}{-\ln(x)\left(\frac{1}{x}\right)^n}\\
+			&= -\frac{2}{\ln(x)}\lim_{n\to\infty} \frac{n}{\left(\frac{1}{x}\right)^n}\\
+			&= -\frac{2}{\ln(x)}\lim_{n\to\infty} \frac{1}{-\ln(x)\left(\frac{1}{x}\right)^n}\\
+			&= \frac{2}{\ln^2(x)}\lim_{n\to\infty} \frac{1}{\left(\frac{1}{x}\right)^n}\\
+			&= \frac{2}{\ln^2(x)}\cdot 0\\
+			&= 0
+			\end{align*}
+		
+		\item[$x=1$:]
+		$f_n(1) = n^2$, which implies
+		$$\lim_{n\to\infty}n^2 \to \infty$$
+	\ee
+	So $f(x) = 0, \forall x \in [0,1)$ and $f(x) \to\infty$ for $x=1$.
+	\end{proof}
+	
+	\item Prove that the sequence $\left\{f_n\right\}$ where $\forall n \in \mathbb{N}, \forall x \in \left[1,2\right],\ f_n(x) = \frac{\ln(1+nx)}{n}$ converges uniformly.
+	\begin{proof}
+	First, we must find what $f_n(x)$ converges to:
+	$$\lim_{n\to\infty} f_n(x) = \lim_{n\to\infty} \frac{\ln(1+nx)}{n} \to \frac{\infty}{\infty}$$
+	Now, using L'H$\hat{\text{o}}$pital's Rule:
+	\begin{align*}
+	\lim_{n\to\infty} \frac{\ln(1+nx)}{n} &= \lim_{n\to\infty}\frac{\frac{x}{1+nx}}{1}\\
+	&= \lim_{n\to\infty}\frac{x}{1+nx}\\
+	&= 0
+	\end{align*}
+	So we want to find $N$ such that:
+	$$\forall \vep > 0: \forall n \geq N, \forall x \in [1,2],\ \abs{\frac{\ln(1+nx)}{n}-0} < \vep$$
+	To find this we'll start with:
+	\begin{align*}
+	\abs{\frac{\ln(1+nx)}{n}-0} &= \abs{\frac{\ln(1+nx)}{n}}\\
+	&= \frac{\ln(1+nx)}{n}\\
+	&\leq \frac{\ln(1+2n)}{n}\\
+	&\leq \frac{\ln(3n)}{n}
+	\end{align*}
+	Now, let $$\frac{\ln(3n)}{n} < \vep \implies \frac{1}{\vep} < \frac{n}{\ln(3n)} < n$$
+	$$\Rightarrow \frac{1}{\vep} < n $$
+	Now, letting $N = \left\lceil\frac{1}{\vep}\right\rceil$, we finally have:
+	$$\forall \vep > 0, N = \left\lceil\frac{1}{\vep}\right\rceil, \forall n \geq N: \forall x \in [1,2],\ \abs{\frac{\ln(1+nx)}{n}} < \vep$$
+	So $f_n(x)$ converges uniformly.
+	
+	\end{proof}
+	
+	\item Does the series $$\sum_{n=1}^\infty \frac{(-1)^n}{\sqrt{n+1} + \sqrt{n}}$$ converge absolutely? Conditionally? Or does it diverge?
+	\begin{proof}[Conditional Convergence]
+	This series converges, but not absolutely. If we check for Absolute Convergence, we have:
+	$$\sum_{n=1}^\infty \left\vert\frac{(-1)^n}{\sqrt{n+1} + \sqrt{n}}\right\vert  = \sum_{n=1}^\infty \frac{1}{\sqrt{n+1} + \sqrt{n}}$$
+	This leaves us with a $p$-series with $p=\frac{1}{2}$, which we know diverges. So this series does not converge absolutely. However, this series does Converge Conditionally.\\
+	By the Alternating Series Test:
+	$$\sum_{n=1}^\infty \frac{(-1)^n}{\sqrt{n+1} + \sqrt{n}} = \sum_{n=1}^\infty (-1)^n a_n \implies a_n = \frac{1}{\sqrt{n+1} + \sqrt{n}}$$
+	So:
+	\begin{align*}
+	\lim_{n\to\infty}\frac{1}{\sqrt{n+1} + \sqrt{n}} &= \lim_{n\to\infty}\left(\frac{1}{\sqrt{n}}\cdot\frac{1}{\sqrt{1+\frac{1}{n}} + 1}\right)\\
+	&= \left(\lim_{n\to\infty}\frac{1}{\sqrt{n}}\right)\cdot\left(\lim_{n\to\infty}\frac{1}{\sqrt{1+\frac{1}{n}} + 1}\right)\\
+	&= 0\cdot\frac{1}{2} = 0
+	\end{align*}
+	The limit of $a_n$ as $n\to\infty$ is 0, so by the Alternating Series Test we may conclude that this series Converges Conditionally.
+	\end{proof}
+	
+	\item The purpose of this exercise is to guide you step-by-step to prove Abel's Rule:
+	\subsection*{Abel's Rule}
+	Let $\left\{v_n\right\}$ be a sequence of real numbers such that the sequence
+	$$S_n = v_0 + v_1 + \cdots + v_n$$
+	is bounded. Let $\left\{\varepsilon_n\right\}$ be a decreasing sequence of positive real numbers such that $\lim_{n\to\infty} \varepsilon_n = 0$. Then the series $\sum \varepsilon_n v_n$ converges.
+	\be[1.] 
+		\item Let two integers $m>n$ and denote
+		$$R_n^m = \vep_{n+1} v_{n+1} + \vep_{n+2} v_{n+2} + \cdots + \vep_{m} v_{m}$$
+		Show that 
+		$$R_n^m = -\vep_{n+1}S_n + (\vep_{n+1} - \vep_{n+2})S_{n+1} + \cdots + (\vep_k - \vep_{k+1})S_k + \cdots + (\vep_{m-1} -\vep_m)S_{m-1} + \vep_m S_m$$
+		\begin{proof}
+		Given the definition of $S_n$, we have:
+		$$S_n = v_0 + v_1 + \cdots + v_n \implies 
+		S_{n+1} = v_0 + v_1 + \cdots + v_n + v_{n+1}$$
+		$$\Rightarrow S_{n+1} = S_n + v_{n+1} \implies v_{n+1} = S_{n+1} - S_n$$
+		or, more generally: 
+		$$v_{k} = S_k - S_{k-1}$$
+		Now with this substitution, and our definition of $R_n^m$, we have:
+		\begin{align*}
+		R_n^m &= \vep_{n+1} v_{n+1} + \vep_{n+2} v_{n+2} + \cdots + \vep_{k}v_k + \cdots + \vep_{m} v_{m}\\
+		&= \vep_{n+1}(S_{n+1} - S_n) + \vep_{n+2}(S_{n+2} - S_{n+1}) + \cdots + \vep_{k}(S_{k} - S_{k-1}) + \cdots + \vep_{m}(S_{m} - S_{m-1})\\
+		&= \vep_{n+1}S_{n+1} - \vep_{n+1}S_n + \vep_{n+2}S_{n+2} - \vep_{n+2}S_{n+1} + \cdots + \vep_{k}S_{k} - \vep_{k}S_{k-1} + \cdots + \vep_{m}S_{m} - \vep_{m}S_{m-1}\\
+		&= - \vep_{n+1}S_n + \vep_{n+1}S_{n+1} - \vep_{n+2}S_{n+1} + \vep_{n+2}S_{n+2}  + \cdots - \vep_{k}S_{k-1} + \vep_{k}S_{k}  + \cdots - \vep_{m}S_{m-1} + \vep_{m}S_{m}\\
+		R_n^m &= -\vep_{n+1}S_n + (\vep_{n+1} - \vep_{n+2})S_{n+1} + \cdots + (\vep_k - \vep_{k+1})S_k + \cdots + (\vep_{m-1} -\vep_m)S_{m-1} + \vep_m S_m
+		\end{align*}		 
+		\end{proof}
+		
+		\item By denoting $M$ an upper bound of $\left\{\left|S_n\right|\right\}$, show that $\left|R_n^m\right| \leq 2M\vep_{n+1}$.
+		\begin{proof}
+		Let $$\sup_{\forall n \in \mathbb{N}}S_n = M$$
+		and notice $\vep_n \geq \vep_{n+k},\ \forall n, k \in \mathbb{N}$. Then:
+		\begin{align*}
+		\left\vert R_n^m\right\vert &= \left\vert-\vep_{n+1}S_n + (\vep_{n+1} - \vep_{n+2})S_{n+1} + \cdots + (\vep_k - \vep_{k+1})S_k + \cdots + (\vep_{m-1} -\vep_m)S_{m-1} + \vep_m S_m\right\vert\\
+		&= \left\vert- \vep_{n+1}S_n + \vep_{n+1}S_{n+1} - \vep_{n+2}S_{n+1} + \vep_{n+2}S_{n+2}  + \cdots - \vep_{k}S_{k-1} + \vep_{k}S_{k}  + \cdots - \vep_{m}S_{m-1} + \vep_{m}S_{m}\right\vert\\
+		&\leq \left\vert- \vep_{n+1}S_n + \vep_{n+1}S_{n+1} - \vep_{n+1}S_{n+1} + \vep_{n+1}S_{n+2}  + \cdots - \vep_{n+1}S_{k-1} + \vep_{n+1}S_{k}  + \cdots - \vep_{n+1}S_{m-1} + \vep_{n+1}S_{m}\right\vert\\
+		&= \left\vert-S_n + S_{n+1} - S_{n+1} + S_{n+2}  + \cdots - S_{k-1} + S_{k}  + \cdots - S_{m-1} + S_{m}\right\vert\left\vert\vep_{n+1}\right\vert\\	
+		&= \left\vert-S_n  + S_{m}\right\vert\vep_{n+1}\\
+		&\leq\left(\abs{S_m} + \abs{S_n}\right)\vep_{n+1} \leq \left(M + M\right)\vep_{n+1} = 2M\vep_{n+1}	
+		\end{align*}
+		\end{proof}
+		
+		\item Based on the previous question, show that $\sum \vep_n v_n$ fulfills the Cauchy Condition for series and hence converges.
+		\begin{proof}
+		Let $m = n + k$, then:
+		$$\abs{R_n^m} = \abs{R_n^{n+k}} = \abs{\vep_{n+1}v_{n+1} + \cdots + \vep_{n+k}v_{n+k}}$$ 
+		Now, let $R_n$ denoted the $n$-th partial sum of the sequence $\{\vep_n v_n\}$ whose corresponding series is
+		$$\sum_{n=0}^\infty \vep_n v_n$$
+		Based on their definitions, we see that $$R_{n}^{n+k} = R_{n+k} - R_n$$
+		and from Part 2, we have that $$\abs{R_n^{n+k}} \leq 2M\vep_{n+1}$$
+		So, finally:
+		$$\forall k \in \mathbb{N}, \vep = 2M\vep_{n+1}, \exists N \in \mathbb{N}: \forall n \geq N,\ \abs{\vep_{n+1}v_{n+1} + \cdots + \vep_{n+k}v_{n+k}} \leq \vep$$
+		Which means that this series satisfies the Cauchy Condition for series and converges.
+		\end{proof}
+		
+	\ee
+\ee
+\noindent\makebox[\linewidth]{\rule{\paperwidth}{0.4pt}}
+	
+\end{document}

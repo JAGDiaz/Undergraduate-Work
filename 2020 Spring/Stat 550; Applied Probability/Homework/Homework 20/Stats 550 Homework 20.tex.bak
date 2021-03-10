@@ -1,0 +1,139 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{bm}
+\usepackage{amsthm}
+\usepackage{enumerate}
+\usepackage{graphicx}
+\usepackage{psfrag}
+\usepackage{color}
+\usepackage{url}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{positioning}
+\tikzset{main node/.style={circle,fill=gray!20,draw,minimum size=.5cm,inner sep=0pt},}
+
+\definecolor{codegreen}{rgb}{0,0.5,0}
+\definecolor{codewhite}{rgb}{1,1,1}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{codeblack}{rgb}{0,0,0}
+\definecolor{codeorange}{rgb}{0.8,0.4,0}
+
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{codewhite},   
+    commentstyle=\color{codegray},
+    keywordstyle=\color{codegreen},
+    numberstyle=\color{codegray},
+    stringstyle=\color{codeorange},
+    basicstyle=\ttfamily ,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=4
+}
+\lstset{style=mystyle}
+
+
+\setlength{\hoffset}{-1in}
+\addtolength{\textwidth}{1.5in}
+\setlength{\voffset}{-1in}
+\addtolength{\textheight}{1.5in}
+\newcommand{\be}{\begin{enumerate}}
+\newcommand{\ee}{\end{enumerate}}
+\newcommand{\BigO}[1]{\ensuremath\mathcal{O}\left(#1\right)}
+\newcommand{\il}[1]{\lstinline!#1!}
+\newcommand{\gnorm}[1]{\left|\left|#1\right|\right|}
+\newcommand{\abs}[1]{\left|#1\right|}
+\newcommand{\parens}[1]{\left(#1\right)}
+\newcommand{\bracks}[1]{\left\{#1\right\}}
+\newcommand{\sqbracks}[1]{\left[#1\right]}
+\newcommand{\vep}{\varepsilon}
+\newcommand{\ceiling}[1]{\left\lceil#1\right\rceil}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\distrib}[2]{\text{#1}\left(#2\right)}
+\newcommand{\dd}[1]{\frac{d}{d#1}}
+\newcommand{\abracks}[1]{\left< #1\right>}
+
+\begin{document}
+	\begin{center}
+		\textbf{Spring 2020, Stats 550:\ Homework 20} \\
+		\textbf{Due:\ Thursday, May 7th, 2020} \\
+		\textbf{Joseph Diaz: 819947915}
+	\end{center}
+\noindent\makebox[\linewidth]{\rule{\paperwidth}{0.4pt}}
+\subsection*{Chapter 9}
+\be 
+	\item[3.] Let $S$ be the sum of 100 fair dice rolls. Use (i) Markov’s inequality and (ii)
+Chebyshev’s inequality to bound $P\parens{S \geq 380}$.
+	\be[(i)]
+		\item Using Markov's Inequality\\
+		We have that $S = X_1 + \cdots + X_{100}$ with $X_k \sim \distrib{Unif}{\bracks{1,\ 2,\ 3,\ 4,\ 5,\ 6}}$ for $k = 1,\ \cdots,\ 100$. We know that 
+		$$\forall k,\ E\sqbracks{X_k} = 3.5 \implies E\sqbracks{S} = E\sqbracks{X_1 + \cdots + X_{100}} = E\sqbracks{X_1} + \cdots + E\sqbracks{X_{100}}$$
+		$$\implies E\sqbracks{S} = 100E\sqbracks{X_1} = 350$$
+		Now let $\vep = 380$, so with Markov's inequality we have:
+		$$P\parens{S \geq 380} \leq \frac{350}{380} \approx 92.12\%$$
+		
+		\item Using Chebyshev's Inequality\\
+		With the same definitions from (i), we have 
+		$$\forall k,\ V\sqbracks{X_k} = \frac{35}{12} \implies V\sqbracks{S} = V\sqbracks{X_1 + \cdots + X_{100}} = V\sqbracks{X_1} + \cdots + V\sqbracks{X_{100}}$$
+		$$\implies V\sqbracks{S} = 100V\sqbracks{X_1} = \frac{3500}{12}$$
+		Now with Chebyshev's Inequality we have:
+		$$P\parens{S \geq 380} = P\parens{S - 350 \geq 30} = P\parens{\abs{S-350}\geq 30} \leq \frac{\frac{3500}{12}}{30^2} = \frac{35}{108} \approx 32.41\%$$
+		With $\vep = 30$.
+		
+	\ee
+	
+	\item[4.] Find the best value of $c$ so that $P\parens{X \geq 5} \leq c$ using Markov’s and Chebyshev’s
+inequalities, filling in the subsequent table. Compare with the exact
+probabilities.
+\begin{proof}[Solution]
+The best values of $c$ for the Markov and Chebyshev inequalities are
+$$c = \frac{E\sqbracks{X}}{5},\quad c = \frac{V\sqbracks{X}}{\parens{5 - E\sqbracks{X}}^2}$$
+respectively. And so the filled table is:
+\begin{center}
+\begin{tabular}{|l|c|c|c|}
+\hline 
+\textbf{Distribution} & \textbf{Markov} & \textbf{Chebyschev} & \textbf{Exact Probability} \\
+\hline
+$\distrib{Pois}{2}$ & $40\%$ & $22.\bar{2}\%$ & $1.656361\%$ \\
+\hline
+$\distrib{Exp}{1/2}$ & $40\%$ & $44.\bar{4}\%$ & $8.2085\%$ \\
+\hline
+$\distrib{Norm}{2,4}$ & $40\%$ & $44.\bar{4}\%$ & $22.66274\%$ \\
+\hline
+$\distrib{Geom}{1/2}$ & $40\%$ & $22.\bar{2}\%$ & $1.5625\%$ \\
+\hline
+\end{tabular}
+\end{center}
+\end{proof}
+	
+	\item[5.] Let $X$ be a positive random variable with $\mu = 50$ and $\sigma^2 = 25$.
+	\be[(a)] 
+		\item What can you say about $P\parens{X \geq 60}$ using Markov’s inequality?
+		\begin{proof}[Solution]
+		Using Markov's Inequality we can say that the probability is bounded above and below:
+		 $$0 \leq P\parens{X \geq 60} \leq \frac{50}{60} = \frac{5}{6}$$
+
+		\end{proof}
+		
+		\item What can you say about $P\parens{X \geq 60}$ using Chebyshev’s inequality?
+		\begin{proof}[Solution]
+		Using Chebyshev's Inequality we can say that the probability is bounded above and below:
+		 $$0 \leq P\parens{X \geq 60} = P\parens{X-50 \geq 10} = P\parens{\abs{X-50} \geq 10} \leq \frac{25}{100} = 25\%$$
+		\end{proof}
+		
+	\ee
+	
+\ee
+\noindent\makebox[\linewidth]{\rule{\paperwidth}{0.4pt}}
+	
+\end{document}

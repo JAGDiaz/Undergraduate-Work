@@ -1,0 +1,123 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{bm}
+\usepackage{amsthm}
+\usepackage{enumerate}
+\usepackage{graphicx}
+\usepackage{psfrag}
+\usepackage{color}
+\usepackage{url}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{positioning}
+\tikzset{main node/.style={circle,fill=gray!20,draw,minimum size=.5cm,inner sep=0pt},}
+
+\definecolor{codegreen}{rgb}{0,0.5,0}
+\definecolor{codewhite}{rgb}{1,1,1}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{codeblack}{rgb}{0,0,0}
+\definecolor{codeorange}{rgb}{0.8,0.4,0}
+
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{codewhite},   
+    commentstyle=\color{codegray},
+    keywordstyle=\color{codegreen},
+    numberstyle=\color{codegray},
+    stringstyle=\color{codeorange},
+    basicstyle=\ttfamily ,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=4
+}
+\lstset{style=mystyle}
+
+
+\setlength{\hoffset}{-1in}
+\addtolength{\textwidth}{1.5in}
+\setlength{\voffset}{-1in}
+\addtolength{\textheight}{1.5in}
+\newcommand{\be}{\begin{enumerate}}
+\newcommand{\ee}{\end{enumerate}}
+\newcommand{\BigO}[1]{\ensuremath\mathcal{O}\left(#1\right)}
+\newcommand{\il}[1]{\lstinline!#1!}
+\newcommand{\gnorm}[1]{\left|\left|#1\right|\right|}
+\newcommand{\abs}[1]{\left|#1\right|}
+\newcommand{\parens}[1]{\left(#1\right)}
+\newcommand{\bracks}[1]{\left\{#1\right\}}
+\newcommand{\sqbracks}[1]{\left[#1\right]}
+\newcommand{\vep}{\varepsilon}
+\newcommand{\ceiling}[1]{\left\lceil#1\right\rceil}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\distrib}[2]{\text{#1}\left(#2\right)}
+
+\begin{document}
+	\begin{center}
+		\textbf{Spring 2020, CS 310:\ Prog Assign 2 READ ME} \\
+		\textbf{Due:\ Saturday, April 18th, 2020} \\
+		\textbf{Joseph Diaz: 819947915}
+	\end{center}
+\noindent\makebox[\linewidth]{\rule{\paperwidth}{0.4pt}}
+From the text we have that:
+$$\begin{matrix}
+\text{Algorithm} & \text{Best Case} & \text{Average Case} & \text{Worst Case} \\
+\text{InsertionSort} & n & n^2 & n^2\\
+\text{Quicksort} & n\log(n) & n\log(n) & n^2 \\
+\text{MergeSort} & n\log(n) & n\log(n) & n\log(n) \\
+\end{matrix}$$
+Here ``\il{Sorted}'' means the list is already in ascending order, ``\il{Unsorted}'' means the list has random elements in a random order, and ``\il{Rev. Sorted}'' means the list is in descending order.\\\\
+All times are for sorting the list into ascending order.
+\begin{lstlisting}
+InsertionSort times in milliseconds:                                                          
+ Size         Sorted       Unsorted    Rev. Sorted                                              
+   10       0.624 ms       0.682 ms       0.815 ms                                              
+   50       1.017 ms       1.855 ms       1.929 ms                                             
+  100       0.949 ms       1.204 ms       1.797 ms                                             
+  150       0.706 ms       1.900 ms       4.421 ms                                             
+  300       1.540 ms       4.703 ms      10.856 ms                                             
+  500       3.895 ms       9.468 ms      10.687 ms                                            
+ 1000       4.160 ms       9.725 ms      12.682 ms                                            
+ 1500       3.413 ms       9.915 ms      20.486 ms                                            
+ 2000       5.016 ms      15.928 ms      33.179 ms                                            
+ 5000      27.150 ms      66.143 ms     147.572 ms                                                                                                                                                                                                                                     
+
+Quicksort times in milliseconds:                                                              
+ Size         Sorted       Unsorted    Rev. Sorted                                              
+   10       0.004 ms       0.006 ms       0.008 ms                                              
+   50       0.012 ms       0.026 ms       0.041 ms                                             
+  100       0.024 ms       0.056 ms       0.097 ms                                             
+  150       0.037 ms       0.101 ms       0.196 ms                                             
+  300       0.171 ms       0.365 ms       0.660 ms                                             
+  500       0.211 ms       1.049 ms       1.529 ms                                            
+ 1000       0.716 ms       3.011 ms       7.461 ms                                            
+ 1500       2.230 ms       7.722 ms      15.993 ms                                            
+ 2000       3.672 ms      13.340 ms      27.073 ms                                            
+ 5000      20.882 ms      68.656 ms     156.699 ms                                                                                                                                                                                                                                     
+
+MergeSort times in milliseconds:                                                              
+ Size         Sorted       Unsorted    Rev. Sorted                                              
+   10       0.004 ms       0.009 ms       0.014 ms                                              
+   50       0.029 ms       0.056 ms       0.087 ms                                             
+  100       0.051 ms       0.125 ms       0.209 ms                                             
+  150       0.086 ms       0.214 ms       0.349 ms                                             
+  300       0.211 ms       0.562 ms       1.054 ms                                             
+  500       0.470 ms       1.178 ms       2.225 ms                                            
+ 1000       1.217 ms       3.709 ms       7.533 ms                                            
+ 1500       2.398 ms       7.957 ms      15.541 ms                                            
+ 2000       3.594 ms      12.902 ms      26.903 ms                                            
+ 5000      18.767 ms      70.167 ms     157.586 ms 
+\end{lstlisting}
+The times given do not exactly match the best, average, and worst-case complexity as the cases at the top only account for how the complexity grows and doesn't account for other parts of the time function for each like constant time operations. Taking that into account, you can see that each does take longer as expected for best, average, and worst and for larger sized lists. The discrepancy between measured time and predicted time complexity for each decreases as $n$ increases, and that it more apparent for the highest 2 sizes in the table.\\
+\noindent\makebox[\linewidth]{\rule{\paperwidth}{0.4pt}}
+	
+\end{document}

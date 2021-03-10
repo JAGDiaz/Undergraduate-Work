@@ -1,0 +1,143 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{bm}
+\usepackage{amsthm}
+\usepackage{enumerate}
+\usepackage{graphicx}
+\usepackage{psfrag}
+\usepackage{color}
+\usepackage{url}
+\usepackage{listings}
+
+\usepackage{xcolor}
+ 
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegray},
+    keywordstyle=\color{codegreen},
+    numberstyle=\tiny\color{magenta},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=4
+}
+ 
+\lstset{style=mystyle}
+
+\setlength{\hoffset}{-0.5in}
+\addtolength{\textwidth}{1.0in}
+\setlength{\voffset}{-0.5in}
+\addtolength{\textheight}{1.0in}
+\newcommand{\be}{\begin{enumerate}}
+\newcommand{\ee}{\end{enumerate}}
+
+\begin{document}
+	\begin{large}
+	\begin{center}
+		\textbf{Spring 2020, Stats 550:\ Homework 4} \\
+		\textbf{Due:\ Tuesday, February 4th, 2020} \\
+		\textbf{Joseph Diaz}
+	\end{center}
+\noindent\makebox[\linewidth]{\rule{\paperwidth}{0.4pt}}
+\section*{Chapter 1}
+\be[41.]
+	\item Modify the code in the R script \textbf{CoinFlip.R} to simulate the probability of
+getting exactly one head in four coin tosses.
+\begin{proof}[R code]
+	The following code simulates the given experiment.
+\begin{lstlisting}[language=R]
+CoinFlip4 = function(n)
+{
+	flip = matrix(sample(0:1, 4*n, replace = TRUE), nrow = 4, byrow = FALSE)
+	total = flip[1,1:n] + flip[2,1:n] + flip[3,1:n] + flip[4,1:n]
+	mean(total == 1)
+}
+
+n = 100000
+
+CoinFlip4(n)
+
+# 0.25178
+\end{lstlisting}
+\end{proof}
+	
+	\item Modify the code in the R script \textbf{Divisible356.R} to simulate the probability
+that a random integer between 1 and 5000 is divisible by 4, 7, or 10. Compare
+with your answer in Exercise 1.37.
+\begin{proof}[R code] The following code simulates the given experiment.
+\begin{lstlisting}[language=R]
+Divisible4710 = function(n)
+{
+  num = sample(1:5000, n, replace = TRUE)
+  mean(num%%4==0|num%%7==0|num%%10==0)
+}
+
+n = 100000
+
+Divisible4710(n)
+
+# 0.40015
+\end{lstlisting}
+\end{proof}
+\pagebreak
+	\item Use R to simulate the probability of getting at least 8 in the sum of two
+dice rolls.
+\begin{proof}[R code] The following code simulates the given experiment.
+\begin{lstlisting}[language=R]
+SumTo8 = function(n)
+{
+  rolls = matrix(sample(1:6, 2*n, replace = TRUE), nrow = 2, byrow = FALSE)
+  total = rolls[1,1:n] + rolls[2,1:n]
+  mean(total >= 8)
+}
+
+n = 100000
+
+SumTo8(n)
+
+# 0.41684
+\end{lstlisting}
+\end{proof}
+
+	\item Use R to simulate the probability at least one 2 in 5 rolls of a tetrahedron dice.
+\begin{proof}[R code] The following code simulates the given experiment.
+\begin{lstlisting}[language=R]
+TetraDice = function(n)
+{
+  rolls = matrix(sample(1:4, 5*n, replace = TRUE), nrow = 5, byrow = FALSE)
+  success = numeric(n)
+  for(i in 1:n)
+  {
+    success[i] = if(2 %in% rolls[1:5,i]) 1 else 0
+  }
+  mean(success)
+}
+
+n = 100000
+
+TetraDice(n)
+
+# 0.76245
+\end{lstlisting}
+\end{proof}
+
+
+\ee
+\noindent\makebox[\linewidth]{\rule{\paperwidth}{0.4pt}}
+	
+	\end{large}
+\end{document}

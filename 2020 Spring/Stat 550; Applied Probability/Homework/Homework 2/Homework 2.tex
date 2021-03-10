@@ -1,0 +1,137 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{bm}
+\usepackage{amsthm}
+\usepackage{enumerate}
+\usepackage{graphicx}
+\usepackage{psfrag}
+\usepackage{color}
+\usepackage{url}
+
+\setlength{\hoffset}{-0.5in}
+\addtolength{\textwidth}{1.0in}
+\setlength{\voffset}{-0.5in}
+\addtolength{\textheight}{1.0in}
+%\newcommand{\deg}{\text{deg}}
+\newcommand{\be}{\begin{enumerate}}
+\newcommand{\ee}{\end{enumerate}}
+
+
+\begin{document}
+	\begin{large}
+	\textbf{Joseph Diaz}
+	\begin{center}
+		\textbf{Spring 2020, Stats 550:\ Homework 2} \\
+		\textbf{Due:\ Thursday, February 6th, 2020} \\
+	\end{center}
+	\noindent\makebox[\linewidth]{\rule{\paperwidth}{0.4pt}}
+	\section*{Chapter 1}
+	\be
+		\item[15.] A fair coin is flipped six times. What is the probability that the first two flips
+are heads and the last two flips are tails? Use the multiplication principle.
+		\begin{proof}[Solution]
+			The probability of getting two consecutive	head is $\left(\frac{1}{2}\right)\left(\frac{1}{2}\right)$, and the probability of getting 2 consecutive tails is the same. We aren't concerned about the outcome of the two coin flips in the middle, so the probability that the first two flips end up heads and the last two flips end up tails is:
+			$$\left(\frac{1}{2}\right)^4 = 0.0625 \approx 6\%$$	
+		\end{proof}
+		
+		\item[30.] A tetrahedron dice is four-sided and labeled with 1, 2, 3, and 4. When rolled
+it lands on the base of a pyramid and the number rolled is the number on the
+base. In five rolls, what is the probability of rolling at least one 2?
+		\begin{proof}[Solution]
+			The probability of rolling at least one 2 is the complement of rolling no 2's at all. Let $A$ be the event that at least one 2 is rolled, and let $B$ be the event that no 2's are rolled. If rolling a fair tetrahedral die, then the probability of any of the other numbers being rolled is $\frac{3}{4}$ each. So:
+			\begin{align*}
+			P(A) &= 1 - P(B)\\
+			&= 1 - \left(\frac{3}{4}\right)^5\\
+			P(A) &= .762695312 \approx 76\%
+			\end{align*}
+		\end{proof}
+	\ee	
+
+	\section*{Chapter 3}
+	\be
+		\item[12.] There are 40 pairs of shoes in Bill’s closet. They are all mixed up.
+		\be[(a)]
+			\item If 20 shoes are picked, what is the chance that Bill’s favorite sneakers will
+be in the group?
+			\begin{proof}[Solution]
+			There are $\binom{80}{20}$ ways to make subsets of size 20 from the 80 shoes in the closet. If the favorite sneakers are already in any size 20 subset, there are $\binom{78}{18}$ ways to get the other 18 shoes. So the probability is:
+			$$\frac{\binom{78}{18}}{\binom{80}{20}} \approx 0.0601 = 6.01\%$$
+			\end{proof}
+			\item If 20 shoes are picked, what is the chance that one shoe from each pair
+will be represented? (Remember, a left shoe is different than a right
+shoe.)
+		\ee
+		\begin{proof}[Solution]
+		If we have that each shoe in our set of 20 is from a unique pair (Each shoe's sibling shoe is not in the set of 20), then there are $\binom{40}{20}$ ways to choose 20 pairs of shoes out of the 40 pairs and $2^{20}$ ways to choose which shoe goes into the set of 20 from each of those 20 pairs; and there are $\binom{80}{20}$ ways to make subsets of size 20 from the 80 shoes in the closet. So the probability is:
+		$$\frac{\binom{40}{20}*2^{20}}{\binom{80}{20}} \approx .0408 = 4.08\%$$
+		\end{proof}
+		
+		\item[15.] A chessboard is an eight-by-eight arrangement of 64 squares. Suppose eight
+chess pieces are placed on a chessboard at random so that each square can
+receive at most one piece. What is the probability that there will be exactly
+one piece in each row and in each column?
+		\begin{proof}[Solution]
+		There are $8!$ ways to place 8 chess pieces so that each piece is in it's own row and column. There are $\binom{64}{8}$ ways to place 8 pieces on the chessboard. So the probability that there will be exactly one piece in each row and column is:
+		$$\frac{8!}{\binom{64}{8}} = \frac{40,320}{4,426,165,368} \approx 9.1\times10^{-6}$$
+		\end{proof}
+		\item[16.] Find the probabilities for the following poker hands. They are arranged in
+decreasing order of probability.
+	\be[(a)]
+		\item Straight flush. (Five cards in a sequence and of the same suit.)
+		\begin{proof}[Solution]
+		There are 10 straight flushes per suit (10 rather possible highest cards for each straight flush), and 4 suits. So the probability is:
+		$$\frac{4*10}{\binom{52}{5}} \approx 1.539\times10^{-5} = .0015\%$$
+		\end{proof}
+		
+		\item Four of a kind. (Four cards of one face value and one other card.)
+		There are 13 possible four of a kinds and there are 48 other possible cards to have for the fifth card. So the probability is:
+		$$\frac{13*48}{\binom{52}{5}} \approx 2.4\times10^{-4} = .024\%$$
+		\item Full house. (Three cards of one face value and two of another face value.)
+		\begin{proof}[Solution]
+		There are 13 possible ranks for the 3  cards, and $\binom{4}{3}$ ways to combine those cards from each rank; then there are 12 possible ranks for the other 2 cards, and $\binom{4}{2}$ ways to combine those cards from each rank. So the probability is:
+		$$\frac{13*\binom{4}{3}*12*\binom{4}{2}}{\binom{52}{5}} \approx 0.001441 = .1441\%$$
+		\end{proof}
+		
+		\item Flush. (Five cards of the same suit. Does not include a straight flush.)
+		\begin{proof}
+		There are $\binom{13}{5}$ possible ways to obtain 5 cards from the different ranks, and 4 possible suits, but to not over-count we must subtract off the total possible straight flushes we calculated earlier. So the probability is:
+		$$\frac{\binom{13}{5}*4 - 4*10}{\binom{52}{5}} \approx .0019 = .19\%$$
+		\end{proof}
+		
+		\item Straight. (Five cards in a sequence. Does not include a straight flush. Ace
+can be high or low.)
+		\begin{proof}
+		There are 10 possible straights, and 4 possible suits for each of those 5 cards, but to not over-count we must subtract off the total possible straight flushes we calculated earlier. So the probability is:
+		$$\frac{10*4^5 - 4*10}{\binom{52}{5}} \approx .00392 = .35\%$$
+		\end{proof}
+		\item Three of a kind. (Three cards of one face value. Does not include four of a
+kind or full house.)
+		\begin{proof}[Solution]
+		There are 13 possible ranks for the 3 cards of the same suit and $\binom{4}{3}$ ways to combine them; also there are $\binom{12}{2}$ possible ways to get 2 more  cards from the other 12 ranks, for which there are 4 possible suits each. So the probability is:
+		$$\frac{13*\binom{4}{3}*\binom{12}{2}*4^2}{\binom{52}{5}} \approx 0.02112 = 2.11\%$$
+		\end{proof}
+		\item Two pair. (Does not include four of a kind or full house.)
+		\begin{proof}[Solution]
+		There are $\binom{13}{2}$ possible ranks for the pairs, and $\binom{4}{2}$ possible ways to combine the cards from each rank; then there are 11 possible ranks for the last card and 4 possible suits. So the probability is:
+		$$\frac{\binom{13}{2}*\binom{4}{2}^2*11*4}{\binom{52}{5}} \approx 0.0475 = 4.75\%$$ 
+		\end{proof}
+		\item One pair. (Does not include any of the aforementioned conditions.)
+		\begin{proof}[Solution]
+		There are 13 possible ranks for the pair, and $\binom{4}{2}$ possible ways to combine the cards from the chosen rank; then there are $\binom{12}{3}$ possible ranks for the last 3 cards and 4 possible suits for each. So the probability is:
+		$$\frac{13*\binom{4}{2}*\binom{12}{3}*4^3}{\binom{52}{5}} \approx 0.4225 = 42.25\%$$ 
+		\end{proof}
+	\ee
+		
+		\item[18.] See Example 3.16 for a description of the Powerball lottery. A \$100 prize is
+gotten by either (i) matching exactly three of the five balls and the powerball
+or (ii) matching exactly four of the five balls and not the powerball. Find the
+probability of winning \$100.
+	\begin{proof}[Solution]
+	As the examples states; there are $35*\binom{59}{5}$ possible outcomes. The number of ways that you can win by matching exactly 3 balls and the powerball is $\binom{5}{3}*\binom{54}{2}$, which is the number of ways to get 3 winning balls and then 2 losing balls, and the number of ways to win by matching exactly 4 balls without the power is $35*\binom{5}{4}*\binom{54}{1}$, which is the number of ways to get a powerball, 4 winning balls and then 1 losing ball. So the probability of winning the \$100 dollar prize is:
+	$$\frac{\binom{5}{3}*\binom{54}{2} + 35*\binom{5}{4}*\binom{54}{1}}{35*\binom{59}{5}} \approx 1.35\times10^{-4} = 0.014\%$$
+	\end{proof}
+	\ee	
+	\noindent\makebox[\linewidth]{\rule{\paperwidth}{0.4pt}}
+	\end{large}
+\end{document}

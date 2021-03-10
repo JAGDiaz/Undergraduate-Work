@@ -1,0 +1,269 @@
+\documentclass{article}
+
+% \usepackage{accents}
+\usepackage{amsmath}
+% \usepackage{hyperref}
+\usepackage{amssymb}
+\usepackage{bm}
+%usepackage{amsfonts}%This is to have nice letters
+\usepackage{amsthm}
+\usepackage{enumerate}
+\usepackage{graphicx}
+\usepackage{psfrag}
+\usepackage{multicol}
+%usepackage{showkeys}
+\usepackage{color}
+\usepackage{url}
+% \usepackage{mathabx}
+\usepackage{tikz}
+\usepackage{algpseudocode} 
+\usepackage{mathtools}
+
+%%%% MARGINS
+\setlength{\hoffset}{-0.5in}
+\addtolength{\textwidth}{1.0in}
+\setlength{\voffset}{-0.5in}
+\addtolength{\textheight}{1.0in}
+
+\newcommand{\vep}{\varepsilon}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\F}{\mathbb{F}}
+\newcommand{\poly}{\mathcal{P}}
+\newcommand{\LL}{\mathcal{L}}
+\newcommand{\<}{\langle}
+\renewcommand{\>}{\rangle}
+\newcommand{\norm}[1]{\lVert #1 \rVert}
+\DeclareMathOperator{\range}{range}
+\DeclareMathOperator{\nullspace}{null}
+\newcommand{\lowint}[2]{\underline{\int_{#1}^{#2}}}
+\newcommand{\upint}[2]{\overline{\int_{#1}^{#2}}}
+% \DeclareMathOperator{\deg}{deg}
+\begin{document}
+\textbf{Joseph Diaz} \hfill 
+\begin{center}
+    \textbf{Spring 2020, Math 530:\ Problem Set 1} \\
+    \textbf{Riemann Integration} \\
+\end{center}
+
+\begin{enumerate}[(E1)]
+    \item Prove proposition 1.2.1: $\forall P_1,P_2$ partitions of $[a,b]$, we have:
+    $$
+    L(f,P_2) \leq \lowint{a}{b} f(x)dx \leq \upint{a}{b} f(x)dx \leq U(f,P_1)
+    $$
+    \begin{enumerate}
+    \item Prove that for any two partitions $P_1,P_2$, $\sup_{P_2} L(f,P_2) \leq \inf_{P_1}U(f,P_1)$
+    \begin{proof}
+    By the definitions of $\inf$ and $\sup$,\\
+    $\forall \vep > 0,\ \exists$ Partitions $P_1$ and $P_2$ such that:
+    $$
+    \sup_P L(f, P) < L(f,P_1) + \frac{\vep}{2} \qquad U(f, P_2) < \inf_P U(f, P) + \frac{\vep}{2}
+    $$
+    Then
+    $$U(f, P_2) < \inf_P U(f, P) + \frac{\vep}{2} \implies U(f, P_2) + \frac{\vep}{2} < \inf_P U(f, P) + \vep$$
+    And by Cor. 1.1.2:
+    $$L(f, P_1) \leq U(f, P_2) \implies L(f, P_1) + \frac{\vep}{2} \leq U(f, P_2) + \frac{\vep}{2}$$
+    So:
+    $$
+    \sup_P L(f, P) < L(f,P_1) + \frac{\vep}{2} \leq U(f, P_2) + \frac{\vep}{2} < \inf_P U(f, P) + \vep$$
+    $$
+    \Rightarrow \sup_P L(f, P) < \inf_P U(f, P) + \vep
+    $$
+    which finally implies $\sup_{P_2} L(f,P_2) \leq \inf_{P_1}U(f,P_1)$.
+    \end{proof}
+    \item Deduce proposition 1.2.1.
+    \begin{proof}     
+    By definition:
+    $$L(f, P_1) \leq \sup_P L(f, P) = \lowint{a}{b}f(x)\ dx \qquad \upint{a}{b}f(x)\ dx = \inf_P U(f, P) \leq U(f, P_2)$$
+    and, as we showed, 
+    $$\sup_{P} L(f,P) \leq \inf_{P}U(f,P)$$
+    which means:
+    $$L(f,P_2) \leq \lowint{a}{b} f(x)dx \leq \upint{a}{b} f(x)dx \leq U(f,P_1)$$
+    \end{proof}
+    \end{enumerate}
+    \item Let $f : [a,b] \to \R$ be bounded and Riemann integrable. Prove that 
+    $$\lowint{a}{b}f(x)dx = \upint{a}{b}f(x)dx$$
+    \begin{enumerate}
+    \item
+    Using proposition 1.2.1, show that the following inequalities hold for all partitions $P$ of $[a,b]$.
+    $$ L(f,P) \leq \upint{a}{b} f(x)dx \leq U(f,P)$$
+    $$-U(f,P) \leq -\lowint{a}{b} f(x)dx \leq -L(f,P)$$
+    \begin{proof}
+        Proposition 1.2.1:
+        $\forall P_{A}, P_{B}$ partitions of $[a, b],$ we have
+$$
+L\left(f, P_{B}\right) \leq \lowint{a}{b} f(x)\ dx \leq \upint{a}{b} f(x)\ dx \leq U\left(f, P_{A}\right)
+$$
+By the proposition:
+$$L\left(f, P_{B}\right) \leq \upint{a}{b} f(x)\ dx \leq U\left(f, P_{A}\right) \text{ and } L\left(f, P_{B}\right) \leq \lowint{a}{b} f(x)\ dx \leq U\left(f, P_{A}\right)$$
+$$-\left(L\left(f, P_{B}\right) \leq \lowint{a}{b} f(x)\ dx \leq U\left(f, P_{A}\right)\right) \implies -U\left(f, P_A\right) \leq -\lowint{a}{b}f(x)\ dx \leq -L\left(f, P_B\right)$$
+So:
+$$L\left(f, P_{B}\right) \leq \upint{a}{b} f(x)\ dx \leq U\left(f, P_{A}\right) \text{ and } -U\left(f, P_A\right) \leq -\lowint{a}{b}f(x)\ dx \leq -L\left(f, P_B\right)$$
+    \end{proof}
+    \item 
+    Deduce that 
+    $$ \left| \upint{a}{b}f(x)dx - \lowint{a}{b}f(x)dx \right| \leq U(f,P) - L(f,P)$$    
+    \begin{proof}
+	The sum of the inequalities from ~(a) is:
+	\begin{align*}
+	L\left(f, P\right) - U\left(f, P\right) \leq \upint{a}{b}f(x)\ dx - \lowint{a}{b}f(x)\ dx \leq U\left(f, P\right) - L\left(f, P\right) \\
+	-\left(U\left(f, P\right) - L\left(f, P\right)\right) \leq \upint{a}{b}f(x)\ dx - \lowint{a}{b}f(x)\ dx \leq U\left(f, P\right) - L\left(f, P\right) \\
+	\Rightarrow \left|\upint{a}{b}f(x)\ dx - \lowint{a}{b}f(x)\ dx\right| \leq U\left(f, P\right) - L\left(f, P\right)
+	\end{align*}
+    \end{proof}
+    \item Using this inequality, prove proposition 1.2.2.
+    \begin{proof}
+    $f$ is bounded and Riemann integrable on $[a,b]$, so:
+    $$\forall \vep > 0, \exists \delta > 0, \forall P: \norm{P} < \delta \implies U\left(f, P\right) - L\left(f, P\right) < \vep$$
+    And so by ~(b),
+    $$\left|\upint{a}{b}f(x)\ dx - \lowint{a}{b}f(x)\ dx\right| \leq U\left(f, P\right) - L\left(f, P\right) < \vep$$
+    $$\Rightarrow \left|\upint{a}{b}f(x)\ dx - \lowint{a}{b}f(x)\ dx\right| < \vep$$
+    Which implies:
+    $$\upint{a}{b}f(x)\ dx = \lowint{a}{b}f(x)\ dx$$
+    \end{proof}
+
+    \end{enumerate}
+    \item Prove that if $f$ is Riemann integrable on $[a,b]$, then for every real $c$,
+    $$
+    \int_{a}^{b}cf(x)dx = c\int_{a}^{b}f(x)dx
+    $$
+    \begin{enumerate}
+    \item
+    Show that for every partition $P$ of $[a,b]$, $$U(cf,P) - L(cf,P) = |c|(U(f,P) - L(f,P))$$
+    \begin{proof}
+    Consider the cases $c > 0, c = 0$, and $c < 0$.
+    \begin{enumerate}
+    \item[$c > 0$:]
+    \begin{align*}
+    U(cf,P) - L(cf,P) &= \sum_{k = 1}^n\sup_{x\in P_k}(cf) \Delta x_k - \sum_{k = 1}^n\inf_{x\in P_k}(cf) \Delta x_k\\
+    &= \sum_{k = 1}^n c\sup_{x\in P_k}(f) \Delta x_k - \sum_{k = 1}^n c\inf_{x\in P_k}(f) \Delta x_k\\
+    &= c\sum_{k = 1}^n\sup_{x\in P_k}(f) \Delta x_k - c\sum_{k = 1}^n\inf_{x\in P_k}(f) \Delta x_k\\
+    &= c\left(\sum_{k = 1}^n\sup_{x\in P_k}(f) \Delta x_k - \sum_{k = 1}^n\inf_{x\in P_k}(f) \Delta x_k\right)\\
+    &= c\left(U(f,P) - L(f,P)\right)
+    \end{align*}
+    $c > 0 \implies c = \lvert c\rvert$, so
+    $$U(cf,P) - L(cf,P) = |c|\left(U(f,P) - L(f,P)\right)$$
+    \item[$c=0$:]
+    $$c = 0 \implies |c|\left(U(f, P) - L(f, P)\right) = 0$$
+    \begin{align*}
+    U\left((0)f, P\right) - L\left((0)f, P\right) &= \sum_{k = 1}^n\sup_{x\in P_k}((0)f) \Delta x_k - \sum_{k = 1}^n\inf_{x\in P_k}((0)f) \Delta x_k\\
+    &= 0 - 0 = 0
+    \end{align*}
+    So
+    $$U(cf,P) - L(cf,P) = |c|\left(U(f,P) - L(f,P)\right)$$
+    \item[$c < 0$:]
+    Let $c = -a, a = |c|$:
+    \begin{align*}
+    U(cf,P) - L(cf,P) &= U(-af,P) - L(-af,P)\\
+    &= \sum_{k = 1}^n\sup_{x\in P_k}(-af) \Delta x_k - \sum_{k = 1}^n\inf_{x\in P_k}(-af) \Delta x_k\\
+    &= \sum_{k = 1}^n a\sup_{x\in P_k}(-f) \Delta x_k - \sum_{k = 1}^n a\inf_{x\in P_k}(-f) \Delta x_k\\
+    &= a\sum_{k = 1}^n\left(-\inf_{x\in P_k}(f)\right) \Delta x_k - a\sum_{k = 1}^n\left(-\sup_{x\in P_k}(f)\right) \Delta x_k\\
+    &= a\left(-\sum_{k = 1}^n\inf_{x\in P_k}(f) \Delta x_k + \sum_{k = 1}^n\sup_{x\in P_k}(f) \Delta x_k\right)\\
+    &= a\left(\sum_{k = 1}^n\sup_{x\in P_k}(f) \Delta x_k - \sum_{k = 1}^n\inf_{x\in P_k}(f) \Delta x_k\right)\\
+    &= a\left(U(f,P) - L(f,P)\right)
+    \end{align*}
+    $a = |c|$, so:
+    $$U(cf,P) - L(cf,P) = |c|\left(U(f,P) - L(f,P)\right)$$
+    \end{enumerate}
+    \end{proof}
+    \item 
+    Prove that $cf$ is Riemann integrable
+    \begin{proof}
+    From ~(a), we have:
+    $$U(cf,P) - L(cf,P) = |c|\left(U(f,P) - L(f,P)\right)$$
+    $f$ is Riemann Integrable, so:
+    $$U(f,P) - L(f,P) < \vep \implies |c|\left(U(f,P) - L(f,P)\right) < |c|\vep$$
+    Let $\norm{P} < \vep = |c|\delta \implies \delta = \frac{\vep}{|c|}$,
+    then:
+    $$\forall \vep > 0, \delta = \frac{\vep}{|c|}, \forall P: \norm{P}< \delta \implies U(cf,P) - L(cf,P) < \vep$$
+    \end{proof}
+    \item 
+    Prove the original statement using the fact that a Riemann integral can be rewritten as the limit of a Riemann sum.
+    \begin{proof}
+    Let $\{c_k\}_{k=1}^n$, such that $c_k \in [x_{k-1}, x_k]$, then
+    \begin{align*}
+    \int_a^b cf(x)\ dx &= \lim_{n \to \infty} R_n\left(cf(x), \{c_k\}_{k=1}^n\right)\\
+    &= \lim_{n \to \infty} \sum_{k=1}^n cf(c_k) \Delta x_k\\
+    &= c\lim_{n \to \infty} \sum_{k=1}^n f(c_k) \Delta x_k\\
+    &= c\lim_{n \to \infty} R_n\left(f(x), \{c_k\}_{k=1}^n\right)\\
+    \int_a^b cf(x)\ dx  &= c\int_a^b f(x)\ dx
+    \end{align*}
+    \end{proof}
+    \end{enumerate}
+    \item 
+    Let $f,g$ be two Riemann integrable functions. Prove that 
+    $$ 
+    \int_{a}^{b} \left(f(x) + g(x)\right)\ dx = \int_a^b f(x)\ dx + \int_a^b g(x)\ dx
+    $$
+    \begin{enumerate}
+    \item 
+    Show that for any partition of $[a,b]$, $$U(f+g,P) - L(f+g,P) \leq (U(f,P) - L(f,P)) + (U(g,P) - L(g,P))$$
+    \begin{proof}
+    First:
+    \begin{align*}
+    U(f+g,P) &= \sum_{k=1}^n \sup_{x \in P_k}(f + g)\Delta x_k\\
+    &\leq \sum_{k=1}^n \left(\sup_{x \in P_k}(f)+\sup_{x \in P_k}(g)\right)\Delta x_k\\
+    &= \sum_{k=1}^n \sup_{x \in P_k}(f)\Delta x_k+\sum_{k=1}^n\sup_{x \in P_k}(g)\Delta x_k\\
+    \Rightarrow U(f+g,P) &\leq U(f,P) + U(g,P)
+    \end{align*}
+    Second:
+    \begin{align*}
+    L(f+g,P) &= \sum_{k=1}^n \inf_{x \in P_k}(f + g)\Delta x_k\\
+    &\geq \sum_{k=1}^n \left(\inf_{x \in P_k}(f)+\inf_{x \in P_k}(g)\right)\Delta x_k\\
+    &= \sum_{k=1}^n \inf_{x \in P_k}(f)\Delta x_k+\sum_{k=1}^n\inf_{x \in P_k}(g)\Delta x_k\\
+    L(f+g,P) &\geq L(f,P) + L(g,P)\\
+    \Rightarrow -L(f+g,P) &\leq - L(f,P) - L(g,P)
+    \end{align*}
+    The sum of these 2 inequalities is:
+    \begin{align*}
+    U(f+g,P) - L(f+g,P) &\leq U(f,P) + U(g,P) - L(f,P) - L(g,P)\\
+    U(f+g,P) - L(f+g,P) &\leq \left(U(f,P) - L(f,P)\right) + \left(U(g,P) - L(g,P)\right)\\
+	\end{align*}     
+    \end{proof}
+    \item 
+    Prove that $f+g$ is Riemann integrable.
+    \begin{proof}
+	$f$ and $g$ are Riemann Integrable, so:
+	\begin{align*}
+	\forall \vep > 0, \exists \delta_1, \delta_2 > 0: \forall P,\ &\norm{P} < \delta_1 \implies U(f,P) - L(f,P) < \frac{\vep}{2} \\
+	&\norm{P} < \delta_2 \implies U(g,P) - L(g,P) < \frac{\vep}{2}
+	\end{align*}	 
+	Then:
+	$$U(f+g,P) - L(f+g,P) \leq \left(U(f,P) - L(f,P)\right) + \left(U(g,P) - L(g,P)\right)< \frac{\vep}{2}+\frac{\vep}{2} = \vep$$
+	$$U(f+g,P) - L(f+g,P) < \vep$$
+	Finally:
+	$$\forall \vep > 0, \delta = \min\{\delta_1, \delta_2\}: \forall P,\ \norm{P} < \delta \implies U(f+g,P) - L(f+g,P) < \vep $$
+    \end{proof}
+    \item 
+    Prove the original statement using the fact that a Riemann integral can be rewritten as the limit of a Riemann sum.
+    \begin{proof}
+     Let $\{c_k\}_{k=1}^n$, such that $c_k \in P_k$, then
+    \begin{align*}
+    \int_a^b \left(f(x)+g(x)\right)\ dx &= \lim_{n \to \infty} R_n\left(f+g, \{c_k\}_{k=1}^n\right)\\
+    &= \lim_{n \to \infty} \sum_{k=1}^n \left(f(c_k)+g(c_k)\right) \Delta x_k\\
+    &= \lim_{n \to \infty} \sum_{k=1}^n f(c_k) \Delta x_k + \lim_{n \to \infty} \sum_{k=1}^n g(c_k) \Delta x_k\\
+    &= \lim_{n \to \infty} R_n\left(f(x), \{c_k\}_{k=1}^n\right) + \lim_{n \to \infty} R_n\left(g(x), \{c_k\}_{k=1}^n\right)\\
+    \int_a^b \left(f(x)+g(x)\right)\ dx &= \int_a^b f(x)\ dx + \int_a^b g(x)\ dx
+    \end{align*}
+    \end{proof}
+    \end{enumerate}
+    
+    \item Let $f,g$ be two Riemann Integrable functions on $[a,b]$, such that $\forall x \in [a,b]$, $f(x) \leq g(x)$. Prove that 
+    $$
+    \int_a^b f(x)\ dx \leq \int_a^b g(x)\ dx
+    $$
+    \begin{proof}
+    Let $P$ be a partition on $[a,b]$, and $\{c_k\}_{k=1}^n$ be
+	a set of points such that $c_k \in P_k$. Then $\forall c_k$:
+	\begin{align*}
+	f(c_k) &\leq g(c_k)\\
+	\sum_{k=1}^n f(c_k)\Delta x_k &\leq \sum_{k=1}^n g(c_k)\Delta x_k\\
+	\lim_{n\to \infty}\sum_{k=1}^n f(c_k)\Delta x_k &\leq \lim_{n\to\infty}\sum_{k=1}^n g(c_k)\Delta x_k\\
+	\lim_{n\to \infty}R_n\left(f, \{c_k\}_{k=1}^n\right) &\leq \lim_{n\to\infty}R_n\left(g, \{c_k\}_{k=1}^n\right)\\
+	\int_a^b f(x)\ dx &\leq \int_a^b g(x)\ dx
+	\end{align*}
+		    
+    \end{proof}
+\end{enumerate}
+\end{document}

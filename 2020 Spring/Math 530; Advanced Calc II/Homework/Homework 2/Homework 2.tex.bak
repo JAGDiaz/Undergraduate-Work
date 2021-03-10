@@ -1,0 +1,262 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{bm}
+\usepackage{amsthm}
+\usepackage{enumerate}
+\usepackage{graphicx}
+\usepackage{psfrag}
+\usepackage{color}
+\usepackage{url}
+
+
+\setlength{\hoffset}{-0.5in}
+\addtolength{\textwidth}{1.0in}
+\setlength{\voffset}{-0.5in}
+\addtolength{\textheight}{1.0in}
+%\newcommand{\deg}{\text{deg}}
+\newcommand{\be}{\begin{enumerate}}
+\newcommand{\ee}{\end{enumerate}}
+\newcommand{\ddx}{\frac{d}{dx}}
+
+\begin{document}
+	\begin{large}
+	\begin{center}
+		\textbf{Spring 2020, Math 530:\ Homework 2} \\
+		\textbf{Due:\ Friday, February 14th, 2020} \\
+		\textbf{Joseph Diaz}
+	\end{center}
+\noindent\makebox[\linewidth]{\rule{\paperwidth}{0.4pt}}
+\be[(E1)]
+	\item Prove the integration by parts formula (hint: apply the product rule $\frac{d}{dx}\left(u(x)v(x)\right)$ and then integrate).
+	\begin{proof}
+	First we consider $\frac{d}{dx}\big(u(x)v(x)\big)$:
+	$$\frac{d}{dx}\big(u(x)v(x)\big) = u'(x)v(x) + u(x)v'(x)$$
+	Now we integrate:
+	\begin{align*}
+	\int\frac{d}{dx}\big(u(x)v(x)\big)\ dx &= \int\big(u'(x)v(x) + u(x)v'(x)\big)\ dx \\
+	u(x)v(x) &= \int u'(x)v(x)\ dx + \int u(x)v'(x)\ dx \\
+	\Rightarrow \int u(x)v'(x)\ dx &= u(x)v(x) - \int u'(x)v(x)\ dx
+	\end{align*}
+	Which is the method of integration by parts.
+	\end{proof}
+	
+	\item Let $F$ be an antiderivative of $f$ on $[a,b]$.
+	\be[1.]
+		\item Prove $\forall C \in \mathbb{R}, F + C$ is also an antiderivative of $f$.
+		\begin{proof}
+		Suppose that $F(x) + C$ is not an antiderivative of $f$. Then the derivative of $F(x) + C$ is:
+		\begin{align*}
+		\frac{d}{dx}\left(F(x) + C\right) &= \frac{d}{dx}F(x) + \frac{d}{dx}C \\
+		&= f(x) + 0
+		\end{align*}
+		Which implies that $F(x) + C$ is an antiderivative of $f$, contradicting our initial assumption. Therefore, $F(x) + C$ is an antiderivative of $f$.
+		\end{proof}
+		\item Assume that $G$ is an arbitrary antiderivative of $f$.\\Prove that $\exists C \in \mathbb{R}; G =
+F + C$ (hint: look at $\frac{dG}{dx} - \frac{dF}{dx}$).
+	\begin{proof}
+	$G$ is an antiderivative of $f$, so $G'(x) = f(x)$. 
+	Then:
+	$$\ddx G(x) - \ddx F(x) = f(x) - f(x) = 0$$
+	This implies that $\ddx G(x) = \ddx F(x)$. By integrating, we get:
+	\begin{align*}
+	\ddx G(x) &= \ddx F(x) \\
+	\int \ddx G(x)\ dx &= \int\ddx F(x)\ dx \\
+	G(x) + C_1 &= F(x) + C_2  &(C_1, C_2 \in \mathbb{R}) \\
+	G(x) &= F(x) + C_2 - C_1 \\
+	G(x) &= F(x) + C  &(\text{denote } C = C_2 - C_1)
+	\end{align*}
+	So $G(x) = F(x) + C$.
+	\end{proof}
+	\ee
+	
+	\item Let $f$ and $g$ be two functions and assume that $f, g, f^2, g^2$ and $f\cdot g$ are all Riemann integrable on $[a, b]$.
+	\be[1.]
+		\item Prove that $(f(x) - g(x))^2$ is Riemann integrable on $[a, b]$.
+		\begin{proof}
+		With algebra:
+		\begin{align*}
+		\left(f(x) - g(x)\right)^2 &= f^2(x) - 2f(x)g(x) + g^2(x)
+		\end{align*}
+		Each of the summands is Riemann Integrable, so the whole sum is.
+		Therefore $\left(f(x) - g(x)\right)^2$ is Riemann Integrable.
+		\end{proof}
+		\item Prove that $\displaystyle\int_a^b(f(x) - g(x))^2\ dx \geq 0$.
+		\begin{proof}
+		First, we'll consider that $\forall x \in [a,b], \left(f(x) - g(x)\right)^2 \geq 0$; as the square of a difference is strictly non-negative. Then, by the order preserving nature of the integral:
+		\begin{align*}
+		\left(f(x) - g(x)\right)^2 &\geq 0 \\
+		\int_a^b\left(f(x) - g(x)\right)^2\ dx &\geq \int_a^b 0\ dx = C\Big\vert_a^b = 0
+		\end{align*}
+		So:
+		$$\int_a^b\left(f(x) - g(x)\right)^2\ dx \geq 0$$
+		\end{proof}
+		\item Prove that $\displaystyle\int_a^bf(x)g(x)\ dx \leq \frac{1}{2}\left[\int_a^b f^2(x)\ dx + \int_a^bg^2(x)\ dx
+\right].
+$
+\begin{proof}
+		We will prove this by looking at the Riemann Sum of $\int_a^b(f(x) - g(x))^2\ dx$, let $\{c_k\}_{k=1}^n, c_k \in P_k$ be a sequence of points, then:
+		\begin{align*}		
+		\int_a^b(f(x) - g(x))^2\ dx &= \lim_{n\to\infty}R_n\left((f-g)^2, \{c_k\}_{k=1}^n\right) \\
+		&= \lim_{n\to\infty}\sum_{k=1}^n \left(f(c_k) - g(c_k)\right)^2\Delta x_k \\
+		&= \lim_{n\to\infty}\sum_{k=1}^n \left(f^2(c_k) -2f(c_k)g(c_k) + g^2(c_k)\right)\Delta x_k \\
+		\end{align*}
+		From Part ~2, we know that:
+		$$\int_a^b(f(x) - g(x))^2\ dx = \lim_{n\to\infty}\sum_{k=1}^n \left(f^2(c_k) -2f(c_k)g(c_k) + g^2(c_k)\right)\Delta x_k \geq 0$$
+		So:
+		\begin{align*}
+		\lim_{n\to\infty}\sum_{k=1}^n \left(f^2(c_k) -2f(c_k)g(c_k) + g^2(c_k)\right)\Delta x_k \geq 0 \\
+		\lim_{n\to\infty}\sum_{k=1}^n f^2(c_k)\Delta x_k - 2\lim_{n\to\infty}\sum_{k=1}^nf(c_k)g(c_k)\Delta x_k + \lim_{n\to\infty}\sum_{k=1}^n g^2(c_k)\Delta x_k \geq 0 \\
+		\lim_{n\to\infty}\sum_{k=1}^n f^2(c_k)\Delta x_k  + \lim_{n\to\infty}\sum_{k=1}^n g^2(c_k)\Delta x_k \geq 2\lim_{n\to\infty}\sum_{k=1}^nf(c_k)g(c_k)\Delta x_k\\
+		\lim_{n\to\infty}\sum_{k=1}^n \left(f^2(c_k) + g^2(c_k)\right)\Delta x_k \geq 2\lim_{n\to\infty}\sum_{k=1}^nf(c_k)g(c_k)\Delta x_k \\
+		\int_a^b \left(f^2(x) + g^2(x)\right)\ dx \geq 2\int_a^b f(x)g(x)\ dx \\
+		\end{align*}
+		which implies
+		$$\int_a^bf(x)g(x)\ dx \leq \frac{1}{2}\left[\int_a^b f^2(x)\ dx + \int_a^bg^2(x)\ dx
+\right]$$
+	as desired.
+		\end{proof}
+	\ee
+	
+	\item Evaluate the following integrals.
+	\be[1.]
+		\item $\displaystyle\int_1^2\left(\frac{1}{x^2} + x + \cos(x)\right)\ dx$
+		\begin{proof}[Solution]
+		\begin{align*}
+		\int_1^2\left(\frac{1}{x^2} + x + \cos(x)\right)\ dx &= \left[-\frac{1}{x} + \frac{x^2}{2} + \sin(x)\right]_1^2 \\
+		&= \left(-\frac{1}{2} + \frac{2^2}{2} + \sin(2)\right)-\left(-\frac{1}{1} + \frac{1^2}{2} + \sin(1)\right) \\
+		&= -\frac{1}{2} + 2 + \sin(2) + 1 -\frac{1}{2} - \sin(1) \\
+		&= 2 + \sin(2) - \sin(1)
+		\end{align*}
+		\end{proof}
+		
+		\item $\displaystyle\int_0^1 x\sqrt{4-x^2}\ dx$
+		\begin{proof}
+		First let $u = 4-x^2 \implies du = -2x\ dx$, then:
+		\begin{align*}
+		\int_0^1 x\sqrt{4-x^2}\ dx &= -\frac{1}{2}\int_0^1\left(-2x\sqrt{4-x^2}\right)\ dx \\
+		&= -\frac{1}{2}\int_4^3\sqrt{u}\ du \\
+		&= \frac{1}{2}\int_3^4\sqrt{u}\ du \\
+		&= \frac{1}{2}\left[\frac{2}{3}u^{\frac{3}{2}}\right]_3^4 \\
+		&= \frac{1}{3}\left(4^{\frac{3}{2}} - 3^{\frac{3}{2}}\right)
+		\end{align*}		
+		\end{proof}
+	
+		\item $\displaystyle\int_1^{10} x\sqrt{10 - x}\ dx$
+		\begin{proof}[Solution]
+		First, let $u = 10 - x \implies du = -dx$
+		\begin{align*}
+		\int_1^{10} x\sqrt{10 - x}\ dx &= -\int_1^{10}-x\sqrt{10 - x}\ dx \\
+		&= -\int_9^0(10 - u)\sqrt{u}\ du \\
+		&= \int_0^9\left(10\sqrt{u} - u^{\frac{3}{2}}\right)\ du \\
+		&= \left[\frac{10\cdot 2}{3}u^{\frac{3}{2}} - \frac{2}{5}u^{\frac{5}{2}}\right]_0^9 \\
+		&= \frac{10\cdot 2}{3}(9)^{\frac{3}{2}} - \frac{2}{5}(9)^{\frac{5}{2}}
+		\end{align*}
+		\end{proof}
+		\item $\displaystyle\int_0^\pi\cos^2(x)\ dx$
+		\begin{proof}[Solution]
+		Using the trigonometric identity:
+		$$\cos^2(x) = \frac{1+\cos(2x)}{2}$$
+		Our integral becomes:
+		\begin{align*}
+		\int_0^\pi\cos^2(x)\ dx &= \int_0^\pi\left(\frac{1+\cos(2x)}{2}\right)\ dx \\
+		&= \frac{1}{2}\left[x + \frac{\sin(2x)}{2}\right]_0^\pi \\
+		&= \frac{\pi}{2}
+		\end{align*}
+		
+		\end{proof}
+	\ee
+	
+	\item Evaluate the following quantities \textbf{without evaluating the actual integrals}.
+	\be[1.]
+		\item $\displaystyle\frac{d}{dx}\left(\int_0^x x^2t^2\ dt\right)$
+		\begin{proof}[Solution]
+		\begin{align*}
+		\frac{d}{dx}\left(\int_0^x x^2t^2\ dt\right) &= \frac{d}{dx}\left(x^2\int_0^x t^2\ dt\right) \\
+		&= x^2\ddx\left(\int_0^x t^2\ dt\right) + 2x\int_0^x t^2\ dt \\
+		\end{align*}
+		Let $f(t) = t^2, g(x) = \int_0^x f(t)\ dt$, and then by the Second Fundamental Theorem of Calculus:
+		\begin{align*}
+		x^2\ddx\left(\int_0^x t^2\ dt\right) + 2x\int_0^x t^2\ dt &= x^2g'(x) + 2xg(x) \\
+		&= x^4 + 2x\int_0^x t^2\ dt \\
+		&= x^4 + 2x\left[\frac{t^3}{3}\right]_0^x \\
+		&= x^4 + \frac{2x^4}{3} \\
+		&= \frac{5x^4}{3}		
+		\end{align*}
+		So:
+		$$\ddx\left(\int_0^x x^2t^2\ dt\right) = \frac{5x^4}{3}$$
+		\end{proof}
+		
+		\item $\displaystyle\ddx\left(\int_1^{e^x} \ln(t)\ dt\right)$
+		\begin{proof}[Solution]
+		First, let $u = e^x \implies du = e^x dx \implies \ddx = e^x\frac{d}{du}$, then:
+		\begin{align*}
+		\ddx\left(\int_1^{e^x} \ln(t)\ dt\right) &= e^x\frac{d}{du}\left(\int_1^{u} \ln(t)\ dt\right)
+		\end{align*}
+		Now, let $f(t) = \ln(t), g(u) = \int_1^u\ln(t)\ dt$ and by the Second Fundamental Theorem of Calculus:
+		\begin{align*}
+		e^x\frac{d}{du}\left(\int_1^{u} \ln(t)\ dt\right) &= e^x\ln(u) \\
+		&= e^x\ln\left(e^x\right) \\
+		&= xe^x
+		\end{align*}
+		So:
+		$$\ddx\left(\int_1^{e^x} \ln(t)\ dt\right) = xe^x$$
+		\end{proof}
+	\ee
+	
+	\item Do the following improper integrals converge? If yes, give its value.
+	\be[1.]
+		\item $\displaystyle\int_0^{\infty}\frac{1}{e^x + e^{-x}}\ dx$\\
+		This integral converges.
+		\begin{proof}
+		First:
+		$$\int_0^{\infty}\frac{1}{e^x + e^{-x}}\ dx = \lim_{b \to \infty} \int_0^b\frac{1}{e^x + e^{-x}}\ dx$$
+		Focusing on just the definite integral:
+		\begin{align*}
+		\int_0^b\frac{1}{e^x + e^{-x}}\ dx &= \int_0^b\frac{1}{e^{-x}(e^{2x} + 1)}\ dx \\
+		&= \int_0^b\frac{e^x}{e^{2x} + 1}\ dx \\
+		\end{align*}
+		Now, let $u = e^x \implies du = e^x\ dx$. Then:
+		\begin{align*}
+		\int_0^b\frac{e^x}{e^{2x} + 1}\ dx &= \int_1^{e^b} \frac{1}{u^2 + 1}\ du \\
+		&= \arctan(u)\Big\vert_1^{e^b} \\
+		&= \arctan(e^b) - \arctan(1) \\
+		&= \arctan(e^b) - \frac{\pi}{4}
+		\end{align*}
+		Next, we evaluate the limit to determine the value of the integral:
+		\begin{align*}
+		\lim_{b\to\infty}\left(\arctan(e^b) - \frac{\pi}{2}\right) &= \arctan(\infty) - \frac{\pi}{4} \\
+		&= \frac{\pi}{2} - \frac{\pi}{4} \\
+		&= \frac{\pi}{4}
+		\end{align*}
+		So the integral converges, and 
+		$$\int_0^{\infty}\frac{1}{e^x + e^{-x}}\ dx = \frac{\pi}{4}$$
+		\end{proof}
+		
+		\item $\displaystyle\int_0^{a}\frac{1}{a^2 - x^2}\ dx$, where $a \in \mathbb{R}, a \neq 0$ is a constant.\\
+		This integral does not converge.
+		\begin{proof}
+		First:
+		$$\int_0^{a}\frac{1}{a^2 - x^2}\ dx = \lim_{b \to a^{-}}\int_0^{b}\frac{1}{a^2 - x^2}\ dx$$
+		Focusing on just the integral:
+		\begin{align*}
+		\int_0^{b}\frac{1}{a^2 - x^2}\ dx &= \int_0^{b}\frac{1}{(a - x)(a + x)}\ dx \\
+		&= \frac{1}{2a}\int_0^b \left(\frac{1}{a-x} + \frac{1}{a+x}\right)\ dx \\
+		&= \frac{1}{2a}\Big[-\ln(a-x) + \ln(a+x)\Big]_0^b \\
+		&= \frac{1}{2a}\big(\ln(a+b)-\ln(a-b) + \ln(a) - \ln(a)\big) \\
+		&= \frac{1}{2a}\ln\left(\frac{a+b}{a-b}\right)
+		\end{align*}
+		Next, we evaluate the limit to determine the value of the integral:
+		\begin{align*}
+		\lim_{b \to a^{-}}\left(\frac{1}{2a}\ln\left(\frac{a+b}{a-b}\right)\right) &\to +\infty 
+		\end{align*}
+		So the integral does not converge, as:
+		$$\int_0^{a}\frac{1}{a^2 - x^2}\ dx \to +\infty$$
+		\end{proof}
+		
+	\ee
+\ee
+\noindent\makebox[\linewidth]{\rule{\paperwidth}{0.4pt}}
+	
+	\end{large}
+\end{document}

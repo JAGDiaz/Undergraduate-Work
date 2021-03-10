@@ -1,0 +1,69 @@
+---
+title: "Homework 4"
+author: "Joseph Diaz"
+date: "February 13, 2020"
+output: pdf_document
+---
+
+```{r}
+n = 100000
+```
+
+\subsection*{1.41}
+Modify the code in the R script \textbf{CoinFlip.R} to simulate the probability of
+getting exactly one head in four coin tosses.
+```{r }
+CoinFlip4 = function(n)
+{
+  flip = matrix(sample(0:1, 4*n, replace = TRUE), nrow = 4, byrow = FALSE)
+  total = flip[1,1:n] + flip[2,1:n] + flip[3,1:n] + flip[4,1:n]
+  mean(total == 1)
+}
+
+CoinFlip4(n)
+```
+
+\subsection*{1.42}
+Modify the code in the R script \textbf{Divisible356.R} to simulate the probability
+that a random integer between 1 and 5000 is divisible by 4, 7, or 10. Compare
+with your answer in Exercise 1.37.
+```{r}
+Divisible4710 = function(n)
+{
+  num = sample(1:5000, n, replace = TRUE)
+  mean(num%%4==0|num%%7==0|num%%10==0)
+}
+
+Divisible4710(n)
+```
+
+\subsection*{1.43}
+Use R to simulate the probability of getting 8 in the sum of two
+dice rolls.
+```{r}
+SumGreaterEqual8 = function(n)
+{
+  rolls = matrix(sample(1:6, 2*n, replace = TRUE), nrow = 2, byrow = FALSE)
+  total = rolls[1,1:n] + rolls[2,1:n]
+  mean(total == 8)
+}
+
+SumGreaterEqual8(n)
+```
+
+\subsection*{1.44}
+Use R to simulate the probability at least one 2 in 5 rolls of a tetrahedron dice.
+```{r}
+TetraDice = function(n)
+{
+  rolls = matrix(sample(1:4, 5*n, replace = TRUE), nrow = 5, byrow = FALSE)
+  success = numeric(n)
+  for(i in 1:n)
+  {
+    success[i] = if(2 %in% rolls[1:5,i]) 1 else 0
+  }
+  mean(success)
+}
+
+TetraDice(n)
+```

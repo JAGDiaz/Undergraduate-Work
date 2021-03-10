@@ -1,0 +1,169 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[latin1]{inputenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{graphicx}
+\usepackage{mdframed}
+\usepackage{xcolor}
+\usepackage{amsmath}
+\usepackage{mathrsfs}
+\usepackage[left=0.8in, right=0.8in, top=1.00in, bottom=1.00in]{geometry}
+\usepackage{mathtools}
+\def\multichoose#1#2{\ensuremath{\left(\kern-.3em\left(\genfrac{}{}{0pt}{}{#1}{#2}\right)\kern-.3em\right)}}
+\author{Jackson Autry}
+
+%% New Commands
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\B}{\mathcal{B}}
+\newcommand{\h}{\mathcal{H}}
+\renewcommand{\S}{\mathcal{S}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\LL}{\mathcal{L}}
+\newcommand{\RR}{\mathcal{R}}
+\newcommand{\D}{\mathbb{D}}
+\newcommand{\F}{\mathcal{F}}
+\newcommand{\cl}{\operatorname{cl}}
+\newcommand{\ran}{\operatorname{ran}}
+\newcommand{\norm}[1]{\| #1 \|}
+\newcommand{\inner}[1]{\langle #1 \rangle}
+\renewcommand{\vec}[1]{{\bf #1}}
+
+%%%
+%%% Theorem Styles
+%%%
+% \numberwithin{equation}{section}
+\theoremstyle{plain}
+\newtheorem{Theorem}[equation]{Theorem}
+\newtheorem{Lemma}[equation]{Lemma}
+\newtheorem{Proposition}[equation]{Proposition}
+\newtheorem{Corollary}[equation]{Corollary}
+\theoremstyle{remark}
+\newtheorem{Remark}[equation]{Remark}
+\theoremstyle{definition}
+\newtheorem{Definition}[equation]{Definition}
+\newtheorem{Example}[equation]{Example}
+\newcounter{question}
+\newtheorem{Question}[question]{Question}
+
+\begin{document}
+	\newmdenv[linecolor=gray!40,leftmargin=0,%
+	innerleftmargin=4pt,
+	rightmargin=0pt,
+	innerbottommargin=3pt,
+	skipbelow=4pt,
+	backgroundcolor=gray!40,%
+	innertopmargin=3pt,]{ques}
+
+	
+\begin{center}
+	\textbf{MATH 630A} %############ Insert Course Title! #############
+	
+		Homework 8	%############### Put Homework # ###################
+		
+		Jackson Autry
+\end{center}
+
+\section*{Exercise 1}
+	Let $\h_1$ and $\h_2$ be two Hilbert spaces. We define the space $\h$ by 
+	$$\h = \h_1 \oplus \h_2 = \{x = (x_1,x_2) : x_1 \in \h_1, x_2 \in \h_2\},$$
+	and define the operator $\inner{.,.}$ by
+	$$\forall x,y\in\h, x = (x_1,x_2), y = (y_1,y_2), \inner{x,y}_{\h} = \inner{x_1,y_1}_{\h_1} + \inner{x_2,y_2}_{\h_2}$$
+	
+\subsection*{1.1. Prove that $\h$ is an Hilbert space.}
+Clearly $\h$ is a vector space. We first show $\inner{.,.}_{\h}$ defines an inner product. Let $u,v,w \in \h, u = (u_1,u_2), v = (v_1,v_2), w = (w_1,w_2), \alpha,\beta \in \C$. Then\\
+$\inner{u,u}_{\h} = \inner{u_1,u_1}_{\h_1} + \inner{u_2,u_2}_{\h_2} \ge 0 + 0 = 0$ with equality only when $u_1 = u_2 = 0 \Rightarrow u = 0$.
+\begin{flalign*}
+	\inner{\alpha u + \beta v, w}_{\h} &= \inner{\alpha u_1 + \beta v_1 , w_1}_{\h_1} + \inner{\alpha u_2 + \beta v_2 , w_2}_{\h_2} &&\\
+	&= \alpha \inner{u_1,w_1}_{\h_1} + \beta\inner{v_1,w_1}_{\h_1} + \alpha\inner{u_2,w_2}_{\h_2} + \beta \inner{v_2,w_2}_{\h_2} \\
+	&= \alpha\left(\inner{u_1,w_1}_{\h_1} + \inner{u_2,w_2}_{\h_2}\right) + \beta \left(\inner{v_1,w_1}_{\h_1} + \inner{v_2,w_2}_{\h_2}\right) \\
+	&= \alpha \inner{u,w} + \beta\inner{v,w}
+\end{flalign*}
+Finally,
+\begin{flalign*}
+	\inner{u,v}_{\h} = \inner{u_1,v_1}_{\h_1} + \inner{u_2,v_2}_{\h_2} = \overline{\inner{v_1,u_1}_{\h_1}} + \overline{\inner{v_2,u_2}_{\h_2}} = \overline{\inner{v_1,u_1}_{\h_1} + \inner{v_2,u_2}_{\h_2}} = \overline{\inner{v,u}_{\h}}&&
+\end{flalign*}
+Hence $\inner{.,.}$ defines an inner product.
+
+\vspace{5 mm}
+We now show $\h$ is complete:\\
+We take the norms induced by the inner products,\\
+$\forall x \in \h, \norm{x}_{\h} = \sqrt{\inner{x,x}_{\h}}$, $\forall x_1 \in \h_1, \norm{x_1}_{\h_1} = \sqrt{\inner{x_1,x_1}_{\h_1}}$, and\\
+ $\forall x_2 \in \h_2, \norm{x_2}_{\h_2} = \sqrt{\inner{x_2,x_2}_{\h_2}}$.\\
+Let $\{x_n\}$ be an arbitrary Cauchy sequence in $\h$, where $\forall n \in \N, x_n = (x_{n1},x_{n2})$. Then\\
+$\forall \epsilon>0, \exists N \in \N, \forall n,m \in \N, n\ge N, m\ge M, \norm{x_n - x_m}_{\h} < \epsilon$.\\
+But $\norm{x_n - x_m}_{\h} = \sqrt{\inner{x_n - x_m, x_n - x_m}_{\h}}$. So we have\\
+$\norm{x_n - x_m}_{\h} < \epsilon \Leftrightarrow \norm{x_n - x_m}_{\h}^2 < \epsilon^2 \Leftrightarrow \inner{x_n - x_m, x_n - x_m}_{\h} < \epsilon^2 \Leftrightarrow \inner{x_{n1} - x_{m1}, x_{n1} - x_{m1}}_{\h_1} + \inner{x_{n2} - x_{m2}, x_{n2} - x_{m2}}_{\h_2} < \epsilon^2$.\\
+Since both inner products are nonnegative, each is less than $\epsilon^2$. Thus\\
+$\inner{x_{n1} - x_{m1}, x_{n1} - x_{m1}}_{\h_1} < \epsilon^2 \Leftrightarrow \norm{x_{n1} - x_{m1}}_{\h_1} < \epsilon$ and\\
+$\inner{x_{n2} - x_{m2}, x_{n2} - x_{m2}}_{\h_2} < \epsilon^2 \Leftrightarrow \norm{x_{n2} - x_{m2}}_{\h_2} < \epsilon$. So we have\\
+$\forall \epsilon > 0, \exists N \in \N, \forall n,m \in \N, n \ge N, m \ge N, \left(\norm{x_{n1} - x_{m1}}_{\h_1} < \epsilon \land \norm{x_{n2} - x_{m2}}_{\h_2} < \epsilon \right)$,\\
+i.e. both $\{x_{n1}\}$ and $\{x_{n2}\}$ are Cauchy sequences in their respective spaces. Since $\h_1,\h_2$ are Hilbert spaces, $\{x_{n1}\}$ converges to some $x_1 \in \h_1$ and $\{x_{n2}\}$ converges to some $x_2 \in \h_2$. Thus we have\\
+$\lim\limits_{n \to \infty} x_n = \lim\limits_{n \to \infty} (x_{n1},x_{n2}) = (x_1,x_2) = x$, i.e. $\{x_n\}$ converges to $x \in \h$.\\
+Thus $\h$ is complete and therefore an Hilbert space.
+
+\subsection*{1.2. Let $\tilde{\h} = \{x = (x_1,0) : x_1 \in \h_1\}$ be a subspace of $\h$. Find the orthogonal complement of $\h$.}
+We need to find all $y = (y_1,y_2) \in \h$ such that $\forall x \in \tilde{\h}, \inner{x,y} = 0$.\\
+$\inner{x,y} = 0 \Leftrightarrow \inner{x_1,y_1} + \inner{0,y_2} = 0 \Leftrightarrow \inner{x_1,y_1} + 0 = 0 \Leftrightarrow \inner{x_1,y_1} = 0$ (since $\forall y_2 \in \h_2, \inner{0,y_2} = 0$). Thus we need to find all $y_1 \in \h_1$ such that $\forall x_1 \in \h_1, \inner{x_1,y_1} = 0$. But the only such $y_1$ is $0$ (for any $y_1 \ne 0$, take $x_1 = y_1$, thus $\inner{x_1,y_1} > 0$).\\
+Hence $\tilde{\h}^{\perp} = \{(0,x2) : x_2 \in \h_2 \}$.
+
+\pagebreak
+\section*{Exercise 2}
+Let $\h$ be the Hilbert space of functions $f:[-1,1] \to \mathcal{C}$ equipped with the inner product (we do not ask that you prove it is an inner product) defined by,
+$$\forall f,g \in \h, \inner{f,g} = \int_{-1}^{1} \frac{f(x)\overline{g(x)}}{\sqrt{1-x^2}}dx.$$
+Let the Tchebyshev polynomials defined by
+$$\forall n \in \N, T_n(x) = \cos(n\theta) \text{ where } \cos(\theta) = x \text{ and } 0 \le \theta \le \pi.$$
+
+\subsection*{2.1. Show that the set of Tchebyshev polynomials form an orthogonal set of $\h$ (you must investigate the different cases $m \ne n, m = n \ne 0,$ and $m = n = 0$).}
+Since $\cos(\theta) = x, dx = -\sin(\theta)d\theta$ and the bound on the integral go from $-1,1$ to $\pi, 0$.\\
+Let $m,n \in \N$. Suppose WLOG $n \ne 0$. Then
+\begin{flalign*}
+	\inner{T_m,T_n} & = \int_{\pi}^{0} \frac{T_m \overline{T_n}}{\sqrt{1-\cos^2(\theta)}}(-\sin(\theta)d\theta) = \int_{0}^{\pi} \frac{\cos(m\theta)\cos(n\theta)}{\sin(\theta)}\sin(\theta)d\theta &&\\
+	&= \int_{0}^{\pi} \cos(m\theta)\cos(n\theta)d\theta = \cos(m\theta)\frac{\sin(n\theta)}{n}\Big|_0^{\pi} - \int_0^{\pi} -m\sin(m\theta)\frac{\sin(n\theta)}{n}d\theta \\
+	&= \left(\cos(m\pi)\frac{\sin(n\pi)}{n} - \cos(0)\frac{\sin(0)}{n}\right) + \frac{m}{n}\int_0^{\pi} \sin(m\theta)\sin(n\theta)d\theta \\
+	& = 0 + \frac{m}{n} \left[-\sin(m\theta)\frac{\cos(n\theta)}{n}\Big|_0^{\pi} - \int_0^{\pi} -m\cos(m\theta)\frac{\cos(n\theta)}{n}d\theta\right] \\
+	&= \frac{m}{n} \left[\left(-\sin(m\pi)\frac{\cos(n\pi)}{n} + \sin(0)\frac{\cos(0)}{n}\right) + \frac{m}{n}\int_0^{\pi}\cos(m\theta)\cos(n\theta)d\theta\right] \\
+	& = \frac{m}{n} \left[0 + \frac{m}{n}\int_0^{\pi}\cos(m\theta)\cos(n\theta)d\theta\right] = \frac{m^2}{n^2} \int_0^{\pi}\cos(m\theta)\cos(n\theta)d\theta\\
+	\Leftrightarrow & \int_0^{\pi}\cos(m\theta)\cos(n\theta)d\theta = \frac{m^2}{n^2} \int_0^{\pi}\cos(m\theta)\cos(n\theta)d\theta\\
+	\Leftrightarrow & \int_0^{\pi}\cos(m\theta)\cos(n\theta)d\theta (1 - \frac{m^2}{n^2}) = 0
+\end{flalign*}
+If $m \ne n$, then $1-\frac{m^2}{n^2} \ne 0$, so $\int_0^{\pi}\cos(m\theta)\cos(n\theta)d\theta = 0$. This alone shows that $\{T_n\}$ forms an orthogonal set of $\h$.
+
+\vspace{3 mm}
+If $m = n \ne 0$, then
+\begin{flalign*}
+	\inner{T_n,T_n} &= \int_0^{\pi} \cos^2(n\theta)d\theta = \frac{1}{2}\left[\theta + \sin(n\theta)\cos(n\theta)\right]_0^{\pi} = \frac{1}{2} \left(\pi + \sin(n\pi)\cos(n\pi) - 0 \sin(0)\cos(0)\right) &&\\
+	&= \frac{\pi}{2}
+\end{flalign*}
+
+\vspace{3 mm}
+If $m = n = 0$, then $T_n = \cos(0\theta) = 1$, so
+\begin{flalign*}
+	\inner{T_n,T_n} = \inner{1,1} = \int_{-1}^1 \frac{(1)\overline{1}}{\sqrt{1-x^2}}dx = \int_{-1}^1 \frac{dx}{\sqrt{1-x^2}} = \arcsin{x}\Big|_{-1}^1 = \frac{\pi}{2} - \left(-\frac{\pi}{2}\right) = \pi &&
+\end{flalign*}
+
+Therefore $\{T_n\}$ forms an orthogonal set of $\h$.
+
+\subsection*{2.2. Show that $\norm{T_0} = \sqrt{\pi}$ and $\norm{T_n} = \sqrt{\frac{\pi}{2}}$ for $n \ge 1$.}
+We are assuming that $\norm{T_n}$ refers to the norm induced by the inner product, i.e. $\norm{T_n} = \sqrt{\inner{T_n,T_n}}$, and not the operator norm.\\
+From the previous part, we have\\
+$\norm{T_0} = \sqrt{\inner{T_0,T_0}} = \sqrt{\pi}$.\\
+For $n \ge 1$, $\norm{T_n} = \sqrt{\inner{T_n,T_n}} = \sqrt{\frac{\pi}{2}}.$
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+\end{document}

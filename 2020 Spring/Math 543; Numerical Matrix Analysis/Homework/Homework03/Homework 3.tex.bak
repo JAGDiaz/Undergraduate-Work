@@ -1,0 +1,197 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{bm}
+\usepackage{amsthm}
+\usepackage{enumerate}
+\usepackage{graphicx}
+\usepackage{psfrag}
+\usepackage{color}
+\usepackage{url}
+\usepackage{listings}
+\usepackage{xcolor}
+
+\definecolor{codegreen}{rgb}{0,0.5,0}
+\definecolor{codewhite}{rgb}{1,1,1}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{codeblack}{rgb}{0,0,0}
+\definecolor{codeorange}{rgb}{0.8,0.4,0}
+
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{codewhite},   
+    commentstyle=\color{codegray},
+    keywordstyle=\color{codegreen},
+    numberstyle=\color{codegray},
+    stringstyle=\color{codeorange},
+    basicstyle=\ttfamily ,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=4
+}
+\lstset{style=mystyle}
+
+\setlength{\hoffset}{-1in}
+\addtolength{\textwidth}{2in}
+\setlength{\voffset}{-1in}
+\addtolength{\textheight}{1.0in}
+
+\newcommand{\be}{\begin{enumerate}}
+\newcommand{\ee}{\end{enumerate}}
+
+\begin{document}
+	\begin{large}
+	\begin{center}
+		\textbf{Spring 2020, Math 543:\ Homework 3} \\
+		\textbf{Due:\ Friday, February 28th, 2020} \\
+		\textbf{Joseph Diaz: 819947915}
+	\end{center}
+\noindent\makebox[\linewidth]{\rule{\paperwidth}{0.4pt}}
+	\section*{QR-factorization}
+	Implement the reduced \textbf{QR-factorization} by classical Gram-Schmidt Orthogonalization.\\
+	Write a function which given a matrix $A \in \mathbb{C}^{m\times n}$ computes $Q \in \mathbb{C}^{m\times n}$ and $R \in \mathbb{C}^{n\times n}$. \\
+	Validate your function - test that $A - QR \approx 0$, that $Q$ is \textit{unitary} and $R$ \textit{upper triangular}. Compare the result with the built-in version of the QR-factorization for your language. Can you find a matrix where your QR-factorization breaks?\\
+\noindent\makebox[\linewidth]{\rule{\paperwidth}{0.4pt}}
+Sample output:
+\begin{lstlisting}
+A is a 120 by 10, with tolerance 1.000e-12
+
+My QR: Infinity norm of A - QR: 0.000e+00
+My Q is unitary:  False
+My R is upper triangular:  True
+--------------------------------------------------------------------
+A is a 100 by 100, with tolerance 1.000e-12
+
+My QR: Infinity norm of A - QR: 2.731e-14
+My Q is unitary:  True
+My R is upper triangular:  True
+
+Python's QR: Infinity norm of A - QR: 8.419e-14
+Python's Q is unitary:  True
+Python's R is upper triangular:  True
+--------------------------------------------------------------------
+A is a 54 by 3, with tolerance 1.000e-13
+
+My QR: Infinity norm of A - QR: 4.441e-16
+My Q is unitary:  True
+My R is upper triangular:  True
+
+Python's QR: Infinity norm of A - QR: 8.882e-16
+Python's Q is unitary:  True
+Python's R is upper triangular:  True
+--------------------------------------------------------------------
+A is a 666 by 37, with tolerance 1.000e-14
+
+My QR: Infinity norm of A - QR: 7.799e-15
+My Q is unitary:  True
+My R is upper triangular:  True
+
+Python's QR: Infinity norm of A - QR: 3.535e-14
+Python's Q is unitary:  True
+Python's R is upper triangular:  True
+--------------------------------------------------------------------
+A is a 32 by 100, with tolerance 1.000e-15
+
+My QR: Infinity norm of A - QR: 2.047e-14
+My Q is unitary:  False
+My R is upper triangular:  True
+
+Python's QR: Infinity norm of A - QR: 7.323e-14
+Python's Q is unitary:  True
+Python's R is upper triangular:  False
+--------------------------------------------------------------------
+\end{lstlisting}
+As we can see, the infinity-norm of the difference of our $A$ and $QR$ matrices is very low in each case, even on the same order of magnitude as that of Python's QR factorization. In addition, we have Python subroutines to check if $Q$ is unitary and if $R$ is upper triangular. The comparisons in these last 2 subroutines use a tolerance value (some small number on the order $1e-10$) instead of checking equality with zero where it makes sense to do so to avoid problems with floating-point number comparisons. The only matrices for which the QR factorization failed were matrices with more columns than rows and zero matrices of any dimension ($Q$ could never be unitary in these cases). 
+Source code for program:
+\begin{lstlisting}[language=python]
+#! /usr/bin/python3
+
+import numpy as np
+from matplotlib import pyplot as plt
+
+def classic_GS(A):
+	r = np.zeros((A.shape[1], A.shape[1]))
+	q = np.zeros(A.shape)
+	for j in range(A.shape[1]):
+		v = np.copy(A[:,j], order='K')
+		for i in range(j):
+			r[i,j] = np.dot(q[:,i],v)
+			v = v - r[i,j]*q[:,i]
+
+		r[j,j] = np.linalg.norm(v)
+		if(r[j,j] < 1e-12):
+			r[j,j] = 1e-12
+		q[:,j] = v/r[j,j]
+
+	return q, r
+
+def matrix_Print(A):
+	for i in A:
+		print(i)
+
+def is_Up_Tri(A, tol):
+	if(A.shape[0] != A.shape[1]):
+		return False
+	for i in range(A.shape[0]):
+		for j in range(i + 1, A.shape[0]):
+			if(np.abs(A[j,i]) > tol):
+				return False
+	return True
+
+def is_Low_Tri(A, tol):
+	if(A.shape[0] != A.shape[1]):
+		return False
+	for i in range(A.shape[0]):
+		for j in range(i + 1, A.shape[0]):
+			if(np.abs(A[i,j]) > tol):
+				return False
+	return True
+
+def is_Unitary(A, tol):
+	for i in range(A.shape[1]):
+		if(np.abs(1-np.linalg.norm(A[:,i], 2)) > tol):
+			return False
+		for j in range(i+1,A.shape[1]):
+			if(np.abs(np.dot(A[:,i],A[:,j])) > tol):
+			  	return False
+	return True
+	
+A = np.zeros((120,10))
+print("A is a %d by %d, with tolerance %1.3e" 
+		% (A.shape[0], A.shape[1], 1e-12))
+q,r = classic_GS(A)
+print("\nMy QR: Infinity norm of A - QR: %1.3e" 
+		% np.linalg.norm(A-q@r, np.inf))
+print("My Q is unitary: ", is_Unitary(q,1e-12))
+print("My R is upper triangular: ", is_Up_Tri(r, 1e-12))
+print("")
+
+for p in pSizes:
+	print("A is a %d by %d, with tolerance %1.3e" % (p))
+
+	Ar = np.random.randn(p[0],p[1])
+	q,r = classic_GS(Ar)
+	q1, r1 = np.linalg.qr(Ar, 'reduced')
+
+	print("\nMy QR: Infinity norm of A - QR: %1.3e" 
+			% np.linalg.norm(Ar-q@r, np.inf))
+	print("My Q is unitary: ", is_Unitary(q,p[2]))
+	print("My R is upper triangular: ", is_Up_Tri(r, p[2]))
+
+	print("\nPython's QR: Infinity norm of A - QR: %1.3e" 
+			% np.linalg.norm(Ar-q1@r1, np.inf))
+	print("Python's Q is unitary: ", is_Unitary(q1,p[2]))
+	print("Python's R is upper triangular: ", is_Up_Tri(r1,p[2]))
+	print("")
+\end{lstlisting}
+\noindent\makebox[\linewidth]{\rule{\paperwidth}{0.4pt}}
+	
+	\end{large}
+\end{document}

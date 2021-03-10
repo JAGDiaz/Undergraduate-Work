@@ -1,0 +1,317 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{bm}
+\usepackage{amsthm}
+\usepackage{enumerate}
+\usepackage{graphicx}
+\usepackage{psfrag}
+\usepackage{color}
+\usepackage{url}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usepackage{pdfpages}
+\usetikzlibrary{positioning}
+\tikzset{main node/.style={circle,fill=gray!20,draw,minimum size=.5cm,inner sep=0pt},}
+
+\definecolor{codegreen}{rgb}{0,0.5,0}
+\definecolor{codewhite}{rgb}{1,1,1}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{codeblack}{rgb}{0,0,0}
+\definecolor{codeorange}{rgb}{0.8,0.4,0}
+
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{codewhite},   
+    commentstyle=\color{codegray},
+    keywordstyle=\color{codegreen},
+    numberstyle=\color{codegray},
+    stringstyle=\color{codeorange},
+    basicstyle=\ttfamily ,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=4
+}
+\lstset{style=mystyle}
+
+
+\setlength{\hoffset}{-1in}
+\addtolength{\textwidth}{1.5in}
+\setlength{\voffset}{-1in}
+\addtolength{\textheight}{1.5in}
+\newcommand{\be}{\begin{enumerate}}
+\newcommand{\ee}{\end{enumerate}}
+\newcommand{\BigO}[1]{\ensuremath\mathcal{O}\left(#1\right)}
+\newcommand{\il}[1]{\lstinline!#1!}
+\newcommand{\gnorm}[1]{\left|\left|#1\right|\right|}
+\newcommand{\abs}[1]{\left|#1\right|}
+\newcommand{\parens}[1]{\left(#1\right)}
+\newcommand{\bracks}[1]{\left\{#1\right\}}
+\newcommand{\sqbracks}[1]{\left[#1\right]}
+\newcommand{\vep}{\varepsilon}
+\newcommand{\ceiling}[1]{\left\lceil#1\right\rceil}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\distrib}[2]{\text{#1}\left(#2\right)}
+\newcommand{\dd}[1]{\frac{d}{d#1}}
+\newcommand{\abracks}[1]{\left< #1\right>}
+
+\begin{document}
+	\begin{center}
+		\textbf{Spring 2020, CS 310:\ Final Exam} \\
+		\textbf{Due:\ Tuesday, May 12th, 2020} \\
+		\textbf{Joseph Diaz: 819947915}
+	\end{center}
+\noindent\makebox[\linewidth]{\rule{\paperwidth}{0.4pt}}
+\be[1.]
+	\item \textbf{Time Complexities}\\
+Assume the most time-efficient way to implement the operations listed below, assume no duplicate values and that you can implement the operation as a member function of the class – with access to the underlying data structure, including knowing the number of values currently stored ($n$). Give the tightest possible upper bound for the worst-case running time for each operation in terms of N, Big-O. Explain why that is the worst-case running time.
+	\be[a.] 
+		\item Sorting the elements of an array with Merge Sort.\\
+		$\BigO{n\log n}$; because at each step the array is split into multiple sub-arrays that are of length $n/p$ for some $p>0$, until the length of each sub-array is small enough to easily sort and merge up. This happens to each of the $n$ elements of the array, and the length of each sub-array changes as $\log n$ so we have complexity of $\BigO{n\log n}$. 
+		
+		\item Given an input integer from the user, find if the integer is odd / even.\\
+		$\BigO{1}$, this is a constant time operation; because checking for this involves a simple \il{if-else} clause with the modulo operator, the complexity of which doesn't change for any given integer input.
+		
+		\item Finding an element on a sorted array with Binary Search.\\
+		$\BigO{\log n}$; because in using a binary search algorithm on a sorted array, every iteration of the algorithm halves the number of elements of the array being examined, so the number of operations only grows as $\log n$.
+		
+		\item Given a string input from the user (with $n$ characters), find all permutations of the string.\\
+		$\BigO{n^2n!}$; because for any string of length $n$, there are at most $n!$ ways to reorder the letters into unique permutations, and iterating through the characters of the string to permute the sub-strings gives an extra factor of $n$, and as such each requires $n$ string concatenation; so the complexity is $\BigO{n^2n!}$.
+		
+		\item Given a set of n numbers from the user, find all subsets of the set.\\
+Example: 
+		\begin{itemize}
+		\item Set is $\bracks{1,2,3}$; subsets are $\bracks{}$, $\bracks{1}$, $\bracks{2}$, $\bracks{3}$, $\bracks{1,2}$, $\bracks{1,3}$, $\bracks{2,3}$.
+		\item $\bracks{1,2}$ and $\bracks{2,1}$ are considered the same set. 
+		\end{itemize}
+		$\BigO{n2^n}$; because the number of subsets of size $k$ of a set of size $n$ is $\binom{n}{k}$, and the sum of the numbers of subsets for all $0 \leq k < n$ is 
+		$$\sum_{k=0}^{n-1}\binom{n}{k} = 2^n -1$$
+		Combining with the actual merging of each subsets potentially nonconsecutive elements gives another $n$ operations per subset, so the complexity is $\BigO{n2^n}$.
+	\ee 
+	\pagebreak
+	\item \textbf{Hashing}
+	Given below is the ASCII Table for characters:\\
+	\begin{figure}[h!]
+	\centering
+	\includegraphics[width=.9\linewidth]{"ASCII Table".jpg}
+	\end{figure}
+	You are given the following set of keys to add to the hashtable:
+	\begin{center}
+	\begin{tabular}{cc}
+	``a b e d'' & ``s e a x'' \\	
+	``a b c d'' & ``c d e f'' \\
+	``d c b a'' & ``x a e s''
+	\end{tabular}
+	\end{center}
+	\textit{Dictionary objects are (K,V) pairs. Here V Value does not matter. K keys is listed as above for the purpose of comparing hashfunctions.
+The keys are 4-character Strings.}\\
+	Draco and Harry have each written a hashfuction to map the above keys into \textbf{a hashtable of size 10}.\\
+	\textbf{\underline{Draco's Hashfunction:}}
+	\begin{itemize}
+		\item Find the \textbf{ASCII $\to$ OCT} value of each character from the given table. (\textit{pay attention to the case, uppercase and lowercase are different OCT value})	
+		\item Add the remaining values and mod by 10 to get the index.	
+		\item In case of collision, use \textbf{Open Addressing with Linear Probing}. If you reach the end of the table loop back to top.	
+	\end{itemize}
+	\textbf{Example:}\\
+	Reading OCT values from the given table, all lowercase letters w,x,y,z.
+	$$\text{``w x y z''} \to 167+170+171+172 = 680 \mod 10 = 0$$
+	Using Draco’s function add the keys given at the start of the question to the following table and show the working for each key, \textit{you must enter the values in the table and show the steps for each key in order to get any credit}.
+	\begin{center}
+	\begin{tabular}{cc}
+	\begin{tabular}{|c|c|}
+	\hline
+	index & key\\
+	\hline
+	0 & ``a b c d''\\
+	\hline
+	1 & ``d c b a''\\
+	\hline
+	2 & ``a b e d''\\
+	\hline
+	3 & ``x a e s''\\
+	\hline
+	4 & \\
+	\hline
+	5 & \\
+	\hline
+	6 & \\
+	\hline
+	7 & \\
+	\hline
+	8 & ``c d e f''\\
+	\hline
+	9 & ``s e a x''\\
+	\hline
+	\end{tabular}
+	&
+	\begin{tabular}{c|l}
+	$k$ & Hash Function and linear probing\\
+		\hline
+		``a b e d'' & $\to 141+142+145+144 = 572 \mod 10 = 2$, insert ``a b e d'' at index 2.\\
+		
+		``a b c d'' & $\to 141+142+143+144 = 570 \mod 10 = 0$, insert ``a b c d'' at index 0.\\
+		
+		``d c b a'' & $\to 144+143+142+141 = 570 \mod 10 = 0$, index 0 is unavailable.\\
+		& $\to$ check index 1, index 1 is available, insert ``d c b a'' at index 1.\\
+		
+		``s e a x'' & $\to 163+145+141+170 = 619 \mod 10 = 9$, insert ``s e a x'' at index 9.\\
+		
+		``c d e f'' & $\to 143+144+145+146 = 578 \mod 10 = 8$, insert ``c d e f'' at index 8.\\
+		
+		``x a e s'' & $\to 170+141+145+163 = 619 \mod 10 = 9$, index 9 is unavailable.\\
+		& $\to$ check index 0, index 0 is unavailable.\\
+		& $\to$ check index 1, index 1 is unavailable.\\
+		& $\to$ check index 2, index 2 is unavailable.\\
+		& $\to$ check index 3, index 3 is available, insert ``x a e s'' at index 3.\\
+	\end{tabular}
+	\end{tabular}
+	\end{center}
+	
+	\textbf{\underline{Harry's Hashfunction:}}
+	\begin{itemize}
+		\item Assign number to each character in the key based on their position in the Alphabet (A is 1, B is 2, C is 3 and so on).
+		\item Concatenate the first two numbers (join numbers do not add) and concatenate the next two numbers (join numbers do not add).
+		\item Add mathematically both concatenated numbers from previous step.
+		\item Mod the number resulting from the previous step by 10 to get the index.
+		\item In case of collision use Open Addressing with Quadratic probing (checking 1,4,9,16$^{\text{th}}$ position and so on). If you reach the end of the table, loop back to top.
+	\end{itemize}
+	\textbf{Example:}\\
+	w is position 23, x is position 24, y is position 25, z is position 26.
+	$$\text{w x y z} \to \text{SUM(``23''+``24'', ``25''+``26'')} = 2324 + 2526 = 4850 \mod 10 = 0$$
+	Using Harry’s function add the keys given at the start of the question to the following table and show the working for each key, \textit{you must enter the values in the table and show the steps for each key in order to get any credit}.
+	\begin{center}
+	\begin{tabular}{cc}
+	\begin{tabular}{|c|c|}
+	\hline
+	index & key\\
+	\hline
+	0 & ``c d e f''\\
+	\hline
+	1 & ``x a e s''\\
+	\hline
+	2 & \\
+	\hline
+	3 & \\
+	\hline
+	4 & ``d c b a''\\
+	\hline
+	5 & \\
+	\hline
+	6 & ``a b e d''\\
+	\hline
+	7 & ``a b c d''\\
+	\hline
+	8 & \\
+	\hline
+	9 & ``s e a x''\\
+	\hline
+	\end{tabular}
+	&
+	\begin{tabular}{c|l}
+	$k$ & Hash Function and quadratic probing\\
+		\hline
+		``a b e d'' & $\to$ SUM(``1''+``2'',``5''+``4'') $= 12 + 54 = 66 \mod 10 = 6$. \\
+		& $\to$ insert ``a b e d'' at index 6.\\
+		
+		``a b c d'' & $\to$ SUM(``1''+``2'',``3''+``4'') $= 12 + 34 = 46 \mod 10 = 6$. \\
+		& $\to$ index 6 is unavailable, check index 7, index 7 is available.\\
+		& $\to$ insert ``a b c d'' at index 7. \\
+		
+		``d c b a'' & $\to$ SUM(``4''+``3'',``2''+``1'') $= 43 + 21 = 64 \mod 10 = 4$. \\
+		& $\to$ insert ``d c b a'' at index 4.\\
+		
+		``s e a x'' & $\to$ SUM(``19''+``5'',``1''+``24'') $= 195 + 124 = 319 \mod 10 = 9$. \\
+		& $\to$ insert ``s e a x'' at index 9.\\
+		
+		``c d e f'' & $\to$ SUM(``3''+``4'',``5''+``6'') $= 34 + 56 = 90 \mod 10 = 0$. \\
+		& $\to$ insert ``c d e f'' at index 0.\\
+		
+		``x a e s'' & $\to$ SUM(``24''+``1'',``5''+``19'') $= 241 + 519 = 760 \mod 10 = 0$. \\
+		& $\to$ index 0 is unavailable, check index 1, index 1 is available.\\
+		& $\to$ insert ``x a e s'' at index 1.
+	\end{tabular}
+	\end{tabular}
+	\end{center}
+	\textbf{Extra Credit:} Based on the above results, whose hash function is better and why?\\\\
+	Harry's Hashfunction is better. There were fewer collisions for the same input, because Draco's function causes permutations of any string to always resolve to the same hashcode. While it didn't play a much of role for the set of keys given, the use of quadratic probing in Harry's function allows for a wider spread of keys in the table if collisions do happen. The only real advantage that Draco's function has over Harry's is that it is easier to implement.
+	
+	\item \textbf{Data Structure applications}\\
+Answer the following questions based on the applications of Data structures.
+	\be
+		\item In the project you are developing, adding each data must be a constant time operation. Data need not be maintained in any certain order. The amount of data grows dynamically. What data structure would you use and why?\\\\
+		A linked list would work well for such a project, assuming a linear search approach to finding data in the structure is acceptable. Insertion and deletion at the beginning are constant time operations; and if a reference for the last node of the list is implemented, then insertion and deletion at that end will also be constant time. Further, new nodes can always be added.
+		
+		\item You are writing a program to make a turtle walk through a maze. In order for the turtle to make the correct decisions, you must use backtracking to keep track of all the moves made before. What data structure would you use and why?\\\\
+		I would define the turtle's starting point in the maze as the first node of an undirected graph and each path from that point as an edge to another node wherein more paths becomes available, and do so for every node along each path as they are discovered. By keeping track of edges between nodes, which edges have been traversed, and which nodes have been visited, the turtle keeps visiting nodes connected by edges until the ``end'' of the maze has been discovered. If a metric by which a weighting could be assigned to each edge is devised, then, afterwards, any shortest path algorithm could be used to optimize solving of that particular maze.
+		
+		\item A Salesman is starting from his headquarters City A and has to visit 5 other cities. Given the distance between each of the cities and considering that all roads travel both ways (no direction to roads) , you need to find the shortest path that connects all the cities. Assume you are starting from City A and assume all cities are connected. What algorithm would you use and why?\\\\
+		The algorithm to be used depends on precisely what is meant by ``all cities are connected''. If that phrase means that each city has a direct connection with every other city, then Prim's algorithm is preferable as there would be $\frac{6(6-1)}{2} = 15$ edges making for a rather dense graph. If the phrase just means that a path from any city to any other city exists, then Kruskal's Algorithm would be the best algorithm to use; because real roads between cites tend to more closely resemble sparesely connected graphs. Suppose the connections between the cities are major highways; then defining a metric for the weighting on each edge could be something as mundane distance along that road, or perhaps travel time given external factors like traffic; then determining the shortest path that connects all cities depends on those weightings.
+		
+		\item My phonebook is now digitized and my database is sorted alphabetically. What algorithm should I use to find a person from the database and why?\\\\
+		Given that the database is always sorted, a Binary Search Algorithm of some kind would work best; as strings can be compared like numeric types and a binary search approach would be very efficient no matter how many entries the phonebook has.
+		
+	\ee
+	\item \textbf{Graphs}\\
+	Given a weighted, undirected graph with V nodes, answer the following as best as possible, with a brief explanation. Assume all weights are non-negative.
+	\be[a.]
+		\item If each edge has a unique weight, what can you say about the MST?\\\\
+		If each edge in the graph has a unique weight, then the MST that spans the graph is unique in terms of the edges that it contains. After all, if you're creating an MST on this graph then you would create it with the $V-1$ edges of least weight that create a spanning tree. If each edge has unique weight, then there is only one set of such edges. 
+		\item If the cost of an MST is $c$, what can you say about the shortest distances returned by Dijkstra’s algorithm when run with an arbitrary vertex $s$ as the source?\\\\
+		Using Dijkstra's algorithm on such a graph, you would have that the shortest distance attainable from $s$ to any other vertex must be less than $c$; because any path longer than $c$ would not end up in the MST. 
+		
+		\item How many edges exist in the MST with $V$ nodes?\\\\
+		The MST has exactly $V-1$ edges; because if it had any fewer then the tree would not span the graph, and any more would mean that it is no longer a tree.
+		
+		\item If one vertex in the graph does not have any edges attached to it. What does that tell you about the Minimum Spanning Tree?\\\\
+		That means you have a disconnected graph, and therefore there is no MST for the whole graph. There may still exist an MST for each of the separate fully connected pieces of the graph, though.
+		
+		\item What algorithm would you use to find the MST if there are two edges between every given pair of vertices.\\\\
+		Prim's Algorithm is preferable to Kruskal's in this case, because if every pair of vertices is connected by 2 edges then the number of egdes in the graph is $2\cdot\frac{V(V-1)}{2} = V^2 - V$, and so you have a very dense graph in terms of edges. Prim's strategy of starting with an arbitrary vertex and adding edges of least weight that connect to undiscovered vertices is more efficient, because there is no need to consider an edge at all if the 2 vertices in question are already connected.
+		
+		\item  Other than Prim’s and Kruskal’s find one other algorithm to find Minimum Spanning Tree.\\\\
+		Bor$\mathring{\text{u}}$vka's Algorithm is another algorithm for finding minimum spanning trees. It begins with set $F$ of single vertex Minimum Spanning Forests made of the vertices of the input graphs $G$ and each ``components'' least-weight edges are added to the MST until the set $F$ is down to a single tree that contains all vertices of $G$. 
+	\ee 
+	\pagebreak
+	\item \textbf{Trees}\\
+	Consider the following Tree:
+	\begin{figure}[h!]
+	\centering
+	\includegraphics[width=.5\linewidth]{"Tree".jpg}
+	\end{figure}
+	\be[a.] 
+		\item Write traversals of the tree shown above:\\
+		Pre-Order: $\sqbracks{20,\ 11,\ 8,\ 9,\ 18,\ 42,\ 56}$\\
+		Post-Order: $\sqbracks{9,\ 8,\ 18,\ 11,\ 56,\ 42,\ 20}$\\
+		In-Order: $\sqbracks{8,\ 9,\ 11,\ 18,\ 20,\ 42,\ 56}$\\
+		
+		\item Given the tree above:\\
+		Circle yes or no to indicate whether the tree above might represent each of the following data structures. 
+\textbf{If you circle no, you must describe one way to modify the tree in order to make the answer into a yes}.
+		\begin{itemize}
+		\item AVL tree \qquad\underline{Yes.}
+		\item Binary Search Tree \qquad \underline{Yes.}
+		\item Full Binary Tree \qquad \underline{No.} As it stands, this not a Full Binary Tree. However, an AVL tree style double rotation to make 18 the root would yield a Full Binary Tree (Assuming the structure of a BST is respected during the rotation).  
+		\end{itemize}		 
+
+		\item AVL Trees (Independent question not relating to above tree)
+Draw the AVL tree that results from inserting the keys: 
+$$\sqbracks{56,\ 78,\ 90,\ 23,\ 1,\ 4,\ 76,\ 34}$$
+		in that order into an initially empty AVL tree. 
+Showcase all intermediate steps and circle your final answer. Partial credit is awarded for correct intermediate trees.\\
+\begin{center}
+\textbf{*Illustrations of AVL tree on next page*}
+\end{center}
+	\ee
+\ee
+\noindent\makebox[\linewidth]{\rule{\paperwidth}{0.4pt}}
+\end{document}

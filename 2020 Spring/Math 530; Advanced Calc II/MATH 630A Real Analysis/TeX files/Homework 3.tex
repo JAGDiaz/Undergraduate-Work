@@ -1,0 +1,157 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[latin1]{inputenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{graphicx}
+\usepackage{mdframed}
+\usepackage{xcolor}
+\usepackage{amsmath}
+\usepackage[left=0.8in, right=0.8in, top=1.00in, bottom=1.00in]{geometry}
+\usepackage{mathtools}
+\def\multichoose#1#2{\ensuremath{\left(\kern-.3em\left(\genfrac{}{}{0pt}{}{#1}{#2}\right)\kern-.3em\right)}}
+\author{Jackson Autry}
+\begin{document}
+	\newmdenv[linecolor=gray!40,leftmargin=0,%
+	innerleftmargin=4pt,
+	rightmargin=0pt,
+	innerbottommargin=3pt,
+	skipbelow=4pt,
+	backgroundcolor=gray!40,%
+	innertopmargin=3pt,]{ques}
+
+	
+\begin{center}
+	\textbf{MATH 630A} %############ Insert Course Title! #############
+	
+		Homework 3s	%############### Put Homework # ###################
+		
+		Jackson Autry
+\end{center}
+
+\section*{Exercise 1}
+\begin{ques}
+	Let $X$ be the space of all sequences of the form
+	$$x = (x_1,x_2,x_3,\ldots,x_n,0,0,\ldots) \text{ where } \forall i \in \mathbb{N}, x_i \in \mathbb{R}$$
+	whose terms are all zeros after some index. We define
+	$$\Vert x \Vert_{\infty} = \underset{i \in \mathbb{N}}{\max} \vert x_i \vert.$$
+\end{ques}
+
+1.1
+\begin{ques}
+	Show that $(X,\Vert . \Vert_{\infty})$ defines a normed vector space.
+\end{ques}
+	
+	We first make the assumption that $\forall x,y \in X$, where $x = (x_1,x_2,x_3,\ldots,x_n,0,0,\ldots)$ and $y =  (y_1,y_2,y_3,\ldots,y_m,0,0,\ldots)$, then for $z = x + y$ we have $z_i = x_i + y_i$ and $z = (z_1,z_2,z_3,\ldots)$. We also make the assumption that the zero vector, $\theta = (0,0,0,\ldots).$\\
+	
+	Now since $\Vert x \Vert_{\infty} = \underset{i \in \mathbb{N}}{\max} \vert x_i \vert$, and $\forall x_i \in \mathbb{R}, \vert x_i \vert \ge 0$ we have $\Vert x \Vert_{\infty} \ge 0$. Furthermore we have $\Vert x \Vert_{\infty} = 0 \Longleftrightarrow \underset{i \in \mathbb{N}}{\max} \vert x_i \vert = 0$, and $\forall j \in \mathbb{N}, 0 \le \vert x_j \vert \le \underset{i \in \mathbb{N}}{\max} \vert x_i \vert = 0$, so we must have $\forall j \in \mathbb{N}, \vert x_j \vert = 0 \Longleftrightarrow x_j = 0$, i.e. $x = (0,0,0,\ldots) = \theta$.\\
+	
+	Now, $\forall \alpha \in \mathbb{K}, \Vert \alpha x \Vert_{\infty} = \underset{i \in \mathbb{N}}{\max} \vert \alpha x_i \vert = \vert \alpha \vert \underset{i \in \mathbb{N}}{\max} \vert x_i \vert = \vert \alpha \vert \Vert x \Vert_{\infty}$\\
+	
+	Finally, we have $\forall x,y \in X, \Vert x+y \Vert_{\infty} = \underset{i \in \mathbb{N}}{\max} \vert x_i + y_i \vert \leq \underset{i \in \mathbb{N}}{\max} \left( \vert x_i \vert + \vert y_i \vert \right)$.
+	
+	\noindent Now, $\forall j \in \mathbb{N}, \vert x_j \vert \leq \underset{i \in \mathbb{N}}{\max} \vert x_i \vert$, and $\forall j \in \mathbb{N}, \vert y_j \vert \leq \underset{i \in \mathbb{N}}{\max} \vert y_i \vert$, and we have 
+	$$\Vert x+y \Vert_{\infty} \le \underset{i \in \mathbb{N}}{\max} \left( \vert x_i \vert + \vert y_i \vert \right) \le \underset{i \in \mathbb{N}}{\max} \vert x_i \vert + \underset{i \in \mathbb{N}}{\max} \vert y_i \vert = \Vert x \Vert_{\infty} + \Vert y \Vert_{\infty}$$
+	So the triangle inequality holds and $(X, \Vert . \Vert_{\infty})$ is a normed vector space.
+	
+	
+\pagebreak
+1.2
+\begin{ques}
+	Show that $X$ is not complete.
+\end{ques}
+	
+	Let $\{x_n\}$ be a sequence defined by $\forall n \in \mathbb{N}, x_n = (1, \frac{1}{2}, \frac{1}{3}, \ldots, \frac{1}{n}, 0,0,0,\ldots)$. Certainly $\forall n \in \mathbb{N}, x_n \in X$. Then
+	
+	\noindent$\forall n,k \in \mathbb{N}, \Vert x_{n+k} - x_n \Vert_{\infty} = \underset{i \in \mathbb{N}}{\max} \vert x_{n+k_i} - x_{n_i} \vert$
+	
+	\noindent where $x_{n_i}$ is the $i-th$ term in the $n-th$ sequence of $x_n$. Since $x_n$ is defined to be monotonically decreasing, then if $i\le n$, $x_{n+k_i} = x_{n_i}$, if $n < i \le n+k$, $x_{n+k_i} = \frac{1}{i}$ and $n_{k_i} = 0$, and if $i > n+k$, $x_{n+k_i} = x_{n_i} = 0$. Hence we have
+	
+	\noindent $\forall n,k \in \mathbb{N}, \Vert x_{n+k} - x_n \Vert_{\infty} = \underset{i \in \mathbb{N}}{\max} \vert x_{n+k_i} - x_{n_i} \vert = \frac{1}{n+1}$.
+	
+	\noindent Then $\forall \epsilon > 0$, let $N \in \mathbb{N}$ and set $N > \frac{1}{\epsilon} - 1$. Then we have
+	
+	\noindent $\forall \epsilon > 0, \exists N \in \mathbb{N}, N > \frac{1}{\epsilon} - 1, \forall n,k \in \mathbb{N}, n \ge N, \Vert x_{n+k} - x_{n} \Vert_{\infty} = \frac{1}{n+1} \leq \frac{1}{N+1} < \epsilon$,
+	
+	\noindent i.e. $\{x_n\}$ is Cauchy. However, $\{x_n\}$ converges to the sequence $x = (1,\frac{1}{2},\frac{1}{3},\ldots)$, which has no zeros in it, so $x \not\in X$. Hence $X$ is not complete.
+	
+\vspace{5 mm}
+\section*{Exercise 2}
+\begin{ques}
+	Let define $\forall x,y \in \mathbb{R}, d(x,y) = \vert \arctan(x) - \arctan(y) \vert$
+\end{ques}
+
+2.1
+\begin{ques}
+	Is $(\mathbb{R},d)$ a metric space?
+\end{ques}
+	
+	Clearly $\mathbb{R}$ is a vector space. We have $\forall x,y,z \in \mathbb{R}$,
+	
+	$d(x,y) = \vert \arctan(x) - \arctan(y) \vert \ge 0$, and
+	
+	$d(x,y) = 0 \Longleftrightarrow \vert \arctan(x) - \arctan(y) \vert = 0 \Longleftrightarrow \arctan(x) - \arctan(y) = 0$
+	
+	\hspace{20.5 mm}$\Longleftrightarrow \arctan(x) = \arctan(y) \Longleftrightarrow x = y$.\\
+	
+	$d(x,y) = \vert \arctan(x) - \arctan(y) \vert = \vert \arctan(y) - \arctan(x) \vert = d(y,x)$.\\
+	
+	$d(x,y) = \vert \arctan(x) - \arctan(y) \vert = \vert \arctan(x) - \arctan(z) + \arctan(z) - \arctan(y) \vert$
+	
+	\hspace{11.5 mm} $\leq \vert \arctan(x) - \arctan(z) \vert + \vert \arctan(z) - \arctan(y) \vert = d(x,z) + d(z,y)$.\\
+	
+	Hence we have that $(\mathbb{R},d)$ is a metric space.
+	
+\vspace{5 mm}	
+2.2
+\begin{ques}
+	Is $(\mathbb{R},d)$ a bounded space?
+\end{ques}
+	
+	Since $\forall x \mathbb{R}, -\frac{\pi}{2} \leq \arctan(x) \leq \frac{\pi}{2}$, we have $\forall x,y \in \mathbb{R}, d(x,y) = \vert \arctan(x) - \arctan(y) \vert \leq \pi$. So $(\mathbb{R},d)$ is bounded.
+	
+\pagebreak
+2.3
+\begin{ques}
+	Find the expressions of the open balls $B_2(0), B_4(0),$ and $B_4(1)$. What can you observe?
+\end{ques}
+	
+	$B_2(0) = \{y \in \mathbb{R} : \vert \arctan(0) - \arctan(y) \vert < 2\} = \{y \in \mathbb{R} : \vert \arctan(y) \vert < 2 \}$
+	
+	But since $\forall y \in \mathbb{R}, \vert \arctan(y) \vert \le \frac{\pi}{2}$, we have
+	
+	$B_2(0) = \mathbb{R}$. By a similar argument, $B_4(0) = \mathbb{R}$.
+	
+	Now, since $\arctan(1) < 2$, we have $\forall y \in \mathbb{R}, \vert \arctan(1) - \arctan(y) \vert < 4$, and we have
+	
+	$B_4(0) = \mathbb{R}$.
+	 
+\vspace{5 mm}
+2.4
+\begin{ques}
+	Let us denote $\tilde{d}(x,y) = \vert x-y \vert$ the usual metric on $\mathbb{R}$. Show that $d$ and $\tilde{d}$ are not equivalent metrics.
+\end{ques}
+	
+	We show $\forall c > 0, \exists x,y \in \mathbb{R}, \tilde{d}(x,y) > cd(x,y)$.
+	
+	Let $x = 0$ and $y > 0$. Then $\tilde{d}(x,y) = \vert 0 - y \vert = y$ and 
+	
+	$cd(x,y) = c \vert \arctan(0) - \arctan(y) \vert = c \arctan(y)\leq c \frac{\pi}{2}$.
+	
+	So setting $y > \frac{c\pi}{2}$, we have $\tilde{d}(x,y) > cd(x,y)$, i.e. the metrics can't be equivalent.
+	
+\vspace{5 mm}	
+\section*{Exercise 3}
+\begin{ques}
+	Let $\mathcal{C}^1([a,b])$ the set of real-valued continuous functions defined on $[a,b]$, differentiable with continuous derivatives on $[a,b]$. Define the function
+	$$\forall f,g \in \mathcal{C}^1([a,b]), d(f,g) = \underset{x\in[a,b]}{\sup} \vert f'(x) - g'(x) \vert,$$
+	where $f'$ denotes the derivative of $f$. Is $d$ a metric on $\mathcal{C}^1([a,b])$?
+\end{ques}
+	
+	No, since, for example, let $f(x) = 1, g(x) = 0$. Then $\forall x \in [a,b], f'(x) = g'(x) = 0$, so we have $\underset{x \in [a,b]}{\sup} \vert f'(x) - g'(x) \vert = \underset{x \in [a,b]}{\sup} \vert 0\vert = 0$, while $f \neq g$.
+	
+	
+	
+	
+\end{document}

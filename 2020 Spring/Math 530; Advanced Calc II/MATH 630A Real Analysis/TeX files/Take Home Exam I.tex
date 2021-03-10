@@ -1,0 +1,254 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[latin1]{inputenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{graphicx}
+\usepackage{mdframed}
+\usepackage{xcolor}
+\usepackage{amsmath}
+\usepackage[left=0.8in, right=0.8in, top=1.00in, bottom=1.00in]{geometry}
+\usepackage{mathtools}
+\def\multichoose#1#2{\ensuremath{\left(\kern-.3em\left(\genfrac{}{}{0pt}{}{#1}{#2}\right)\kern-.3em\right)}}
+\author{Jackson Autry}
+
+%% New Commands
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\B}{\mathcal{B}}
+\newcommand{\h}{\mathcal{H}}
+\renewcommand{\S}{\mathcal{S}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\K}{\mathbb{K}}
+\newcommand{\LL}{\mathcal{L}}
+\newcommand{\RR}{\mathcal{R}}
+\newcommand{\D}{\mathbb{D}}
+\newcommand{\F}{\mathcal{F}}
+\newcommand{\cl}{\operatorname{cl}}
+\newcommand{\ran}{\operatorname{ran}}
+\newcommand{\norm}[1]{\| #1 \|}
+\newcommand{\inner}[1]{\langle #1 \rangle}
+\renewcommand{\vec}[1]{{\bf #1}}
+
+%%%
+%%% Theorem Styles
+%%%
+% \numberwithin{equation}{section}
+\theoremstyle{plain}
+\newtheorem{Theorem}[equation]{Theorem}
+\newtheorem{Lemma}[equation]{Lemma}
+\newtheorem{Proposition}[equation]{Proposition}
+\newtheorem{Corollary}[equation]{Corollary}
+\theoremstyle{remark}
+\newtheorem{Remark}[equation]{Remark}
+\theoremstyle{definition}
+\newtheorem{Definition}[equation]{Definition}
+\newtheorem{Example}[equation]{Example}
+\newcounter{question}
+\newtheorem{Question}[question]{Question}
+
+\begin{document}
+	\newmdenv[linecolor=gray!40,leftmargin=0,%
+	innerleftmargin=4pt,
+	rightmargin=0pt,
+	innerbottommargin=3pt,
+	skipbelow=4pt,
+	backgroundcolor=gray!40,%
+	innertopmargin=3pt,]{ques}
+
+	
+\begin{center}
+	\textbf{MATH 630A} %############ Insert Course Title! #############
+	
+		Take Home Exam 1	%############### Put Homework # ###################
+		
+		Jackson Autry
+\end{center}
+
+\section*{Problem 1 (Minkowski's inequality)}
+We start by proving the first two easy properties:\\
+
+\noindent Note that in both cases of $\K, \forall u \in \K, \vert u \vert \geq 0,$ and $\vert u \vert = 0 \Leftrightarrow u = o$. Then we have\\
+$\forall x = (x_1,x_2,\ldots,x_n) \in \K^n, \forall k = 1,2,\ldots,n, \vert x_k \vert \ge 0 \Rightarrow \vert x_k \vert \ge 0$, and so\\
+$\sum\limits_{k=1}^n \vert x_k \vert^p \ge 0 \Rightarrow \left( \sum\limits_{k=1}^n \vert x_k \vert^p \right)^{1/p} \ge 0$.\\
+Furthermore, $\left( \sum\limits_{k=1}^n \vert x_k \vert^p \right)^{1/p} = 0$ if and only if each $\vert x_k \vert = 0 \Leftrightarrow x_k = 0$, i.e. $x = 0$. Hence we have\\
+$\forall x \in \K^n, \Vert x \Vert_p \ge 0$ and $\Vert x \Vert_p = 0 \Leftrightarrow x = 0$.\\
+
+\noindent Now, $\forall \alpha,y \in \K, \vert \alpha y \vert = \vert \alpha \vert \vert y \vert$, so $\forall \alpha \in \K$ we have
+\begin{flalign*}
+\Vert \alpha x \Vert_p &= \left( \sum\limits_{k=1}^n \vert \alpha x_k \vert^p \right)^{1/p} = \left( \sum\limits_{k=1}^n \vert\alpha\vert^p \vert x_k \vert^p \right)^{1/p} = \left( \vert\alpha\vert^p\sum\limits_{k=1}^n \vert x_k \vert^p \right)^{1/p} = \vert\alpha\vert\left( \sum\limits_{k=1}^n \vert x_k \vert^p \right)^{1/p} &&\\
+&= \vert\alpha\vert\Vert x \Vert_p
+\end{flalign*}
+
+\noindent Now for the triangle inequality:\\
+\noindent We start in an unusual way, looking at $\forall x,y \in \K^n, \frac{\Vert x + y \Vert_p}{\Vert x \Vert_p + \Vert y \Vert_p}$ and prove this is at most 1.\\
+Let $x,y\in \K^n$. Then
+\begin{flalign*}
+	\frac{\Vert x+y \Vert_p}{\Vert x \Vert_p + \Vert y \Vert_p} &= \left(\frac{1}{(\Vert x \Vert_p + \Vert y \Vert_p)^p} \sum_{k=1}^n (\vert x_k + y_k \vert ^p \right)^{1/p} = \left(\sum_{k=1}^n \left(\frac{\vert x_k + y_k \vert}{\Vert x \Vert_p + \Vert y \Vert_p}\right)^p\right)^{1/p} &&\\
+	&\le \left(\sum_{k=1}^n \left(\frac{\vert x_k \vert + \vert y_k \vert}{\Vert x \Vert_p + \Vert y \Vert_p}\right)^p\right)^{1/p} = \left(\sum_{k=1}^n \left(\frac{\vert x_k \vert}{\Vert x \Vert_p + \Vert y \Vert_p} + \frac{\vert y_k \vert}{\Vert x \Vert_p + \Vert y \Vert_p}\right)^p\right)^{1/p} \\
+	& = \left(\sum_{k=1}^n \left(\frac{\Vert x \Vert_p}{\Vert x \Vert_p + \Vert y \Vert_p}\frac{\vert x_k \vert}{\Vert x \Vert_p} + \frac{\Vert y \Vert_p}{\Vert x \Vert_p + \Vert y \Vert_p}\frac{\vert y_k \vert}{\Vert y \Vert_p}\right)^p\right)^{1/p}
+\end{flalign*}
+Now each term is of the form $(\alpha u + (1-\alpha)v)^p$,\\
+with $\alpha = \frac{\Vert x \Vert_p}{\Vert x \Vert_p + \Vert y \Vert_p}, 1 - \alpha = 1 - \frac{\Vert x \Vert_p}{\Vert x \Vert_p + \Vert y \Vert_p} = \frac{\Vert y \Vert_p}{\Vert x \Vert_p + \Vert y \Vert_p}, u = \frac{\vert x_k \vert}{\Vert x \Vert_p}, v = \frac{\vert y_k\vert}{\Vert y \Vert_p}$.\\
+So using the convexity hint, we have
+\begin{flalign*}
+	\frac{\Vert x+y \Vert_p}{\Vert x \Vert_p + \Vert y \Vert_p} & \le \left(\sum_{k=1}^n \left(\frac{\Vert x \Vert_p}{\Vert x \Vert_p + \Vert y \Vert_p}\frac{\vert x_k \vert}{\Vert x \Vert_p} + \frac{\Vert y \Vert_p}{\Vert x \Vert_p + \Vert y \Vert_p}\frac{\vert y_k \vert}{\Vert y \Vert_p}\right)^p\right)^{1/p} &&\\
+	& \le \left(\sum_{k=1}^n \frac{\Vert x \Vert_p}{\Vert x \Vert_p + \Vert y \Vert_p}\left(\frac{\vert x_k \vert}{\Vert x \Vert_p}\right)^p + \frac{\Vert y \Vert_p}{\Vert x \Vert_p + \Vert y \Vert_p}\left(\frac{\vert y_k \vert}{\Vert y \Vert_p}\right)^p \right)^{1/p}\\
+	& = \left( \frac{\Vert x \Vert_p}{\Vert x \Vert_p + \Vert y \Vert_p}\frac{1}{\Vert x \Vert_p^p} \sum_{k=1}^n \vert x_k \vert^p + \frac{\Vert y \Vert_p}{\Vert x \Vert_p + \Vert y \Vert_p}\frac{1}{\Vert y \Vert_p^p} \sum_{k=1}^n \vert y_k \vert^p \right)^{1/p} \\
+	& = \left(\frac{\Vert x \Vert_p}{\Vert x \Vert_p + \Vert y \Vert_p}\frac{1}{\Vert x \Vert_p^p}\Vert x \Vert_p^p + \frac{\Vert y \Vert_p}{\Vert x \Vert_p + \Vert y \Vert_p}\frac{1}{\Vert y \Vert_p^p}\Vert y \Vert_p^p \right)^{1/p}\\
+	& = \left(\frac{\Vert x \Vert_p}{\Vert x \Vert_p + \Vert y \Vert_p} + \frac{\Vert y \Vert_p}{\Vert x \Vert_p + \Vert y \Vert_p} \right)^{1/p} = \left(1\right)^{1/p} = 1
+\end{flalign*}
+Hence we have
+
+$$\frac{\Vert x+y \Vert_p}{\Vert x \Vert_p + \Vert y \Vert_p} \le 1 \Longleftrightarrow \Vert x+y \Vert_p \le \Vert x \Vert_p + \Vert y \Vert_p $$
+And we have the triangle inequality. Hence $\Vert . \Vert_p$ defines a norm.
+
+\section*{Problem 2 (H\"{o}lder's inequality)}
+\subsection*{2.1}
+We indeed study the function $\forall a \in \R_+, f(a) = \frac{a^p}{p} + \frac{b^q}{q} - ab,$\\
+where $b \in \R_+, p,q \in \R, 1 < p < \infty, \frac{1}{p} + \frac{1}{q} = 1$.\\
+We first note that $f(0) = \frac{0^p}{p} + \frac{b^q}{q} - (0)b = \frac{b^q}{q} \ge 0$\\
+So $f(a)$ is nonnegative at $a = 0$. Now let's look at $f'(a)$:\\
+$f'(a) = \frac{d}{da} \frac{a^p}{p} + \frac{b^q}{q} - ab = \frac{pa^{p-1}}{p} -b = a^{p-1}-b$.\\
+Looking at critical points, i.e. where $f' = 0$, we see there is only one, at $a = b^{\frac{1}{p-1}}$.\\
+Plugging this back into $f$, we have\\
+$f (b^{\frac{1}{p-1}}) = \frac{b^{\frac{1}{p-1}p}}{p} + \frac{b^q}{q} - b^{\frac{1}{p-1}}b = \frac{b^q}{p} + \frac{b^q}{q} -b^{q} = b^q\left(\frac{1}{p} + \frac{1}{q}\right) - b^q = b^q (1) - b^q = 0$.\\
+So not only is $a = b^{\frac{1}{p-1}}$ a critical point, but it is also a root. Hence, $\forall a \in [0,b^{\frac{1}{p-1}}], f(a) \ge 0$ (since there only one critical point, $f$ is decreasing until $a = b^{\frac{1}{p-1}}$). Now we only need to evaluate $f$ at one point greater than $a = b^{\frac{1}{p-1}}$ to find the sign of $f(a)$ for $a> b^{\frac{1}{p-1}}$ (since there is only one critical point). We evaluate at $a = (pb)^{\frac{1}{p-1}} > b^{\frac{1}{p-1}}$, since $p > 1$.\\
+$ f((pb)^{\frac{1}{p-1}}) = \frac{(pb)^{\frac{1}{p-1}p}}{p} = \frac{b^q}{q} - (pb)^{\frac{1}{p-1}}b = \frac{p^qb^q}{p} + \frac{b^q}{q} - p^{\frac{1}{p-1}}b^{\frac{1}{p-1}}b = p^\frac{1}{p-1}b^q + \frac{b^q}{q} - p^{\frac{1}{p-1}}b^q = \frac{b^q}{q} \ge 0$.\\
+Note that when we evaluated all points ($0,b^{\frac{1}{p-1}}, (pb)^{\frac{1}{p-1}}$), there are different if $b \neq 0$. The case where $b=0$ is simple, $f(a) = \frac{a^p}{p} \ge 0$ for all $a \in \R_+$.\\
+Hence we have $\forall a,b\in \R_+, \forall p,q \in \R, 1<p<\infty, \frac{1}{p} + \frac{1}{q} = 1, \frac{a^p}{p} + \frac{b^q}{q} - ab \ge 0 \Longleftrightarrow \frac{a^p}{p} + \frac{b^q}{q} \ge ab$.
+
+\subsection*{2.2}
+Before choosing $a,b$ we motivate the choice by starting similarly to proving Minkowski's inequality, and seeing where it would be nice to use H\"{o}lder's inequality:\\
+We look at $\frac{1}{\Vert x \Vert_p\Vert y\Vert_q}\sum\limits_{k=1}^n \vert x_k \vert\vert y_k \vert$ and aim to prove this is at most 1.\\
+\begin{flalign*}
+	\frac{1}{\Vert x \Vert_p\Vert y\Vert_q}\sum_{k=1}^n \vert x_k \vert\vert y_k \vert = \sum_{k=1}^n \frac{\vert x_k \vert}{\Vert x \Vert_p}\frac{\vert y_k \vert}{\Vert y \Vert_p}&&
+\end{flalign*}
+Now we see it would be nice to have this as a sum,\\
+so we choose $a = \frac{\vert x_k \vert}{\Vert x \Vert_p} \in \R_+$ and $b = \frac{\vert y_k \vert}{\Vert y \Vert_p} \in \R_+$. So we have:
+\begin{flalign*}
+	\frac{1}{\Vert x \Vert_p\Vert y\Vert_q}\sum_{k=1}^n \vert x_k \vert\vert y_k \vert &= \sum_{k=1}^n \frac{\vert x_k \vert}{\Vert x \Vert_p}\frac{\vert y_k \vert}{\Vert y \Vert_p} \le \sum_{k=1}^n \left(\frac{\left(\vert x_k \vert / \Vert x \Vert_p\right)^p}{p} + \frac{\left(\vert y_k \vert / \Vert y \Vert_q\right)^q}{q}\right) = &&\\
+	&= \sum_{k=1}^n \left(\frac{\vert x_k \vert^p}{p\Vert x \Vert_p^p} + \frac{\vert y_k \vert^q}{q \Vert y \Vert_q^q}\right) = \frac{1}{p\Vert x \Vert_p^p} \sum_{k=1}^n \vert x_k \vert^p + \frac{1}{q\Vert y \Vert_q^q}\sum_{k=1}^n \vert y_k \vert^q\\
+	& = \frac{\Vert x \Vert_p^p}{p\Vert x \Vert_p^p} + \frac{\Vert y \Vert_q^q}{q \Vert y \Vert_q^q} = \frac{1}{p} + \frac{1}{q} = 1
+\end{flalign*}
+So we have
+\begin{flalign*}
+	\frac{1}{\Vert x \Vert_p\Vert y\Vert_q}\sum_{k=1}^n \vert x_k \vert\vert y_k \vert \le 1 \Longleftrightarrow \sum_{k=1}^n \vert x_k \vert\vert y_k \vert \le \Vert x \Vert_p\Vert y\Vert_q&&
+\end{flalign*}
+
+\subsection*{2.3}
+When $p = q = 2$, this is  Cauchy's Inequality, or the Cauchy-Schwartz Inequality.
+
+\pagebreak
+\section*{Problem 3 (Lipschitz Spaces)}
+\subsection*{3.1}
+We use the usual function addition and scalar multiplication, i.e.\\
+$\forall x \in X, \forall f,g \in Lip(X), \forall \alpha \in \K, (\alpha f + g)(x) = \alpha f(x) + g(x)$.\\
+Then $\forall f,g \in Lip(X)$, we have:\\
+Since $f,g \in Lip(X), \exists c_1,c_2 > 0, \forall x,y \in X, \vert f(x) - f(y) \le c_1d(x,y)$ and $\vert g(x) - g(y) \le c_2d(x,y)$. Then $(f+g):X \to \R$ and\\
+$\vert (f+g)(x) - (f+g)(y)\vert = \vert f(x) + g(x) - f(y) - g(y) \vert \\
+\le \vert f(x) - f(y) \vert + \vert g(x) - g(y) \vert < c_1 d(x,y) + c_2 d(x,y) = (c_1 + c_2) d(x,y)$.\\
+So $\exists c = c_1 + c_2 > 0, \forall x,y \in X, \vert(f+g)(x) - (f+g)(y)\vert < cd(x,y)$, i.e.
+$\forall f,g \in Lip(X), f+g \in Lip(X)$.\\
+Also, the following properties follow from the definition of function addition and scalar multiplication:\\
+$\forall f,g,h \in Lip(X), \forall \alpha, \beta \in \K,$,
+\begin{itemize}
+	\item 
+	$f + g = g + f$
+	
+	\item 
+	$(f + g) + h = f + (g + h)$
+	
+	\item 
+	$(\alpha + \beta)f = \alpha f + \beta f$
+	
+	\item
+	$\alpha(f + g) = \alpha f + \alpha g$
+	
+	\item 
+	$(\alpha\beta)f = \alpha(\beta f)$
+\end{itemize}
+
+Then $f(x) = 1 \in Lip(X)$, since setting $c = 0$, we have\\
+$\forall x,y \in X, \vert f(x) - f(y) \vert = \vert 1 - 1 \vert = 0 \le 0d(x,y)$, and $\forall g \in Lip(X), 1g = g$.\\
+So we have a multiplicative identity.
+
+We also have that $f(x) = 0 \in Lip(X)$, since again setting $c = 0$, we have\\
+$\forall x,y \in X, \vert f(x) - f(y) \vert = \vert 0 - 0 \vert = 0 \le 0d(x,y)$, and $\forall g \in Lip(X), 0 + g = g$.\\
+So we have an additive identity.\\
+
+It only remains to prove that for any function in $Lip(X)$, there exists a unique additive inverse.\\
+Let $f \in Lip(X)$. then $\exists c >0, \forall x,y \in X, \vert f(x) - f(y) \vert \le cd(x,y)\\
+\Leftrightarrow \forall x,y \in X, \vert -f(x) - (-f(y)) \vert \le cd(x,y)$, i.e. $-f \in Lip(X)$,\\
+and $f + (-f) = 0$. Now we prove the uniqueness:\\
+Suppose $\exists g \in Lip(X), f+g=0$. Then\\
+$f+g+(-f) = 0 + (-f) \Longleftrightarrow f-f+g = -f \Longleftrightarrow g = -f$. Hence $-f$ is unique.\\
+
+Therefore $Lip(X)$ indeed defines a vector space.
+
+\pagebreak
+\subsection*{3.2}
+\subsubsection*{3.2.1}
+$\forall x,y \in X, \forall f \in Lip(X), \Vert f \Vert_{Lip,a} = \vert f(a) \vert + Lip(f) = \vert f(a) \vert \sup\limits_{x\neq y} \frac{\vert f(x) - f(y) \vert}{d(x,y)}$.\\
+Since $\forall a \in X, \forall f \in Lip(X), \vert f(a) \vert \ge 0, \vert f(x) - f(y) \vert \ge 0,$ and $d(x,y) \ge 0$, then $\vert f(a) \vert \sup\limits_{x\neq y} \frac{\vert f(x) - f(y) \vert}{d(x,y)} \ge 0$.\\
+If $\vert f(a) \vert \sup\limits_{x\neq y} \frac{\vert f(x) - f(y) \vert}{d(x,y)} = 0$, then $f(a) = 0$ and $\sup\limits_{x\neq y} \frac{\vert f(x) - f(y) \vert}{d(x,y)} = 0 \Leftrightarrow f(x) = 0, \forall x \in X$, i.e. $f = 0$.\\
+Hence $\forall f \in Lip(X), \Vert f \Vert_{Lip,a} \ge 0$ and $\Vert f \Vert_{Lip,a} = 0 \Leftrightarrow f = 0$.\\
+
+\noindent Now, $\forall \alpha \in \K, \Vert \alpha f \Vert_{Lip,a} = \vert \alpha f(a) \vert + Lip(\alpha f) = \vert \alpha f(a) \vert + \sup\limits_{x\neq y}\frac{\vert \alpha f(x) - \alpha f(y)\vert}{d(x,y)} \\
+= \vert \alpha \vert \vert f(a) \vert + \sup\limits_{x\neq y} \frac{\vert \alpha \vert \vert f(x) - f(y) \vert}{d(x,y)} = \vert \alpha \vert \vert f(a) \vert + \vert \alpha \vert \sup\limits_{x\neq y}\frac{\vert f(x) - f(y)\vert}{d(x,y)} = \vert \alpha \vert \left(\vert f(a) \vert + \sup\limits_{x\neq y}\frac{\vert f(x) - f(y)\vert}{d(x,y)}\right)\\
+= \vert \alpha \vert \Vert f \Vert_{Lip,a}$ \\
+
+\noindent Finally, for the triangle inequality, we have\\
+$\Vert f+g \Vert_{Lip,a} = \vert (f+g)(a) \vert + Lip(f+g) = \vert f(a) + g(a) \vert + \sup\limits_{x\neq y} \frac{\vert(f+g)(x) - (f+g)(y) \vert}{d(x,y)} \\
+= \vert f(a) + g(a) \vert + \sup\limits_{x\neq y}\frac{ \vert f(x) - f(y) + g(x) - g(y) \vert}{d(x,y)} \le \vert f(a) \vert + \vert g(a) \vert + \sup\limits_{x\neq y} \frac{ \vert f(x) - f(y) \vert + \vert g(x) - g(y) \vert}{d(x,y)} \\
+\le \vert f(a)\vert + \vert g(a) \vert + \sup\limits_{x\neq y} \frac{\vert f(x) - f(y) \vert}{d(x,y)} + \sup\limits_{x\neq y} \frac{\vert g(x) - g(y) \vert}{d(x,y)} = \vert f(a) \vert + Lip(f) + \vert g(a) \vert + Lip(g) \\
+= \Vert f \Vert_{Lip,a} + \Vert g \Vert_{Lip,a}$\\
+
+\noindent Hence $(Lip(X),\Vert . \Vert_{Lip,a})$ does indeed define a normed vector space.
+
+\subsubsection*{3.2.2}
+By definition of $Lip(f)$, we have
+$$\frac{ \vert f(b) - f(a) \vert}{d(b,a)} \le Lip(f) \Leftrightarrow \vert f(b) - f(a) \vert \le d(b,a)Lip(f)$$
+Then
+\begin{flalign*}
+	\Vert f \Vert_{Lip,b} &= \vert f(b) \vert + Lip(f) = \vert f(b) - f(a) + f(a) \vert + Lip(f) \le \vert f(b) - f(a) \vert + \vert f(a) + Lip(f) &&\\
+	&\le \vert f(a) \vert + d(b,a)Lip(f) + Lip(f) = \vert f(a) \vert + (1 + d(b,a))Lip(f)
+\end{flalign*}
+Since $\forall a,b \in X, d(b,a) \ge 0, 1+ d(a,b) \ge 1 \Leftrightarrow \vert f(a)\vert \le (1+d(b,a)) \vert f(a) \vert$, and we have
+\begin{flalign*}
+	\Vert f \Vert_{Lip,b} &\le (1 + d(b,a))\vert f(a) \vert + (1 + d(b,a))Lip(f) = (1 + d(b,a))(\vert f(a) \vert + Lip(f)) &&\\
+	&= (1 + d(b,a))\Vert f \Vert_{Lip,a}
+\end{flalign*}
+Hence $\exists c>0, c = 1 + d(b,a), \forall f \in Lip(X), \Vert f \Vert_{Lip,b} \le c\Vert f \Vert_{Lip,a}$.\\
+Using the exact same steps but switching $a$ and $b$, we have\\
+$\exists c>0, c = 1 + d(a,b), \forall f \in Lip(X), \Vert f \Vert_{Lip,a} \le c\Vert f \Vert_{Lip,b}$.\\
+Hence $\Vert.\Vert_{Lip,a}$ and $\Vert.\Vert_{Lip,b}$ are equivalent norms.
+
+\pagebreak
+\subsection*{3.3}
+\subsubsection*{3.3.1}
+Since $\forall x \in X, f_n(x) \in \R$, then for fixed $x, \{f_n(x)\}$ is a sequence of real numbers, furthermore, it is a Cauchy Sequence of real numbers. Since the reals is complete, for any $x \in X$, the sequence $\{f_n(x)\}$ converges to a real number. Then define $f(x) = \lim\limits_{n\to \infty} f_n(x)$. Hence $\{f_n\}$ converges pointwise to the function $f$.
+
+\subsubsection*{3.3.2}
+\begin{flalign*}
+	\lim\limits_{n\to \infty} \Vert f_n - f\Vert_{Lip,a} &= \lim\limits_{n\to \infty}\left( \vert f_n(a) - f(a) \vert + Lip(f_n + f)\right) &&\\
+	&= \lim\limits_{n\to \infty}\left( \vert f_n(a) - f(a) \vert + \sup\limits_{x\neq y} \frac{\vert(f_n + f)(x) - (f_n+f)(y)\vert}{d(x,y)}\right) \\
+	&= \lim\limits_{n\to \infty}\left( \vert f_n(a) - f(a) \vert + \sup\limits_{x\neq y} \frac{\vert f_n(x) + f(x) - f_n(y)-f(y)\vert}{d(x,y)}\right)\\
+	& \le  \lim\limits_{n\to \infty}\left( \vert f_n(a) - f(a) \vert + \sup\limits_{x\neq y} \frac{\vert f_n(x) - f_n(y) \vert  + \vert f(x) - f(y)\vert}{d(x,y)}\right)\\
+	& \le \lim\limits_{n\to \infty}\left( \vert f_n(a) - f(a) \vert + \sup\limits_{x\neq y} \frac{\vert f_n(x) - f_n(y) \vert}{d(x,y)} + \sup\limits_{x\neq y}\frac{\vert f(x) - f(y)\vert}{d(x,y)}\right)
+\end{flalign*}
+Since $\forall x \in X, \lim\limits_{n\to\infty} f_n(x) = f(x)$, we have $\lim\limits_{n\to\infty} \vert f_n(a) - f(a) \vert = 0,$ and\\
+$\lim\limits_{n\to\infty} \sup\limits_{x\neq y} \frac{\vert f_n(x) - f_n(y)\vert}{d(x,y)} = \sup\limits_{x\neq y} \frac{\vert f(x) - f(y)\vert}{d(x,y)}$. Hence we have 
+\begin{flalign*}
+	\lim\limits_{n\to\infty} \Vert f_n - f \Vert_{Lip,a} \le 0 \Rightarrow \lim\limits_{n\to\infty} \Vert f_n - f \Vert_{Lip,a} = 0&&
+\end{flalign*}
+
+\subsubsection*{3.3.3}
+Since $\forall n \in \N, f_n \in Lip(x)$, then $\exists C > 0, \forall n \in N, \forall x,y \in X, \vert f_n(x) - f_n(y) \vert \le Cd(x,y)\\
+ \Leftrightarrow \lim\limits_{n\to\infty}\vert f_n(x) - f_n(y)\vert \le \lim\limits_{n\to\infty}Cd(x,y) \Leftrightarrow \vert f(x) - f(y) \vert \le Cd(x,y)$, i.e. $f \in Lip(X)$.\\
+ Now, since any arbitrary Cauchy sequence $\{f_n\}$ in $Lip(X)$ converges to a function $f \in Lip(X)$, $(Lip(X),\Vert.\Vert_{Lip,a})$ is complete.
+
+
+\end{document}

@@ -1,0 +1,284 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{bm}
+\usepackage{amsthm}
+\usepackage{enumerate}
+\usepackage{graphicx}
+\usepackage{psfrag}
+\usepackage{color}
+\usepackage{url}
+\usepackage{listings}
+
+\usepackage{xcolor}
+ 
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegray},
+    keywordstyle=\color{codegreen},
+    numberstyle=\tiny\color{magenta},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=4
+}
+ 
+\lstset{style=mystyle}
+
+\setlength{\hoffset}{-0.5in}
+\addtolength{\textwidth}{1.0in}
+\setlength{\voffset}{-0.5in}
+\addtolength{\textheight}{1.0in}
+\newcommand{\be}{\begin{enumerate}}
+\newcommand{\ee}{\end{enumerate}}
+
+
+\begin{document}
+	\begin{large}
+	\begin{center}
+		\textbf{Spring 2020, Math 543:\ Homework 2} \\
+		\textbf{Due:\ Friday, February 14th, 2020} \\
+		\textbf{Joseph Diaz}
+
+	\end{center}
+\noindent\makebox[\linewidth]{\rule{\paperwidth}{0.4pt}}
+\be
+	\item[\textbf{4.1}] Determine SVDs for the following matrices:
+	$$(\text{a})\ \left[\begin{matrix}
+	 3 & 0 \\
+	0 & -2
+\end{matrix}\right], \ (\text{b})\ \left[\begin{matrix}
+	2 & 0 \\
+	0 & 3
+\end{matrix}\right], \ (\text{c})\ \left[\begin{matrix}
+	0 & 2 \\
+	0 & 0 \\
+	0 & 0
+\end{matrix}\right], \ (\text{d})\ \left[\begin{matrix}
+	1 & 1 \\
+	0 & 0
+\end{matrix}\right], \ (\text{e})\ \left[\begin{matrix}
+	1 & 1 \\
+	1 & 1
+\end{matrix}\right]$$
+The SVDs shown below are of the form: $A = U\Sigma V^{*}$
+	\be[(a)]
+	\item $$\left[\begin{matrix}
+	 3 & 0 \\
+	0 & -2
+\end{matrix}\right] = \left[\begin{matrix}
+	 1 & 0 \\
+	0 & 1
+\end{matrix}\right]\left[\begin{matrix}
+	 3 & 0 \\
+	0 & 2
+\end{matrix}\right]\left[\begin{matrix}
+	 1 & 0 \\
+	0 & -1
+\end{matrix}\right]$$
+	
+	\item $$\left[\begin{matrix}
+	2 & 0 \\
+	0 & 3
+\end{matrix}\right] = \left[\begin{matrix}
+	0 & 1 \\
+	1 & 0
+\end{matrix}\right]\left[\begin{matrix}
+	3 & 0 \\
+	0 & 2
+\end{matrix}\right]\left[\begin{matrix}
+	0 & 1 \\
+	1 & 0
+\end{matrix}\right]$$
+	
+	\item $$\left[\begin{matrix}
+	0 & 2 \\
+	0 & 0 \\
+	0 & 0
+\end{matrix}\right] = \left[\begin{matrix}
+	1 & 0 & 0\\
+	0 & 1 & 0\\
+	0 & 0 & 1
+\end{matrix}\right]\left[\begin{matrix}
+	2 & 0 \\
+	0 & 0 \\
+	0 & 0
+\end{matrix}\right]\left[\begin{matrix}
+	0 & 1 \\
+	-1 & 0 \\
+\end{matrix}\right]$$
+	
+	\item $$\left[\begin{matrix}
+	1 & 1 \\
+	0 & 0
+\end{matrix}\right] = \left[\begin{matrix}
+	1 & 0 \\
+	0 & 1
+\end{matrix}\right]\left[\begin{matrix}
+	\sqrt{2} & 0 \\
+	0 & 0
+\end{matrix}\right]\left[\begin{matrix}
+	\frac{\sqrt{2}}{2} & -\frac{\sqrt{2}}{2} \\
+	\frac{\sqrt{2}}{2} & \frac{\sqrt{2}}{2}
+\end{matrix}\right]$$
+	
+	\item $$\left[\begin{matrix}
+	1 & 1 \\
+	1 & 1
+\end{matrix}\right] = \left[\begin{matrix}
+	-\frac{\sqrt{2}}{2} & -\frac{\sqrt{2}}{2} \\
+	-\frac{\sqrt{2}}{2} & \frac{\sqrt{2}}{2}
+\end{matrix}\right]\left[\begin{matrix}
+	2 & 0 \\
+	0 & 0
+\end{matrix}\right]\left[\begin{matrix}
+	-\frac{\sqrt{2}}{2} & -\frac{\sqrt{2}}{2} \\
+	-\frac{\sqrt{2}}{2} & \frac{\sqrt{2}}{2}
+\end{matrix}\right]$$
+	\ee
+	 
+\noindent\makebox[\linewidth]{\rule{\paperwidth}{0.4pt}}
+	\item[\textbf{4.3}] Write a program which, given a real $2 \times 2$ matrix $A$, plots the right singular vectors $\vec{v}_1$ and $\vec{v}_2$ in the unit circle and also the left singular vectors $\vec{u}_1$ and $\vec{u}_2$ in the appropriate ellipse, as in Figure 4.1. Apply your program to the matrix $\left[\begin{matrix}
+	1 & 2 \\
+	0 & 2
+	\end{matrix}\right]$ and also to the $2\times2$ matrices of Exercise 4.1.
+	\be
+	\pagebreak
+	\item[(a)] The singular values of 
+	$\left[\begin{matrix}
+	 3 & 0 \\
+	0 & -2
+\end{matrix}\right]$ are $\sigma_1 = 3, \sigma_2 = 2$:
+\begin{figure}[h]
+  	\includegraphics[width=\linewidth]{H2UnitaryVecs001.jpg}
+  	\centering
+	\end{figure}
+	\pagebreak
+	\item[(b)] The singular values of
+	$\left[\begin{matrix}
+	 2 & 0 \\
+	0 & 3
+\end{matrix}\right]$ are $\sigma_1 = 3, \sigma_2 = 2$:
+\begin{figure}[h]
+  	\includegraphics[width=\linewidth]{H2UnitaryVecs002.jpg}
+  	\centering
+	\end{figure}
+	\pagebreak
+	\item[(d)] The singular values of
+	$\left[\begin{matrix}
+	 1 & 1 \\
+	 0 & 0
+\end{matrix}\right]$ are $\sigma_1 = \sqrt{2}, \sigma_2 = 0$:
+\begin{figure}[h]
+  	\includegraphics[width=\linewidth]{H2UnitaryVecs003.jpg}
+  	\centering
+	\end{figure}
+	\pagebreak
+	\item[(e)] The singular values of
+	$\left[\begin{matrix}
+	 1 & 1 \\
+	 1 & 1
+\end{matrix}\right]$ are $\sigma_1 = 2, \sigma_2 = 0$:
+\begin{figure}[h]
+  	\includegraphics[width=\linewidth]{H2UnitaryVecs004.jpg}
+  	\centering
+	\end{figure}
+	\pagebreak
+	\item[(f)] The singular values of
+	$\left[\begin{matrix}
+	 1 & 2 \\
+	 0 & 2
+\end{matrix}\right]$ are $\sigma_1 \approx 2.921, \sigma_2 \approx 0.685$:
+\begin{figure}[h]
+  	\includegraphics[width=\linewidth]{H2UnitaryVecs005.jpg}
+  	\centering
+	\end{figure}
+	\ee
+\ee
+\noindent\makebox[\linewidth]{\rule{\paperwidth}{0.4pt}}
+	\end{large}
+\section*{Python Source Code}
+\begin{lstlisting}[language=Python]
+#! /usr/bin/python3
+
+import numpy as np
+from matplotlib import pyplot as plt
+from matplotlib.patches import Ellipse 
+import matplotlib.axes as AXES
+plt.rcParams['text.usetex'] = True
+plt.rcParams['savefig.format'] = 'jpg'
+plt.rcParams['figure.figsize'] = (12, 12)
+
+a = np.array([[3,0], [0, -2]])
+
+b = np.array([[2, 0], [0, 3]])
+
+c = np.array([[0, 2], [0, 0], [0, 0]])
+
+d = np.array([[1,1], [0, 0]])
+
+e = np.array([[1, 1], [1, 1]])
+
+f = np.array([[1, 2], [0, 2]])
+
+ra = np.array([a, b, d, e, f])
+
+print("The SVD of\n", c, "is:\n")
+u, s, vh = np.linalg.svd(c)
+print(u, "\n*", s, "\n*", vh)
+print("\n")
+
+for i in ra:
+	print("The SVD of\n", i, "is:\n")
+	u, s, vh = np.linalg.svd(i, full_matrices=True)
+	print(u, "\n*", s, "\n*", vh)
+	print("\n")
+	vh = np.transpose(vh)
+	
+	fig, ax = plt.subplots(1,1)
+
+	if(s[0] >= 1e-6):
+		a1 = ax.arrow(0,0, s[0]*u[0, 0], s[0]*u[1, 0], shape='full', width=.05, 
+		color='y', length_includes_head=True, label=r"$\sigma_1\vec{u}_1$")
+		
+	if(s[1] >= 1e-6):
+		a2 = ax.arrow(0,0, s[1]*u[0, 1], s[1]*u[1, 1], shape='full', width=.05, 
+		color='b', length_includes_head=True, label=r"$\sigma_2\vec{u}_2$")
+
+	a3 = ax.arrow(0,0, vh[0, 0], vh[1, 0], shape='full', width=.05, 
+	color='r', length_includes_head=True, label=r"$\vec{v}_1$")
+	a4 = ax.arrow(0,0, vh[0, 1], vh[1, 1], shape='full', width=.05, color='g', 
+				length_includes_head=True, label=r"$\vec{v}_2$")
+	ax.grid()
+
+	ellipse = Ellipse((0,0), width=2*s[0], height=2*s[1], 
+	angle=(180/np.pi)*np.arctan2(u[1,0],u[0,0]), fc='none', ec='cyan')
+	
+	circle = Ellipse((0,0), width=2, height=2, fc='none', ec='purple')
+	
+	ax.add_patch(ellipse)
+	ax.add_patch(circle)
+	ax.set_xlim(-3, 3)
+	ax.set_ylim(-3, 3)
+	ax.set_title("Unitary Matrices' column vectors", size=20)
+	ax.legend(loc='lower right', handles=[a1, a2, a3, a4], fontsize=20)
+	ax.set_xlabel("$x$", size = 20)
+	ax.set_ylabel("$y$", size = 20)
+	fig.tight_layout()
+	plt.show()
+\end{lstlisting}
+\noindent\makebox[\linewidth]{\rule{\paperwidth}{0.4pt}}
+\end{document}

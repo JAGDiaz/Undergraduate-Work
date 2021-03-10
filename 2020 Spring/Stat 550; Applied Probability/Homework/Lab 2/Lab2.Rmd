@@ -1,0 +1,186 @@
+---
+title: 'Lab 2: Basic Probability'
+author: "Joseph Diaz"
+date: "Spring 2020"
+output:
+  pdf_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+In this lab we will work through two basic probability problems, and in the process practice more with RMarkdown.
+
+#### Packages needed:
+knitr, xtable, pander
+
+
+
+## Task 1: Coin flipping
+
+This task illustrates the interpretation of a probability as the long run relative frequency of an event after a large number of trials. 
+
+Dobrow presents R code on pages 24 and 453 for simulating coin tosses.  We perform the experiment of observing the number of heads after tossing a fair coin 100 times (probability of a heads on any one toss is 50%).  Just like rolling a die, we can use the R function `sample` to flip a coin. Though recognize there are only two outcomes: heads (1) and tails (0).  We will report the number of heads after 50 tosses and intermediary output.  We will also graphically display the cumulative proportion of heads again the coin toss (1 to 100).  The `type="l"` parameter in the R function `plot` will draw a solid line.  *Always label your axes!  In RMarkdown, a graph title is useful too.*
+
+### Code set-up
+```{r dobrow_coinflips}
+simnum = 100 # number of coin flips
+coinflips = sample(0:1, simnum, replace = TRUE) # flip the coin: heads = 1, tails = 0
+heads = cumsum(coinflips) # cumulative sum of number of heads after each coin toss
+prop = heads/(1:simnum) # running proportion of heads after each coin toss
+head(heads) # report cumulative number of heads after each of the first 6 flips
+heads[50]
+# running mean plot for proportion of heads.
+plot(1:simnum, prop, type="l", xlab="Number of coins", ylab="Running average", main="Proportion of heads in 100 coin flips")
+abline(h=0.5) # add a line at 50%
+```
+
+### The problem
+Let us now flip a "biased" coin.  Perform the experiment of observing the number of heads after tossing a coin 1000 times, with the probability of getting a heads on any one toss being 40%. To change the probability in the R function `sample` use the parameter `prob=c(0.6,0.4)`; note that we need to specify the probability of a tails (0) and a heads (1) in this parameter.  Note that if you do not want the code presented in your html report, use the parameter `echo=FALSE` in the code chunk.
+
+#### Report the following:
+
+* Proportion of heads after 10, 50, 100, 200, and 500 tosses (see table code chunk below under "RMarkdown presenting output"!)
+
+* Plot of the cumulative proportion of heads vs. coin toss number (1 to 1000); label the axes and title the graphic appropriately!
+
+* On the plot, draw a horizontal line at *y=0.40*, the probability of tossing a head for this coin
+
+```{r coin_toss, echo=FALSE}
+n = 500
+n_seq = 1:n
+heads = cumsum(1 == sample(0:1, n, replace=T, prob=c(.6, .4)))
+unfairProp = heads/n_seq
+
+plot(n_seq, unfairProp, type="l", xlab="Number of Coin Tosses", ylab="Running Average", main="Proportion of heads in 500 tails-biased coin tosses")
+abline(h=.4, col='green')
+abline(v= 150, col='blue')
+abline(v= 300, col='red')
+
+
+```
+
+### Questions:
+
+* Describe the behavior of the graphic (cumulative proportion of heads) during the first 150 tosses (1-150), next 150 tosses (151-300), and then later tosses.  
+*The first 150 tosses exhibit more extreme differences from the expected 40% rate of heads. During the next 150 tosses, the cumulative average has evened out somewhat due to the regression to the mean we should expect for large numbers of coin tosses, and every toss thereafter brings the running average closer to our expect value.*
+
+* What do you notice about the limiting value of the curve in your plot?  
+*As previously stated, the curve is approaching the previously stated probability of getting heads for each individual toss.*
+
+* Why would you expect the behavior you discuss in the previous two bullets?  
+*Regression to the mean.*
+
+
+
+#### RMarkdown presenting output: 
+Below is code to present a table for the proportion of heads after 10, 50, and 100 tosses.
+
+Reminders:
+
+The `echo=FALSE` parameter prevents printing of code from a code chunk.
+The `include=FALSE` parameter prevents printing of output from a code chunk.
+The `results=asis` allows the LaTeX code produced by xtable to be compiled and output.
+
+
+```{r toss_table, echo=TRUE, results='asis', warning=FALSE}
+# we will create a table using xtable and pander
+library(knitr)
+library(xtable)
+library(pander)
+# output desired summary statistics
+# formatC used so integer coin tosses do not have a decimal place in the figure!
+numtoss = formatC(c(10, 50, 100, 200, 500), digits=0, format="d", flag="#")
+num.heads = c(heads[10], heads[50], heads[100], heads[200], heads[500])
+num.heads = formatC(num.heads, digits=0, format="d", flag="#")
+# formatC used here so proportions have exactly two decimal places (including zeros at the end)!
+prop.heads = c(unfairProp[10], unfairProp[50], unfairProp[100], unfairProp[200], unfairProp[500])
+prop.heads = formatC(signif(prop.heads,digits=6), digits=2, format="f", flag="#")
+table.elts = rbind(numtoss, num.heads, prop.heads)
+row.names(table.elts) = cbind("# coin tosses", "Number of heads", "Proportion of heads")
+lab1.table = xtable(table.elts, caption = "Proportion of heads for a given number of tosses of a tails-biased coin.", label="cointoss", align = "|l|rrrrr|")
+pander(lab1.table)
+```
+
+The table shows the proportion of heads after a certain number of tosses in a single simulation experiment.  These proportions provide empirical estimates of the probability of a head for specified simulation sample sizes.
+
+### The problem
+Directly in the code chunk above, add columns for 200 tosses and 500 tosses.  Hint: you will need to append these two elements to `numtoss`, `num.heads`, and `prop.heads`.  Also, note that in the `xtable` function, the align is only for 3 right-justified columns; need to augment that to 5 right-justified columns.
+
+
+## Task 2: Divisibility probability
+This task provides a probability problem to explore if-then statements and functions in R.  Consider an integer drawn uniformly at random from the numbers {1, 2, ..., 1000} such that each number is equally likely.  We wish to simulate the probability that the number drawn is divisible by 3, 5, or 6.
+
+### Code set-up
+Dobrow presents R code on page 25 for simulating this experiment, and provides the exact probability calculation in Example 1.20.  The code presents a slick application of the `replicate` R function, one we used in the R Introduction lab.  In particular, a function is written which draws the number at random from the integers 1 to 1000 and then checks if it is divisible by 3, 5, or 6.  It uses modular arithmetic, `x%%n` being *x mod n* in R.  For example, if the remainder of the number divided by 3 (modulus) is 0, then the number is divisible by 3!  We will then repeat the function (experiment) 1000 times to get the empirical probability.
+
+##### The true probability that a randomly drawn integer between 1 and 1000 is divisible by 3, 5, or 6 is 0.467.
+```{r divisible356}
+# simdivis() simulates one trial
+simdivis = function(){
+  num = sample(1:1000, 1) # draw a number at random from the integers 1 to 1000
+  # determine if the number is divisible by 3, 5 or 6 by checking if the remainder is 0
+  if (num%%3==0 || num%%5==0 | num%%6==0) 1 else 0
+}
+simlist = replicate(1000, simdivis()) # replicate the experiment 1000 times
+mean(simlist) # compute the estimated probability as the proportion of times the number is divisible by 3, 5, or 6
+```
+
+
+### The problem
+Simulate the probablity that a random integer between 1 and 5000 is divisible by 4, 7, or 10.
+
+##### The true probability that a randomly drawn integer between 1 and 5000 is divisible by 4, 7, or 10 is 0.40.
+
+```{r divisible4710}
+Divisible4710 = function(n)
+{
+  num = sample(1:5000, n, replace = TRUE)
+  return(mean(num%%4==0|num%%7==0|num%%10==0))
+}
+x = c(100, 1000, 10000, 100000)
+y = numeric(4)
+for(i in 1:4)
+{
+  y[i] = Divisible4710(x[i])
+}
+
+```
+
+### Questions:
+
+* Present the empirical probability based on repeating the experiment 100, 1000, 10000, and 100000 times.  Consider using the `xtable` code chunk from the first task to build a table for these values.
+```{r divisible4710Table, echo=TRUE, results='asis', warning=FALSE}
+numtoss = formatC(c(100, 1000, 10000, 100000), digits=0, format="d", flag="#")
+# formatC used here so proportions have exactly two decimal places (including zeros at the end)!
+prop.divis = y
+prop.divis = formatC(signif(prop.divis,digits=6), digits=5, format="f", flag="#")
+table.elts = rbind(numtoss, prop.divis)
+row.names(table.elts) = cbind("# trials", "Probability that 4, 7, or 10 divides a random integer")
+lab2.table = xtable(table.elts, caption = "Probability that a random chosen integer between 1 and 5000 (inclusive) can be divided by 4, 7, or 10", label="Divis", align = "|l|rrrr|")
+pander(lab2.table)
+```
+
+
+* How do these values compare to the truth?
+
+*They more accurately reflect the true probability as the number of trials increases.*
+
+* Extra credit: show that the true probability that a random integer between 1 and 5000 is divisible by 4, 7, or 10 is 40%.  
+We will show this using the inclusion-exclusion principle:  
+Let $A_4,\ A_7,\ A_{10}$ be the sets of integer multiples of 4, 7, and 10, respectively, that are less than 5000. Then the number of positive integers less than 5000 that are divisible by 4, 7, or 10 is $|A_4 \cup A_7 \cup A_{10}|$ which by the principle equals: 
+$$|A_4 \cup A_7 \cup A_{10}| = |A_4| + |A_7| + |A_{10}| - |A_4 \cap A_7| - |A_7 \cap A_{10}| - |A_4 \cap A_{10}| + |A_4 \cap A_7 \cap A_{10}|$$
+Where $|B|$ is the cardinality of $B$.  
+Then the number of multiples in each set is simply $|A_n| = \left\lfloor \frac{5000}{n}\right\rfloor$, and if a set $B$ is the intersection of two sets, then $|B| = |A_n \cap A_m| = \left\lfloor \frac{5000}{nm}\right\rfloor$. Bearing this in mind we have that:
+\begin{align*}
+|A_4 \cup A_7 \cup A_{10}| &= |A_4| + |A_7| + |A_{10}| - |A_4 \cap A_7| - |A_7 \cap A_{10}| - |A_4 \cap A_{10}| + |A_4 \cap A_7 \cap A_{10}|\\
+&= \left\lfloor \frac{5000}{4}\right\rfloor + \left\lfloor \frac{5000}{7}\right\rfloor + \left\lfloor \frac{5000}{10}\right\rfloor - \left\lfloor \frac{5000}{28}\right\rfloor - \left\lfloor \frac{5000}{70}\right\rfloor - \left\lfloor \frac{5000}{20}\right\rfloor + \left\lfloor \frac{5000}{140}\right\rfloor\\
+&= 1250 + 714 + 500 - 178 - 71 - 250 + 35\\
+&= 2000
+\end{align*}
+In the cases of $|A_4 \cap A_{10}|$ and $|A_4 \cap A_7 \cap A_{10}|$, we need to divide out by 2 to account for the fact that 4 and 10 are not coprime. In others words, multiples of 2 in both sets were over-counted.  
+Finally, our probability that a random integer between 1 and 5000 is divisible by 4, 7, or 10 is:
+$$\frac{|A_4 \cup A_7 \cup A_{10}|}{5000} = \frac{2000}{5000} = 40\%$$
+As desired.
+

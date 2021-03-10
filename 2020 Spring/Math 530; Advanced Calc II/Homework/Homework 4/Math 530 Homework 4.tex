@@ -1,0 +1,160 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{bm}
+\usepackage{amsthm}
+\usepackage{enumerate}
+\usepackage{graphicx}
+\usepackage{psfrag}
+\usepackage{color}
+\usepackage{url}
+\usepackage{listings}
+\usepackage{xcolor}
+
+\definecolor{codegreen}{rgb}{0,0.5,0}
+\definecolor{codewhite}{rgb}{1,1,1}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{codeblack}{rgb}{0,0,0}
+\definecolor{codeorange}{rgb}{0.8,0.4,0}
+
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{codewhite},   
+    commentstyle=\color{codegray},
+    keywordstyle=\color{codegreen},
+    numberstyle=\color{codegray},
+    stringstyle=\color{codeorange},
+    basicstyle=\ttfamily ,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=4
+}
+\lstset{style=mystyle}
+
+
+\setlength{\hoffset}{-1in}
+\addtolength{\textwidth}{1.5in}
+\setlength{\voffset}{-1in}
+\addtolength{\textheight}{1.5in}
+\newcommand{\be}{\begin{enumerate}}
+\newcommand{\ee}{\end{enumerate}}
+\newcommand{\BigO}[1]{\ensuremath\mathcal{O}\left(#1\right)}
+\newcommand{\il}[1]{\lstinline!#1!}
+
+\begin{document}
+	\begin{center}
+		\textbf{Spring 2020, Math 530:\ Homework 4} \\
+		\textbf{Due:\ Monday, March 9th, 2020} \\
+		\textbf{Joseph Diaz: 819947915}
+	\end{center}
+\noindent\makebox[\linewidth]{\rule{\paperwidth}{0.4pt}}
+\be[(E1)]
+	\item
+	A series of the form $\sum_{n=1}^\infty \frac{1}{n^p}$ is called a $p$-series. Show that a $p$-series converges if $p>1$ and diverges if $p\leq 1$. (Hint: you need to study several cases separately.)
+	\begin{proof}
+	We will prove this using the Integral Test.\\
+	Let $f(x) = \frac{1}{x^p}$, then $f'(x) = \frac{-p}{x^{p+1}}$. Crucially; $\forall x \geq 1$, $f(x) \geq 0$, and $f'(x) \leq 0$, therefore is decreasing on $[1, \infty)$. So, by the Integral Test:
+	\begin{itemize}
+		\item $\sum_{n=1}^\infty \frac{1}{n^p}$ converges absolutely, if $\forall n \in \mathbb{N},\ \left\vert \frac{1}{n^p}\right\vert = f(n)$ and $\int_1^\infty f(x)\ dx$ converges.
+		
+		\item $\sum_{n=1}^\infty \frac{1}{n^p}$ diverges, if $\forall n \in \mathbb{N},\ \frac{1}{n^p} = f(n)$ and $\int_1^\infty f(x)\ dx$ diverges.
+	\end{itemize}
+	Now, $\frac{1}{n^p} = \left\vert \frac{1}{n^p}\right\vert = f(n)$. Then:
+	\begin{align*}
+	\int_1^\infty \frac{1}{x^p}\ dx &= \lim_{b\to\infty}\int_1^b \frac{1}{x^p}\ dx\\
+	&= \lim_{b\to\infty}\left[\frac{x^{1-p}}{1-p}\right]_1^b\\
+	&= \lim_{b\to\infty}\left(\frac{b^{1-p} - 1}{1-p}\right)
+	\end{align*}
+	Now we consider $p$:
+	\be
+		\item[$p < 1$:]
+			This implies $1 - p > 0$, so:
+			$$\lim_{b\to\infty}\left(\frac{b^{1-p} - 1}{1-p}\right) \to \left(\frac{\infty^{1-p} - 1}{1-p}\right) \to \infty$$
+			So, for $p < 1$ the integral diverges and so does $\sum_{n=1}^\infty \frac{1}{n^p}$.
+		\item[$p = 1$:]
+			This implies $1 - p = 0$, so:
+			$$\frac{b^{1-p} - 1}{1-p} \to \frac{0}{0}$$
+			Then, using L'H$\hat{\text{o}}$pital's rule:
+			\begin{align*}
+			\lim_{p \to 1}\frac{b^{1-p}-1}{1-p} &= \lim_{p \to 1}\frac{-\ln(b)b^{1-p}}{-1}\\
+			&= \lim_{p \to 1}\ln(b)b^{1-p} \\
+			&= \ln(b)
+			\end{align*}
+			Then:
+			$$\lim_{b\to\infty}\left(\frac{b^{1-p} - 1}{1-p}\right) = \lim_{b\to\infty}\ln(b) \to \infty$$
+			So, for $p = 1$ the integral diverges and so does $\sum_{n=1}^\infty \frac{1}{n^p}$.
+		\item[$p > 1$:]
+			This implies $1 - p < 0 \implies p - 1 > 0$, so:
+			$$\lim_{b\to\infty}\left(\frac{b^{1-p} - 1}{1-p}\right) = \lim_{b\to\infty}\left(\frac{\frac{1}{b^{p-1}} - 1}{1-p}\right) \to \left(\frac{\frac{1}{\infty^{p-1}} - 1}{1-p}\right) = \frac{1}{p-1}$$
+			So, for $p > 1$ the integral converges and so does $\sum_{n=1}^\infty \frac{1}{n^p}$.
+	\ee
+	So, we have that $\sum_{n=1}^\infty \frac{1}{n^p}$ converges for $p > 1$, and diverges for $p \leq 1$; as desired.
+	\end{proof}
+	\item 
+	Check whether the following series converge (absolutely or conditionally) or diverge.
+		\be[a)]
+			\item $$\sum_{k=1}^\infty \frac{1}{3k+4}$$
+			\begin{proof}
+			We will show this series diverges using the Integral Test.\\
+			Let $f(x) = \frac{1}{3x+4}$, then $f'(x) = \frac{-3}{(3x+4)^2}$. Crucially; $\forall x \geq 1$, $f(x) \geq 0$, and $f'(x) \leq 0$, therefore is decreasing on $[1, \infty)$, and $f(k) = \frac{1}{3k+4}$. Then:
+			\begin{align*}
+			\int_1^\infty \frac{1}{3x+4}\ dx &= \lim_{b \to \infty} \int_1^b \frac{1}{3x+4}\ dx\\
+			&= \lim_{b \to \infty} \frac{1}{3}\left[\ln(3x+4)\right]_1^b\\
+			&= \frac{1}{3}\lim_{b \to \infty} \ln\left(\frac{3b+4}{7}\right)\\
+			&\to \infty
+			\end{align*}
+			Therefore, by the Integral Test, the series diverges.
+			\end{proof}
+			
+			\item $$\sum_{k=1}^\infty \frac{(-1)^k}{k}$$
+			\begin{proof}
+			We will show this converges using the Test for Alternating Series.\\
+			Let $a_k = \frac{1}{k}$; so $\frac{1}{k} \geq 0$ , and $\frac{1}{k} > \frac{1}{k+1}$, $\forall k \in \mathbb{N}$ ($a_k$ is decreasing). Also:
+			$$\lim_{k\to\infty}\frac{1}{k} = 0$$
+			So $\sum_{k=1}^\infty \frac{(-1)^k}{k}$ converges.
+			\end{proof}
+			\item $$\sum_{k=1}^\infty \frac{1}{k(k+1)}$$
+			\begin{proof}
+			We will show this converges using the Comparison Test.\\
+			Let $a_k = \frac{1}{k(k+1)}$, and $b_k = \frac{1}{k^2}$. Now, $\forall k \in \mathbb{N},\left\vert\frac{1}{k(k+1)}\right\vert = \frac{1}{k(k+1)} \leq \frac{1}{k^2}$. The series $\sum_{k =1}^\infty \frac{1}{k^2}$ is a $p$-series, with $p = 2 > 1$, which converges, and $$\sum_{k=1}^\infty \frac{1}{k(k+1)} \leq \sum_{k =1}^\infty \frac{1}{k^2}$$
+			So, by the Comparison Test, we may conclude that $\sum_{k=1}^\infty \frac{1}{k(k+1)}$ converges absolutely.
+			\end{proof}
+			\pagebreak
+			\item $$\sum_{k=1}^\infty ke^{-k^2}$$
+			\begin{proof}
+			We will show this converges using the Ratio Test.\\
+			Let $a_k = ke^{-k^2} = \frac{k}{e^{k^2}}$, then $a_{k+1} = \frac{k+1}{e^{(k+1)^2}}$. Now:
+			\begin{align*}
+			\lim_{k\to\infty}\left\vert \frac{a_{k+1}}{a_k}\right\vert &= \lim_{k\to\infty}\left\vert \frac{k+1}{e^{(k+1)^2}}\cdot\frac{e^{k^2}}{k}\right\vert\\
+			&= \lim_{k\to\infty}\left( \frac{e^{k^2}}{e^{(k+1)^2}}\cdot\frac{k+1}{k}\right)\\
+			&= \left(\lim_{k\to\infty}\frac{e^{k^2}}{e^{(k+1)^2}}\right)\left(\lim_{k\to\infty}\frac{k+1}{k}\right)\\
+			&= \left(\lim_{k\to\infty}\frac{e^{k^2}}{e^{k^2}e^{2k + 1}}\right)\cdot 1\\
+			&= \lim_{k\to\infty}\frac{1}{e^{2k + 1}}\\
+			&= 0 < 1
+			\end{align*}
+			so, by the Ratio Test, $\sum_{k=1}^\infty ke^{-k^2}$ converges.
+			\end{proof}
+			\item $$\sum_{k=1}^\infty \left(\frac{k+1}{k^2+1}\right)^3$$
+			\begin{proof}
+			We will show this converges with converges using the Limit Comparison Test.\\
+			Let $a_k = \left(\frac{k+1}{k^2+1}\right)^3$ and $b_k = \frac{1}{k^3}$. We know that $\sum_{k=1}^\infty \frac{1}{k^3}$ converges, as it is a $p$-series with $p = 3$. Then:
+			\begin{align*}
+			\lim_{k\to\infty}\frac{|a_k|}{b_k} &= \lim_{k\to\infty}\left\vert\left(\frac{k+1}{k^2+1}\right)^3\right\vert\cdot k^3\\
+			&= \lim_{k\to\infty}\frac{(k+1)^3k^3}{(k^2+1)^3}\\
+			&= \lim_{k \to\infty} \frac{k^6 + \cdots}{k^6 + \cdots}\\
+			&= 1
+			\end{align*}
+			The limit exists, so by the Limit Comparison Test, we may conclude that $\sum_{k=1}^\infty \left(\frac{k+1}{k^2+1}\right)^3$ converges absolutely.
+			\end{proof}
+		\ee	
+\ee
+\noindent\makebox[\linewidth]{\rule{\paperwidth}{0.4pt}}
+	
+\end{document}

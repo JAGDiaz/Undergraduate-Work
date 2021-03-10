@@ -1,0 +1,279 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{bm}
+\usepackage{amsthm}
+\usepackage{enumerate}
+\usepackage{graphicx}
+\usepackage{psfrag}
+\usepackage{color}
+\usepackage{url}
+\usepackage{listings}
+\usepackage{xcolor}
+
+\definecolor{codegreen}{rgb}{0,0.5,0}
+\definecolor{codewhite}{rgb}{1,1,1}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{codeblack}{rgb}{0,0,0}
+\definecolor{codeorange}{rgb}{0.8,0.4,0}
+
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{codewhite},   
+    commentstyle=\color{codegray},
+    keywordstyle=\color{codegreen},
+    numberstyle=\color{codegray},
+    stringstyle=\color{codeorange},
+    basicstyle=\ttfamily ,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=4
+}
+\lstset{style=mystyle}
+
+
+\setlength{\hoffset}{-1in}
+\addtolength{\textwidth}{1.5in}
+\setlength{\voffset}{-1in}
+\addtolength{\textheight}{1.5in}
+\newcommand{\be}{\begin{enumerate}}
+\newcommand{\ee}{\end{enumerate}}
+\newcommand{\BigO}[1]{\ensuremath\mathcal{O}\left(#1\right)}
+\newcommand{\il}[1]{\lstinline!#1!}
+
+\begin{document}
+	\begin{center}
+		\textbf{Spring 2020, Math 543:\ Homework 4} \\
+		\textbf{Due:\ Friday, March 6th, 2020} \\
+		\textbf{Joseph Diaz: 819947915}
+	\end{center}
+\noindent\makebox[\linewidth]{\rule{\paperwidth}{0.4pt}}
+\be[1.]
+\item  Implement modified Gram-Schmidt QR-factorization.\\
+Work through experiment \#1 and \#2 in ``Lecture 9'' of Trefethen
+\& Bau. Make sure your versions of classical and modified GS can
+reproduce figure 9.1.\\
+Note that depending on your coding environment, you may have
+to use larger (and worse conditioned) matrices to achieve the loss
+of orthogonality in classical Gram-Schmidt.
+	\begin{figure}[h]
+  	\includegraphics[width=\linewidth]{"GS Stability; Modified vs Classic".jpg}
+  	\centering
+	\end{figure}
+	\pagebreak
+\item Do exercises 9.1(a,b), and 9.2(a,b).
+	\be
+		\item[9.1]
+		\be[(a)]
+			\item Run the code from Experiment 1 to produce a plot of approximate Legendre Polynomials.
+	\begin{figure}[h]
+  	\includegraphics[width=\linewidth]{"Legendre Polynomials Approximations".jpg}
+  	\centering
+	\end{figure}
+		\pagebreak
+
+			\item For $k \in \{0,1,2,3\}$, plot the difference on the 257-point grid between these approximations and the exact polynomials (7.11). How big are the errors, and how are they distributed?
+	\begin{figure}[h]
+  	\includegraphics[width=\linewidth]{"Legendre Polynomials Approximations vs True".jpg}
+  	\centering
+	\end{figure}\\
+	The difference between both the ``true'' and approximate Legendre Polynomials is really only pronounced for $P_2(x)$ and $P_3(x)$. Where the approximation for $P_2(x)$ is only significantly different at $x =0$, but the approximation improves as $x$ gets closer to the boundaries. Conversely, $P_3(x)$ is well approximated at $x \in \{-1, 0, 1\}$, while less accurate near $x \in \{-0.6, 0.6\}$. The greatest error between the approximations and their true values on $[-1,1]$ is only about 0.0155.
+		\ee
+		\item[9.2]
+		In Experiment 2, the singular values of $A$ match the diagonals elements of a $QR$ factor $R$ approximately. Consider now a very different example. Suppose $Q = I$ and $A=R$, the $m\times m$ matrix (a \textit{Toeplitz matrix}) with 1's on the main diagonal, 2's on the superdiagonal, and 0's everywhere else.
+		\be[(a)]
+			\item What are the eigenvalues, determinant, and rank of $A$?
+			\begin{proof}[Solution]
+			We have that 
+			$$A = R = \left(
+			\begin{matrix}
+			1 & 2 & 0 & \cdots & 0\\
+			0 & 1 & 2 & \cdots & 0\\
+			\vdots & 0 &  \ddots & \ddots & 0\\
+			\vdots & \ddots & \ddots & 1 & 2\\
+			0 & \cdots & \cdots & 0 & 1
+			\end{matrix}\right)_{m\times m}
+			$$
+			So the eigenvalues of $A$ can be found by solving $\left\vert A-\lambda I_m\right\vert = 0$:
+			$$\left\vert A-\lambda I_m\right\vert = 0 \implies \left\vert
+			\begin{matrix}
+			1-\lambda & 2 & 0 & \cdots & 0\\
+			0 & 1-\lambda & 2 & \cdots & 0\\
+			\vdots & 0 &  \ddots & \ddots & 0\\
+			\vdots & \ddots & \ddots & 1-\lambda & 2\\
+			0 & \cdots & \cdots & 0 & 1-\lambda
+			\end{matrix}\right\vert = 0 \implies (1-\lambda)^m= 0$$
+			So, the eigenvalues of $A$ are $\lambda = 1$ with multiplicity $m$.\\
+			As $A$ is upper-triangular, we know that it's determinant is the product of the elements on the main diagonal. So:
+			$$\left\vert A\right\vert = 1$$
+			And as $A$ has $m$ linearly independent columns:
+			$$\text{Rank}(A) = m$$ 
+			\end{proof}
+			\item What is $A^{-1}$?
+			$$A = \left(
+			\begin{matrix}
+			1 & 2 & 0 & \cdots & 0\\
+			0 & 1 & 2 & \cdots & 0\\
+			\vdots & 0 &  \ddots & \ddots & 0\\
+			\vdots & \ddots & \ddots & 1 & 2\\
+			0 & \cdots & \cdots & 0 & 1
+			\end{matrix}\right) \implies A^{-1} = \left(
+			\begin{matrix}
+			1 &-2 & 4 & \cdots & (-2)^{m-1}\\
+			0 & 1 &-2 & \ddots & \vdots\\
+			\vdots & 0 &  \ddots & \ddots & 4\\
+			\vdots & \ddots & \ddots & 1 &-2\\
+			0 & \cdots & \cdots & 0 & 1
+			\end{matrix}\right)$$
+		\ee
+		
+		
+	\ee
+\ee
+\noindent\makebox[\linewidth]{\rule{\paperwidth}{0.4pt}}
+\subsection*{Source code:}
+\begin{lstlisting}[language=python]
+import numpy as np
+from matplotlib import pyplot as plt
+plt.rcParams['text.usetex'] = True
+plt.rcParams['savefig.format'] = 'jpg'
+
+
+def modified_GS(A):
+	V = np.copy(A)
+	r = np.zeros((A.shape[1], A.shape[1]))
+	q = np.zeros(A.shape)
+	for i in range(V.shape[1]):
+		r[i,i] = np.linalg.norm(V[:,i], 2)
+		q[:,i] = V[:,i]/r[i,i]
+		for j in range(i+1, V.shape[1]):
+			r[i, j] = np.dot(q[:,i], V[:,j])
+			V[:, j] = V[:, j] - r[i,j]*q[:,i]
+	return q, r
+
+def classic_GS(A):
+	r = np.zeros((A.shape[1], A.shape[1]))
+	q = np.zeros(A.shape)
+	for j in range(A.shape[1]):
+		v = np.copy(A[:,j], order='K')
+		for i in range(j):
+			r[i,j] = np.dot(q[:,i],A[:,j])
+			v = v - r[i,j]*q[:,i]
+		r[j,j] = np.linalg.norm(v)
+		q[:,j] = v/r[j,j]
+	return q, r
+
+def get_Machine_Ep():
+	ep = 1
+	while(1 + ep != 1):
+		ep /= 2
+	return ep
+
+def matrix_Print(A):
+	for i in A:
+		print(i)
+
+def is_Up_Tri(A, tol):
+	if(A.shape[0] != A.shape[1]):
+		return False
+	for i in range(A.shape[0]):
+		for j in range(i + 1, A.shape[0]):
+			if(np.abs(A[j,i]) > tol):
+				return False
+	return True
+
+def is_Low_Tri(A, tol):
+	if(A.shape[0] != A.shape[1]):
+		return False
+	for i in range(A.shape[0]):
+		for j in range(i + 1, A.shape[0]):
+			if(np.abs(A[i,j]) > tol):
+				return False
+	return True
+
+def is_Unitary(A, tol):
+	for i in range(A.shape[1]):
+		if(np.abs(1-np.linalg.norm(A[:,i], 2)) > tol):
+			return False
+		for j in range(i+1,A.shape[1]):
+			if(np.abs(np.dot(A[:,i],A[:,j])) > tol):
+			  	return False
+	return True
+
+
+# Experiment 1
+x = np.linspace(-1, 1, 256)
+A = np.transpose(np.array([x**0, x, x**2, x**3]))
+q,r = np.linalg.qr(A, 'reduced')
+scale = q[-1,:]
+qScale = q@np.diag(1/scale)
+
+
+fig1, ax1 = plt.subplots(1, figsize=(18,12))
+ax1.set_title("Approximation of First Four Legendre Polynomials", size = 30)
+ax1.plot(x, qScale[:,0], 'k', label = "$Q_0(x)$")
+ax1.plot(x, qScale[:,1], 'b', label = "$Q_1(x)$")
+ax1.plot(x, qScale[:,2], 'r', label = "$Q_2(x)$")
+ax1.plot(x, qScale[:,3], 'purple', label = "$Q_3(x)$")
+ax1.set_xlabel("$x$", size = 20)
+ax1.set_ylabel("$Q_i(x)$", size = 20)
+ax1.legend(loc=('best'), prop={'size':20})
+fig1.savefig("Legendre Polynomials Approximations")
+#plt.show()
+
+# Experiment 2
+n = 80
+u, X = np.linalg.qr(np.random.rand(n,n))
+v, X = np.linalg.qr(np.random.rand(n,n))
+S = np.diag(2.**(np.arange(-1, -n-1, -1)))
+
+A = u@S@v
+
+qc, rc = classic_GS(A)
+qm, rm = modified_GS(A)
+
+
+rcd = np.array([rc[i,i] for i in range(rc.shape[0])])
+rmd = np.array([rm[i,i] for i in range(rm.shape[0])])
+ep = get_Machine_Ep()
+sqep = np.sqrt(ep)
+t = np.arange(1,n+1,1)
+
+
+fig2, ax2 = plt.subplots(1, figsize=(18,12))
+ax2.set_title("Gram-Schmidt Stability; Modified vs. Classic", size = 25)
+ax2.plot(t, np.log10(rcd), 'ko', label="Classic Gram-Schmidt")
+ax2.plot(t, np.log10(rmd), 'cx', label="Modified Gram-Schmidt")
+ax2.plot(t, np.log10(sqep*np.ones(t.size)), 'r--', label=r"$\sqrt{\varepsilon_{machine}}$")
+ax2.plot(t, np.log10(ep*np.ones(t.size)), 'b--', label=r"$\varepsilon_{machine}$")
+ax2.plot(t, np.log10(2.**(-t)), 'purple', label=r"$2^{-j}$")
+ax2.set_xlabel("$j$", size = 25)
+ax2.set_ylabel("$\log_{10}(r_{jj})$", size = 25)
+ax2.legend(loc='best', prop={'size':20})
+fig2.savefig("GS Stability; Modified vs Classic")
+#plt.show()
+
+
+# 9.1(b)
+P = np.transpose(np.array([np.ones(x.size), x, 1.5*x**2 - .5, x*(2.5*x**2 - 1.5)]))
+
+fig3, ax3 = plt.subplots(1, figsize=(18,12))
+ax3.set_title("Difference of Legendre Polys and Approximations", size = 30)
+ax3.plot(x, P[:,0] - qScale[:,0], 'k', label = "$(P_0-Q_0)(x)$")
+ax3.plot(x, P[:,1] - qScale[:,1], 'b', label = "$(P_1-Q_1)(x)$")
+ax3.plot(x, P[:,2] - qScale[:,2], 'r', label = "$(P_2-Q_2)(x)$")
+ax3.plot(x, P[:,3] - qScale[:,3], 'purple', label = "$(P_3-Q_3)(x)$")
+ax3.set_xlabel("$x$", size = 20)
+ax3.set_ylabel("$P_i(x) - Q_i(x)$", size = 20)
+ax3.legend(loc=('best'), prop={'size':20})
+fig3.savefig("Legendre Polynomials Approximations vs True")
+print(np.linalg.norm(P - qScale, np.inf))
+\end{lstlisting}
+\end{document}

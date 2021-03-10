@@ -1,0 +1,259 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{bm}
+\usepackage{amsthm}
+\usepackage{enumerate}
+\usepackage{graphicx}
+\usepackage{psfrag}
+\usepackage{color}
+\usepackage{url}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{positioning}
+\tikzset{main node/.style={circle,fill=gray!20,draw,minimum size=.5cm,inner sep=0pt},}
+
+\definecolor{codegreen}{rgb}{0,0.5,0}
+\definecolor{codewhite}{rgb}{1,1,1}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{codeblack}{rgb}{0,0,0}
+\definecolor{codeorange}{rgb}{0.8,0.4,0}
+
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{codewhite},   
+    commentstyle=\color{codegray},
+    keywordstyle=\color{codegreen},
+    numberstyle=\color{codegray},
+    stringstyle=\color{codeorange},
+    basicstyle=\ttfamily ,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=4
+}
+\lstset{style=mystyle}
+
+
+\setlength{\hoffset}{-1in}
+\addtolength{\textwidth}{1.5in}
+\setlength{\voffset}{-1in}
+\addtolength{\textheight}{1.5in}
+\newcommand{\be}{\begin{enumerate}}
+\newcommand{\ee}{\end{enumerate}}
+\newcommand{\BigO}[1]{\ensuremath\mathcal{O}\left(#1\right)}
+\newcommand{\il}[1]{\lstinline!#1!}
+\newcommand{\gnorm}[1]{\left|\left|#1\right|\right|}
+\newcommand{\abs}[1]{\left|#1\right|}
+\newcommand{\parens}[1]{\left(#1\right)}
+\newcommand{\bracks}[1]{\left\{#1\right\}}
+\newcommand{\sqbracks}[1]{\left[#1\right]}
+\newcommand{\vep}{\varepsilon}
+\newcommand{\ceiling}[1]{\left\lceil#1\right\rceil}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\distrib}[2]{\text{#1}\left(#2\right)}
+\newcommand{\dd}[1]{\frac{d}{d#1}}
+\newcommand{\abracks}[1]{\left< #1\right>}
+
+\begin{document}
+	\begin{center}
+		\textbf{Spring 2020, Stats 550:\ Homework 17} \\
+		\textbf{Due:\ Tuesday, April 28th, 2020} \\
+		\textbf{Joseph Diaz: 819947915}
+	\end{center}
+\noindent\makebox[\linewidth]{\rule{\paperwidth}{0.4pt}}
+\subsection*{Chapter 7}
+\be 
+	\item[1.] Let $X \sim \distrib{Norm}{-4,25}$. Find the following probabilities without using software:
+	\be[(a)] 
+		\item $P\parens{X > 6}$
+		\begin{proof}[Solution]
+		Using the transform to \textit{standardized random variable}, we have:
+		\begin{align*}
+		P\parens{X > 6} &= P\parens{\frac{X-(-4)}{5} > \frac{6-(-4)}{5}} \\
+		&= P\parens{Z > 2} \\
+		&\approx \frac{1-.95}{2} \\
+		&\approx 2.5\%
+		\end{align*}
+		\end{proof}
+		
+		\item $P\parens{-9 < X < 1}$
+		\begin{proof}[Solution]
+		Using the same transform:
+		\begin{align*}
+		P\parens{-9 < X < 1} &= P\parens{\frac{-9 - (-4)}{5} < \frac{X - (-4)}{5} < \frac{1 -(-4)}{5}} \\
+		&= P\parens{-1 < Z < 1} \\
+		&\approx 68\%
+		\end{align*}
+		\end{proof}
+		
+		\item $P\parens{\sqrt{X} > 1}$
+		\begin{proof}[Solution]
+		Using the same transform:
+		\begin{align*}
+		P\parens{\sqrt{X} > 1} &= P\parens{X > 1} \\
+		&= P\parens{\frac{X-(-4)}{5} > \frac{1-(-4)}{5}} \\
+		&= P\parens{Z > 1} \\
+		&\approx \frac{1-.68}{2} \\
+		&\approx 16\%
+		\end{align*}
+		\end{proof}
+	\ee
+	
+	\item[3.] Babies’ birth weights are normally distributed with mean 120 ounces and standard
+deviation 20 ounces. \emph{Low birth weight} is an important indicator of a
+newborn baby’s chances of survival. One definition of low birth weight is that
+it is the fifth percentile of the weight distribution.\\
+Let $X \sim \distrib{Norm}{120, 20^2}$ be the weight of newborns.
+	\be[(a)] 
+		\item Babies who weigh less than what amount would be considered low birth
+weight?
+		\begin{proof}[Solution]
+		We want to find $q_5$ such that 
+		$$P\parens{X \leq q_5} = .05$$
+		First, we'll transform of question to probability in terms of the standardized normal random variable $Z$
+		$$P\parens{X \leq q_5} = P\parens{Z \leq \frac{q_5 - 120}{20}}$$
+		using \il{R}, we have that \il{qnorm(.05) = -1.644854}, which yields
+		$$-1.644854 \approx \frac{q_5 - 120}{20} \implies q_5 \approx 87.10293$$
+		So by this metric, we would consider babies lighter than 87.1 ounces under weight.
+		\end{proof}
+
+		\item \emph{Very low birth weight} is used to described babies who are born weighing
+less than 52 ounces. Find the probability that a baby is born with very low
+birth weight.
+		\begin{proof}[Solution]
+		We want to find 
+		$$P\parens{X < 52}$$
+		to find this, we'll use the transform from ~(a):
+		$$P\parens{X < 52} = P\parens{Z < \frac{52 - 120}{20}} = P\parens{Z < -3.4}$$
+		With \il{R}'s \il{pnorm(-3.4)}, we have 
+		$$P\parens{Z < -3.4} \approx 0.03369293\%$$
+		So the probability that a new born is severely underweight is about $0.03\%$.
+		\end{proof}
+
+		\item Given that a baby is born with low birth weight, what is the probability
+that they have very low birth weight?
+	\begin{proof}[Solution]
+	We want to find
+	$$P\parens{X < 52\mid X < 87.1}$$
+	We'll find this using the conditional probability formula
+	$$
+	P\parens{X < 52\mid X < 87.1} = \frac{P\parens{X < 87.1\mid X < 52} P\parens{X < 52}}{P\parens{X < 87.1}}
+	$$
+	But $P\parens{X < 87.1\mid X < 52} = 1$, because if $X < 52$, then $X < 87.1$. So our formula is
+	$$P\parens{X < 52\mid X < 87.1} = \frac{P\parens{X < 52}}{P\parens{X < 87.1}} = \frac{0.03369293}{5} = 0.6738585\%$$
+	So the probability that a low weight baby is also a very low weight baby is $0.6738585\%$.
+	\end{proof}
+
+	\ee
+	
+	\item[5.] The rates of return of ten stocks are normally distributed with mean $\mu = 2$
+and standard deviation $\sigma = 4$ (units are percentages). Rates of return are
+independent from stock to stock. Each stock sells for \$10 a share. Amy, Bill,
+and Carrie have \$100 each to spend on their stock portfolio. Amy buys one
+share of each stock. Bill buys two shares from five different companies. Carrie
+buys ten shares from one company. For each person, find the probability that
+their average rate of return is positive.
+	\begin{proof}[Solution]
+	Let $X_i \sim \distrib{Norm}{2, 4^2}$ be the percentage of returns on the stock market for any given stock. Let $S_A,\ S_B,\ S_C$ be the percentage of returns on the stocks that Amy, Bill, and Carrie buy, respectively. So
+	$$S_A = \frac{X_1 + \cdots + X_{10}}{10} \sim \distrib{Norm}{2, \frac{4^2}{10}}$$
+	$$S_B = \frac{2X_1 + \cdots + 2X_5}{5} \sim \distrib{Norm}{4, \frac{8^2}{5}}$$
+	$$S_C = 10X_1 \sim \distrib{Norm}{20,40^2}$$
+	So for each of these we want to find
+	\begin{align*}
+	P(S_A > 0) &= P\parens{Z > \frac{0-2}{\frac{4}{\sqrt{10}}}}\quad  & P(S_B > 0) &= P\parens{Z > \frac{0-4}{\frac{8}{\sqrt{5}}}}\quad & P(S_C > 0) &= P\parens{Z > \frac{0-20}{40}} \\
+	&= P\parens{Z > -1.5114}\quad  & &= P\parens{Z > -1.118}\quad &  &= P\parens{Z > -.5} \\
+	&\approx 94.30769\%\quad  & &\approx 86.82238\%\quad &  &\approx 69.14625\% \\
+	\end{align*}
+	So the probability that Amy's, Bill's, and Carrie's average rate of return is positive are $94.30769\%$,  $86.82238\%$, and $69.14625\%$; respectively.
+	\end{proof}
+	
+	\item[6.] The two main standardized tests in the United States for high school students
+are the ACT and SAT. ACT scores are normally distributed with mean 18
+and standard deviation 6. SAT scores are normally distributed with mean 500
+and standard deviation 100. Suppose Jill takes an SAT exam and scores 680.
+Jack plans to take the ACT. What score does Jack need to get so that his
+standardized score is the same as Jill’s standardized score? What percentile
+do they each score at?
+	\begin{proof}[Solution]
+	Let $A \sim \distrib{Norm}{18, 6^2}$ be the ACT scores, and $S \sim \distrib{Norm}{500, 100^2}$ be the SAT scores. Jill scored 680, so her percentile is given by
+	$$P\parens{S < 680} = P\parens{Z < \frac{680-500}{100}} = P\parens{Z < 9/5} \approx 96.41\%$$
+	So we see that Jill's score is at about the $96^{th}$ percentile. To find Jack's equivalent score for the ACT, we need to find $q_{96}$ such that
+	$$P\parens{A < q_{96}} = P\parens{Z < \frac{q_{96} - 18}{6}} = P\parens{Z < 9/5}$$
+	$$\Rightarrow \frac{q_{96}-18}{6} = \frac{9}{5} \implies q_{96} = 28.8$$
+	So a 680 on the SAT is equivalent to a 28.8 on the ACT and both scores are at about the $96^{th}$ percentile.
+	\end{proof}
+	
+	\item[11.] Let $X_1,\ \cdots,\ X_n$ be an i.i.d. sequence of normal random variables with mean
+$\mu$ and variance $\sigma^2$. Let $S_n = X_1 + \cdots + X_n$.
+	\be 
+		\item Suppose $\mu = 5$ and $\sigma^2 = 1$. Find $P\parens{\abs{X_1 - \mu} \leq \sigma}$.
+		\begin{proof}[Solution]
+		We have that 
+		\begin{align*}
+		P\parens{\abs{X_1 - \mu} \leq \sigma} &= P\parens{-\sigma \leq X_1 - \mu \leq \sigma} \\
+		&= P\parens{-1 \leq \frac{X_1 - \mu}{\sigma} \leq 1} \\
+		&= P\parens{-1 \leq Z \leq 1} \\
+		&\approx 68\%
+		\end{align*}
+		\end{proof}
+		
+		\item Suppose $\mu = 5$, $\sigma^2 = 1$, and $n = 9$. Find $P\parens{\abs{S_n/n - \mu} \leq \sigma}$.
+		\begin{proof}[Solution]
+		We have that
+		\begin{align*}
+		P\parens{\abs{S_n / n - \mu} \leq \sigma} &= P\parens{-\sigma \leq S_n / n - \mu \leq \sigma} \\
+		&= P\parens{-\sqrt{n} \leq \frac{S_n / n - \mu}{\sigma/\sqrt{n}} \leq \sqrt{n}} \\
+		&= P\parens{-\sqrt{n} \leq Z \leq \sqrt{n}}
+		\end{align*}
+		Here we have that $n = 9$, so:
+		$$P\parens{\abs{S_n / n - \mu} \leq \sigma} = P\parens{-3 \leq Z \leq 3} = 99.7\%$$
+		\end{proof}
+	\ee
+	
+	\item[17.] If $X,\ Y,\ Z$ are independent standard normal random variables, find the
+distribution of $X^2 + Y^2 + Z^2$. (Hint: Think spherical coordinates.)
+	\begin{proof}[Solution]
+	We have that $X,\ Y,$ and $Z$ are independent standard normal random variables. To find the distribution of $R^2 = X^2 + Y^2 + Z^2$, we'll find the distributions of $X^2,\ Y^2$, and $Z^2$ in turn:
+	\begin{align*}
+	E\sqbracks{X^2} &= \int_{-\infty}^\infty \frac{x^2 e^{-\frac{x^2}{2}}}{\sqrt{2\pi}}\ dx \\
+	&= \frac{1}{\sqrt{2\pi}} \int_{-\infty}^\infty x^2 e^{-\frac{x^2}{2}}\ dx \\
+	&= \frac{1}{\sqrt{2\pi}} \left.\parens{-xe^{-\frac{x^2}{2}} + \int e^{-\frac{x^2}{2}}\ dx}\right|_{-\infty}^\infty \\
+	&= \frac{1}{\sqrt{2\pi}} \left.\parens{-xe^{-\frac{x^2}{2}} }\right|_{-\infty}^\infty + \int_{-\infty}^\infty \frac{	e^{-\frac{x^2}{2}}}{\sqrt{2\pi}}\ dx \\
+	&= 0 + 1 = 1
+	\end{align*}
+	And as $Y$ and $Z$ have the same distribution as $X$, we may assume
+	$$E\sqbracks{X^2} = E\sqbracks{Y^2} = E\sqbracks{Z^2} = 1$$
+	As for $V\sqbracks{X^2}$, we'll use the identity
+	$$V\sqbracks{X^2} = E\sqbracks{X^4} - E\sqbracks{X^2}^2$$
+	and we need to find
+	\begin{align*}
+	E\sqbracks{X^4} &= \int_{-\infty}^\infty \frac{x^4 e^{-\frac{x^2}{2}}}{\sqrt{2\pi}}\ dx \\
+	&= \frac{1}{\sqrt{2\pi}} \int_{-\infty}^\infty x^4 e^{-\frac{x^2}{2}}\ dx \\
+	&= \frac{1}{\sqrt{2\pi}} \left.\parens{-x^3e^{-\frac{x^2}{2}} + 3\int x^2e^{-\frac{x^2}{2}}\ dx}\right|_{-\infty}^\infty \\
+	&= \frac{1}{\sqrt{2\pi}} \left.\parens{-x^3e^{-\frac{x^2}{2}} + 3\parens{-xe^{-\frac{x^2}{2}} + \int e^{-\frac{x^2}{2}}\ dx}}\right|_{-\infty}^\infty \\
+	&= \frac{1}{\sqrt{2\pi}} \left.\parens{-x^3e^{-\frac{x^2}{2}} - 3xe^{-\frac{x^2}{2}} + 3\int e^{-\frac{x^2}{2}}\ dx}\right|_{-\infty}^\infty \\
+	&= \frac{1}{\sqrt{2\pi}} \left.\parens{-x^3e^{-\frac{x^2}{2}}}\right|_{-\infty}^\infty - \frac{3}{\sqrt{2\pi}}\left.\parens{xe^{-\frac{x^2}{2}}}\right|_{-\infty}^\infty + 3\int_{-\infty}^\infty \frac{e^{-\frac{x^2}{2}}}{\sqrt{2\pi}}\ dx\\
+	&= 0 - 0 + 3 = 3
+	\end{align*}
+	So $V\sqbracks{X^2} = E\sqbracks{X^4} - E\sqbracks{X^2}^2 = 3 - 1^2 = 2$, similar to the expectation we may conclude
+	$$V\sqbracks{X^2} = V\sqbracks{Y^2} = V\sqbracks{Z^2}$$
+	The expectation and variance of $R^2$ are
+	$$E\sqbracks{R^2} = E\sqbracks{X^2 + Y^2 + Z^2} = E\sqbracks{X^2} + E\sqbracks{Y^2} + E\sqbracks{Z^2} = 3$$
+	$$V\sqbracks{R^2} = V\sqbracks{X^2 + Y^2 + Z^2} = V\sqbracks{X^2} + V\sqbracks{Y^2} + V\sqbracks{Z^2} = 6$$
+	So the distribution of $R^2$ is
+	$$R^2 = X^2 + Y^2 + Z^2 \sim \distrib{Norm}{3, 6}$$
+	\end{proof}
+	 
+\ee
+\noindent\makebox[\linewidth]{\rule{\paperwidth}{0.4pt}}
+	
+\end{document}

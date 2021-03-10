@@ -1,0 +1,234 @@
+---
+title: "Lab 1"
+author: "Joseph Diaz"
+date: "February 16, 2020"
+output: pdf_document
+---
+
+## Task 1: A Basic Simulation Event
+
+Much of our applied probability computing work in this class will be simulating events. This means that we generate an event at random. The R function for simulating random numbers is sample; check out the help screen.
+
+```{r, eval=FALSE}
+help(sample)
+```
+
+### Code set-up
+
+Let us try simulating a die roll: The parameter replace = TRUE is important here as we are rolling the die over and over again, not drawing marbles out of a bag. Here is how to roll a 6-sided die five times in R, and then compute the average of the rolls. Try running it!
+```{r}
+x = 1:6  # sides of the die
+roll = sample(x, 5, replace = TRUE)  # tell R how many sides (x) and how many rolls (5)
+mean(roll) # average of the 5 rolls
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+### The problem
+
+A tetrahedron die is a four-sided die with labels {1, 2, 3, 4}. Have R make 10 rolls of the tetrahedron die and compute the average. (Can think of this as rolling 10 different tetrahedron dice as well.) Keep the output in this RMarkdown file for grading purposes.
+```{r}
+tetraRoll=function(n)
+{
+  rolls = sample(1:4, n, replace = TRUE)
+  return(mean(rolls))
+}
+```
+
+### Question:
+
+What value do you expect to get for the average of 10 rolls?  
+Calling `tetraRoll(10)`: *`r tetraRoll(10)`*
+
+## Task 2: Playing with for-loops
+
+For-loops are central to the simulation studies we will be performing in this class. In these experiments, simulation tasks are repeated over and over again. The for-loop can easily perform this replication for us. The trick is appropriately storing your results for analysis. The syntax for a for-loop in R is `for(var in seq){task}`, read "for a given variable in a specified sequence." The for-loop steps that variable through the sequence and performs the task each time.
+
+### Code set-up
+
+Let us apply a for-loop for simulating a 6-sided die roll. That is, repeat 1000 times the experiment of rolling a 6-sided die five times and computing the average.
+```{r}
+S = 1000 # number of simulation experiments performed
+# store results in a (1000-dimensional) vector called rolls.avgs
+rolls.avgs = vector(length=S)  
+# setting up the variable rolls.avgs to store the average roll for each experiment
+# this for-loop steps the variable simnum through the sequence 1 to 1000,
+# repeating 1000 times the die rolling tasks inside the curly brackets {...}.
+for(simnum in 1:S)
+{
+  # Use our die rolling code from Task 1!
+  x = 1:6 # sides of the die
+  roll = sample(x, 5, replace = TRUE)  # simulate a die roll
+  rolls.avgs[simnum] = mean(roll) # store the average roll
+}
+# take a look at the first 6 simulation results
+head(rolls.avgs)
+
+# compute the mean of the 1000 experiments
+mean(rolls.avgs)
+```
+
+### The problem
+Repeat 1000 times the experiment you performed in Task 1, that is rolling a tetrahedron die 10 times and computing the average. Report the average and standard deviation of the 1000 experiments. The standard deviation function in R is `sd(x)`.
+```{r}
+simlist = numeric(1000)
+for(i in 1:1000)
+{
+  simlist[i] = tetraRoll(10)
+}
+mean(simlist)
+sd(simlist)
+```
+
+### Questions:
+* Is the mean closer to the value you would expect than the average you had in Task 1? Why?  
+ *Yes, because the multiples experiments 'even out' the distribution you'd expect from a single experiment and you essentially zero in on the true average.*
+*	How do you interpret the standard deviation in this problem?  
+ *The standard deviation gives you an idea of the spread around the mean that you might get out of any single experiment. Some may be more or less than the mean, but the standard deviation tells about how far they can be.*
+ 
+## Task 3: Presenting tables in RMarkdown
+
+Let us present a table of our die rolls. We will use `xtable` and `pander` R packages. Make sure to install the `pander` package prior to running the code chunk. In this task, we will also try the `replicate()` function in R to replace the for-loop.  
+
+Have R make 5 rolls of the tetrahedron die and repeat that 4 times. Present the results in a table.
+
+### RMarkdown
+The exact code is provided for you below. In this way you can cut-and-paste this code for table-making in future labs. Three parameters were added to the code chunk: The `echo = FALSE` parameter was added to prevent printing of the R code that generated the table. The `results='asis'` parameter was added to have R present the results as is for the table generation. The `warning=FALSE` parameter suppresses warning messages from R that are often presented when loading packages.  
+As an aside, a fourth common parameter is `include=FALSE`, which prevents R from printing output when running the code chunk.
+
+```{r, warning=FALSE, results='asis', echo=FALSE}
+# we will create a table using xtable and pander
+library(knitr)
+library(xtable)
+library(pander)
+# output desired summary statistics
+# formatC used so integer dice tosses do not have a decimal place in the figure!
+x = 1:4 # sides of the die
+roll = sample(x, 5, replace = TRUE)
+
+R=replicate(5, sample(x, 4, replace = TRUE))
+
+
+table=xtable(R, caption="Replicate 5 rolls of a tetrahedron die two times", align = "|4|rrrrr|")
+names(table) <- c('Replicate 1', 'Replicate 2', 'Replicate 3', 'Replicate 4', 'Replicate 5')
+pander(table)
+```
+
+### Question:
+What do you observe across the replicates?  
+  *Seeing as the "experiment" is repeated multiple times using replicate, the results were different every time.*  
+  
+## Task 4: Presenting graphs in RMarkdown
+Graphs are easy to display in an RMarkdown file.
+
+### Code set-up
+Let us draw a histogram of our 1000 die rolls from earlier.
+```{r}
+hist(rolls.avgs, main="", xlab="Average of set of 10 rolls")
+```
+
+### The problem
+Let us add a normal approximation (bell curve) to the histogram. We will cover the normal distribution later in the course. But hopefully you recall it from your Statistics course! To add a density curve to the plot, need to change the y-axis to a 'density' scale. This is done by setting the parameter prob = TRUE. The curve function addes a curve to the plot. We will use a normal distribution with mean and standard deviation set at the values obtained in Task 2. Here is the code
+```{r, eval=FALSE}
+hist(rolls.avgs, prob = T, main="", xlab="Average of set of 10 rolls") # histogram
+curve(dnorm(x, mean=mean(rolls.avgs), sd=sd(rolls.avgs)), add=TRUE, col="green") # normal approximation
+```
+Add these to the code chunk to present a histogram with a normal approximation
+
+```{r}
+hist(rolls.avgs, prob = T, main="", xlab="Average of set of 10 rolls") # histogram
+curve(dnorm(x, mean=mean(rolls.avgs), sd=sd(rolls.avgs)), add=TRUE, col="green") # normal approximation
+```
+
+### Question:
+* Interpret the histogram's shape, skew, spread, and center.
+  *The histgram's shape is indicatve of a normal distribution, with most occurrences being in the middle and the likelyhood of extreme values dropping off as you get away from the average. It is not exact due to the discrete nature and small number of "Buckets" to place occurrence into, though the general shape is preserved and the distribution is not skewed left or right.*
+* Does this follow what you would expect to see?
+  *Yes, given that the outcome of the dice rolls in each experiment is equally likely, we should expect the average to be around the same value each time; with values far from the overall mean being very unlikely.*
+## Task 5: Boolean expressions
+Another useful task is making logical statements in R.
+
+### Code set-up
+
+Let us first make 10 rolls of a die and see how often a 6 is rolled.
+
+```{r}
+x = 1:6  # 6-sided die
+rolls = sample(x, 10, replace = TRUE)  # roll the die five times
+# Boolean expression: how often is the roll EXACTLY 6, use double-equals sign
+sum(rolls == 6)
+```
+
+Now repeat 1000 times the experiment of rolling a die 10 times as in Task 2. We will see how many times a six occurs at least once out of ten rolls across all these experiments. The code for this counting exercise is sum(roll==6)>0 since a "success" is an experiment where the total number of sixes showing on ten rolls is more than zero!
+
+```{r}
+six = 0 # start a counter for number of times at least one six shows in 5 rolls
+S = 1000 # number of experiments
+# for-loop to repeat die rolling experiment 1000 times
+for(simnum in 1:S)
+{
+  x = 1:6 # 6-sided die
+  roll = sample(x, 10, replace = TRUE) # roll the die five times
+  # two ways to count: with an if-then statement, or more elegantly 
+  # with a Boolean computation
+  # if(sum(roll==2) > 0){st = st + 1}  # if-then statement
+  six = six + (sum(roll==6)>0) 
+  # Boolean computation: add one to the counter only if at least one 6 shows.
+}
+six
+```
+
+### The problems:
+### First problem:
+ How often in 5 rolls of a tetrahedron die is a two rolled?
+```{r}
+howManyTwos = function(n)
+{
+  twos = 0
+  rolls = matrix(sample(1:4, 5*n, replace = TRUE), nrow=n)
+  for(i in 1:n)
+  {
+    twos = twos + (sum(rolls[i, 1:5] == 2) > 0)
+  }  
+  return(twos)
+}
+```
+### Questions:
+* Run the code multiples times. What values do you get?  
+  *The number of 2s in 10 sets of 1000 trials:*  
+  *`r replicate(10, howManyTwos(1000))`*
+    
+* Are the values different? Is that what you expect?
+  *The values are different, which is contrary to expectation as you'd expect that each individual roll outcome is equally likely. Then again, when you recognize that in one case we are using a six sided die and in the other case we are using a four sided die. So the difference in total outcomes makes sense.*  
+  
+### Second problems:
+
+This is heading towards a probability calculation. Roll the tetrahedron die 5 times and repeat this experiment 1000 times as in Task 2. Report the proportion of 1000 simulations where a two occurred. (This derives from Dobrow problem 1.44: Probability of rolling at least one 2 in five rolls of a tetrahedron die.)
+```{r}
+areThereTwos = function(n)
+{
+  twos = numeric(n)
+  rolls = matrix(sample(1:4, 5*n, replace = TRUE), nrow=n)
+  for(i in 1:n)
+  {
+    twos[i] = if(2 %in% rolls[i, 1:5]) 1 else 0
+  }  
+  return(mean(twos))
+}
+```
+### Questions:
+* Is the value you get close to the truth (0.7627)?  
+  *Probability of getting at least 1 two: `r areThereTwos(1000)`*  
+* How can we modify the simulation experiement to get a value even close to the truth?  
+  *Do more trials in our simulation, as more trials will even out the variance from individual outcomes.*  
+## Task 6: Finalize your output for submitting to Blackboard
+As we noted, you can run each code chunk using the "play" button on the top right corner of the chunk. You may also run individual lines of code in the RStudio console for debugging purposes.  
+To run the whole document and preview the Word document, press the "Knit" button in the menu bar underneath the tabs. This should present a preview of the Word file and save a .docx file in your working directory.  
+Alternatively, you may render the Word file in the R console using the render command.
+*	Save your file as a .rmd file to your desired working directory.
+*	Then in the R console, place the following:
+```{r, eval=FALSE}
+library(rmarkdown)
+render("filename.rmd")
+```
+This will save the .docx file of the report to your working directory.
