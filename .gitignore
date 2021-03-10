@@ -127,3 +127,11 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# Syllabi, pictures, videos and text files not allowed.
+*.pdf
+*.txt
+*.jpg
+*.png
+*.mp3
+*.mp4
