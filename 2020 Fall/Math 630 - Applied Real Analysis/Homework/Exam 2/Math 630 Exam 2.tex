@@ -1,0 +1,335 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{bm}
+\usepackage{amsthm}
+\usepackage{enumerate}
+\usepackage{graphicx}
+\usepackage{psfrag}
+\usepackage{color}
+\usepackage{url}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usepackage{verbatim}
+\usetikzlibrary{positioning}
+\tikzset{main node/.style={circle,fill=gray!20,draw,minimum size=.5cm,inner sep=0pt},}
+
+% In line code stuff%
+\definecolor{codegreen}{rgb}{0,0.5,0}
+\definecolor{codewhite}{rgb}{1,1,1}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{codeblack}{rgb}{0,0,0}
+\definecolor{codeorange}{rgb}{0.8,0.4,0}
+
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{codewhite},   
+    commentstyle=\color{codegray},
+    keywordstyle=\color{codegreen},
+    numberstyle=\color{codegray},
+    stringstyle=\color{codeorange},
+    basicstyle=\ttfamily ,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=4
+}
+\lstset{style=mystyle}
+\setlength{\hoffset}{-1in}
+\addtolength{\textwidth}{1.5in}
+\setlength{\voffset}{-1in}
+\addtolength{\textheight}{1.5in}
+
+% Custom commands%
+\newcommand{\be}{\begin{enumerate}}
+\newcommand{\ee}{\end{enumerate}}
+\newcommand{\BigO}[1]{\ensuremath\mathcal{O}\left(#1\right)}
+\newcommand{\il}[1]{\lstinline!#1!}
+\newcommand{\norm}[1]{\left|\left|#1\right|\right|}
+\newcommand{\abs}[1]{\left|#1\right|}
+\newcommand{\parens}[1]{\left(#1\right)}
+\newcommand{\bracks}[1]{\left\{#1\right\}}
+\newcommand{\sqbracks}[1]{\left[#1\right]}
+\newcommand{\vep}{\varepsilon}
+\newcommand{\ceiling}[1]{\left\lceil#1\right\rceil}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\F}{\mathbb{F}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\A}{\mathcal{A}}
+\newcommand{\poly}[2]{\mathcal{P}_{#1}\parens{#2}}
+\newcommand{\cont}[3]{\mathcal{C}_{#1}^{#2}\parens{#3}}
+\newcommand{\LT}[1]{\mathcal{L}\parens{#1}}
+\newcommand{\distrib}[2]{\text{#1}\left(#2\right)}
+\newcommand{\dd}[2]{\frac{d#1}{d#2}}
+\newcommand{\abracks}[1]{\left< #1\right>}
+\newcommand{\nullspace}[1]{\textup{null}\parens{#1}}
+\newcommand{\range}[1]{\textup{range}\parens{#1}}
+\newcommand{\one}{\mathbbm{1}}
+
+\newtheorem*{theorem}{Theorem}
+
+\begin{document}
+	\begin{center}
+		\textbf{Fall 2020, Math 630:\ Exam 2} \\
+        \textbf{Due:\ Wednesday, November 25th, 2020} \\
+		\textbf{Joseph Diaz: 819947915}
+	\end{center}
+\noindent\makebox[\linewidth]{\rule{\paperwidth}{0.4pt}}
+\be[(E1)] 
+    \item 
+    Let $\parens{\cont{b}{}{\R}, \norm{\cdot}_\infty}$ be the set of continuous
+    bounded functions over $\R$. Let the linear operator $T: \cont{b}{\null}{\R} 
+    \to \cont{b}{\null}{\R}$ be defined as 
+    $$\forall f \in \cont{b}{\null}{\R},\ \forall x \in \R,\ \parens{Tf}(x)
+    = 3f(x) - 2f(x+4)$$
+    Show that $T$ is continuous and find $\norm{T}$.
+    \begin{proof}
+    To show that $T$ is continuous, we'll show that $T$ bounded. To show that,
+    we'll find $\norm{T}$. By Proposition 5.2.2, we have
+    \begin{align*}
+    \norm{T} &= \sup_{\substack{f \in \cont{b}{\null}{\R}\\ \norm{f}_\infty = 1}} 
+    \norm{Tf}_\infty = \sup_{*} \max_{x\in \R}\abs{3f(x) - 2f(x+4)} \\
+    &\leq \sup_{*} \max_{x\in\R}\parens{\abs{3f(x)} + \abs{2f(x+4)}} = \sup_{*}
+    \parens{\max_{x\in\R}\abs{3f(x)} + \max_{x\in\R}\abs{2f(x+4)}} \\
+    &= \sup_{*}\parens{3\max_{x\in\R}\abs{f(x)} + 2\max_{y\in\R}\abs{f(y)}} \qquad 
+    \parens{\text{Letting }y = x+4}\\
+    &= \sup_{*}\parens{3\norm{f}_\infty + 2\norm{f}_\infty} = \sup_{*}(3+2) \\
+    &= 5
+    \end{align*}
+    where we use $*$ in place of $f\in\cont{b}{\null}{\R}$ and $\norm{f}_\infty = 1$.
+    So we have that $\norm{T} \leq 5$. Now, let $g \in \cont{b}{\null}{\R}$ be defined 
+    as
+    $$g(x) = \left\{
+    \begin{array}{ccl}
+    1 & &\textup{if }x < -1\\
+    -x & &\textup{if }-1 \leq x \leq 1 \\
+    -1 & &\textup{if }x > 1
+    \end{array}
+    \right.$$
+    We have that $\norm{g}_\infty = 1$; so for $g$ in particular, $\norm{T}$ is
+    \begin{align*}
+    \norm{T} &= \norm{Tg}_\infty = \max_{x\in\R}\abs{3g(x) - 2g(x+4)} \\
+    &= \abs{3(1) - 2(-1)} \qquad (\textup{For }x \in (-3,-1)) \\
+    &= \abs{3+2} = 5
+    \end{align*}
+    So we have that $\norm{T} = 5$. This also implies that 
+    $$\forall f \in \cont{b}{\null}{\R},\ \norm{Tf}_\infty \leq 5\norm{f}_\infty$$
+    and that $T$ is bounded. By Theorem 5.2.3, this means that $T$ is also
+    continuous.
+    \end{proof}
+
+    \item Prove the following theorem.
+    \begin{theorem}
+    Let $\parens{M_1, \norm{\cdot}_{M_1}}$ and $\parens{M_2, \norm{\cdot}_{M_2}}$
+    be two linear normed spaces and let $T: M_1 \to M_2$ be a linear operator.
+    If $\exists C > 0,\ \forall x \in M_1,\ \norm{Tx}_{M_2} \geq C\norm{x}_{M_1}$,
+    then $T$ has a continuous inverse $T^{-1}: \range{T} \to M_1$ and 
+    $$\forall y \in \range{T},\ \norm{T^{-1}y}_{M_1} \leq \frac{1}{C}\norm{y}_{M_2}$$
+    Furthermore:
+    $$\norm{T^{-1}} \leq \frac{1}{C}$$
+    \end{theorem}
+    \begin{proof}
+    First, we'll start by showing that $T$ injective. By way of contradiction,
+    suppose that $T$ is not injective. This means that there exists $x\in M_1,\ 
+    x \neq 0$ such that $Tx = 0$. By the condition we have on $T$, this means 
+    that
+    $$\norm{Tx}_{M_2} = \norm{0}_{M_2} = 0 \geq C\norm{x}_{M_1}$$
+    But $C$ is strictly greater than $0$, so the only way that this inequality
+    holds is when $x=0$, which contradicts our original assumption about $x$ 
+    and that $T$ is not injective, so $T$ is injective. \\Now, $\range{T}$ is
+    a linear subspace of $M_2$, so we can re-express $T$ as $T: M_1 \to 
+    \range{T}$. Clearly, any operator is surjective onto it's own image,
+    so $T$ is surjective as well. This means that $T$ is invertible and 
+    there exists $T^{-1}: \range{T} \to M_1$ and 
+    \begin{gather*}
+    \forall x \in M_1,\ \exists!y\in \range{T},\ Tx=y \\
+    \forall y \in \range{T},\ \exists! x\in M_1,\ T^{-1}y = x
+    \end{gather*}
+    Using this with our condition on $T$ we have:
+    \begin{align*}
+    \norm{Tx}_{M_2} &\geq C\norm{x}_{M_1} \\
+    \norm{y}_{M_2} & \geq C\norm{T^{-1}y}_{M_1} \\
+    \frac{1}{C}\norm{y}_{M_2} & \geq \norm{T^{-1}y}_{M_1}
+    \end{align*}
+    So we have that 
+    $$\forall y \in \range{T},\ \norm{T^{-1}y}_{M_1} \leq \frac{1}{C}\norm{y}_{M_2}$$
+    from which it immediately follows that $T^{-1}$ is bounded, and therefore continuous,
+    and that $\norm{T^{-1}}\leq \frac{1}{C}$.
+\end{proof}
+
+    \item Let $M_1 = \R^2$ and $M_2 = \bracks{\bm{x} = (0, x_2)\ \big|\ x_2 \in \R} \subset M_1$,
+    let $M_1$ and $M_2$ be equipped with $\norm{\cdot}_\infty$. Let the linear functionals $f: 
+    M_2 \to \R$ and $f_{\bm{a}}: M_1 \to \R$ defined by 
+    \begin{align*}
+    \forall \bm{x} \in M_2,\ & f\parens{\bm{x}} = 2x_2 \\
+    \forall \bm{a} \in \R^2,\ \forall \bm{x} \in M_1,\ & f_{\bm{a}}\parens{\bm{x}} 
+    = a_1x_1 + a_2x_2
+    \end{align*}
+    where $\bm{x} = (x_1, x_2),\ \bm{a} = (a_1, a_2) \in \R^2$.
+    \be[1.]
+        \item Show that $\norm{f} = 2$ and $\norm{f_{\bm{a}}} = \norm{\bm{a}}_1$, where 
+        $\forall \bm{x} \in \R^2,\ \norm{\bm{x}}_1 = \abs{x_1} + \abs{x_2}$.
+        \begin{proof}
+        We have that 
+        \begin{align*}
+        \norm{f} &= \sup_{\substack{\bm{x}\in M_2\\ \bm{x} \neq \bm{0}}}
+        \frac{\abs{f(\bm{x})}}{\norm{\bm{x}}_\infty} = \sup_{*}
+        \frac{\abs{2x_2}}{\max\bracks{0, \abs{x_2}}} \\
+        &= \sup_{*}\frac{2\abs{x_2}}{\abs{x_2}} = 2\sup_{*} \\
+        &= 2
+        \end{align*}
+        where we use $*$ in place of $\bm{x} \in M_2$ and $\bm{x}\neq\bm{0}$. So 
+        $\norm{f} = 2$. Now, for $\norm{f_{\bm{a}}}$:
+        \begin{align*}
+        \norm{f_{\bm{a}}} &= \sup_{\substack{\bm{x}\in M_1 \\ \bm{x} \neq \bm{0}}}
+        \frac{\abs{f_{\bm{a}}(\bm{x})}}{\norm{\bm{x}}_\infty} = \sup_{*}
+        \frac{\abs{a_1x_1 + a_2x_2}}{\max\bracks{\abs{x_1},\abs{x_2}}} \\
+        &= \sup_{*}\frac{\abs{a_1x_1 + a_2x_2}}{\abs{x_2}} \qquad 
+        \parens{\text{Supposing }\abs{x_2} \geq \abs{x_1}} \\
+        &\leq \sup_{*}\parens{\frac{\abs{a_1x_1}}{\abs{x_2}} + 
+        \frac{\abs{a_2x_2}}{\abs{x_2}}} = \sup_{*}
+        \parens{\frac{\abs{a_1}\abs{x_1}}{\abs{x_2}} + \abs{a_2}} \\
+        &\leq \sup_{*}\parens{\abs{a_1} + \abs{a_2}} \qquad 
+        \parens{\text{Because }\abs{x_1}/\abs{x_2} \leq 1} \\
+        &= \abs{a_1} + \abs{a_2} = \norm{\bm{a}}_1
+        \end{align*}
+        So it is the case that $\norm{f_{\bm{a}}} \leq \norm{\bm{a}}_1$, now for 
+        $\bm{x} = \parens{\text{sgn}(a_1),\ \text{sgn}(a_2)}$ we get 
+        $$\norm{f_{\bm{a}}} = \frac{\abs{f_{\bm{a}}(\bm{x})}}{\norm{\bm{x}}_\infty} 
+        = \frac{\abs{a_1\text{sgn}(a_1) + a_2\text{sgn}(a_2)}}
+        {\max\bracks{\abs{\text{sgn}(a_1)}, \abs{\text{sgn}(a_2)}}}$$
+        We have that $\bm{x} \neq \bm{0}$, so 
+        $\max\bracks{\abs{\text{sgn}(a_1)}, \abs{\text{sgn}(a_2)}} = 1$ and
+        \begin{align*}
+        \norm{f_{\bm{a}}} &= \frac{\abs{a_1\text{sgn}(a_1) + 
+        a_2\text{sgn}(a_2)}}{\max\bracks{\abs{\text{sgn}(a_1)}, 
+        \abs{\text{sgn}(a_2)}}} \\
+        &= \frac{\abs{a_1} + \abs{a_2}}{1} = \abs{a_1} + \abs{a_2} \\
+        &= \norm{\bm{a}}_1
+        \end{align*}
+        So, $\norm{f_{\bm{a}}} = \norm{\bm{a}}_1$.
+        \end{proof}
+
+        \item Find $\bm{a}$ which provides that $f_{\bm{a}}$ is the unique Hahn-Banach extension
+        of $f$.
+        \begin{proof}
+        We wish to find $\bm{a}$ such that $\forall \bm{x} \in M_2,\ f_{\bm{a}}(\bm{x}) = 
+        f(\bm{x})$ and 
+        $\norm{f_{\bm{a}}} = \norm{f}$. Clearly, $\bm{a} = (0,2)$ satisfies this; since:
+        \begin{gather*}
+        \forall \bm{x} \in M_2, f_{\bm{a}}(\bm{x}) = 0\cdot x_1 + 2x_2 = 2x_2 = f(\bm{x}) \\
+        \norm{f_{\bm{a}}} = \abs{0} + \abs{2} = 2 = \norm{f}
+        \end{gather*}
+        \end{proof}
+    \ee
+
+    \item Let $M$ be a vector space defined by 
+    $$M = \bracks{f: \R \to \C\ \middle|\ f\text{ is continuous, and }\sum_{k \in \Z} 
+    \norm{f\chi_{[k, k+1)}}_\infty < \infty}$$
+    where $\chi_\Omega(x)$ is the indicator function on $\Omega$.
+    \be[1.]
+        \item Show that the quantity $\norm{\cdot}_M$ defined by 
+        $$\forall f \in M,\ \norm{f}_M = \sum_{k\in\Z}\norm{f\chi_{[k, k+1)}}_\infty$$
+        defines a norm on $M$.
+        \begin{proof}
+        We'll show that $\norm{\cdot}_M$ satisfies the properties of a norm 
+        on $M$, let $f,g \in M$, $\alpha \in \C$, and, for brevity, denote $\forall k\in \Z,\ 
+        I_k = [k,k+1)$.\\\\
+        \textbf{Non-negativity and Identity}:\\
+        As a sum of infinity norms, clearly $\norm{\cdot}_M$ is non-negative. Now,
+        we'll show the identity property from the left and from the right:
+        \be
+            \item[$\Longrightarrow$:].
+            Suppose that $\forall x\in  \R,\ f(x) = 0$, then 
+            \begin{align*}
+            \norm{f}_M &= \sum_{k\in\Z}\norm{f\chi_{I_k}}_\infty = 
+            \sum_{k\in\Z}\max_{x\in \R}\abs{f(x)\chi_{I_k}(x)} \\
+            &= \sum_{k\in\Z}\max_{x\in\R}\abs{0\chi_{I_k}} = 
+            \sum_{k\in\Z}\max_{x\in\R}\abs{0} \\
+            &= \sum_{k\in\Z}0 = 0
+            \end{align*}
+            so $\norm{f}_M = 0$.
+
+            \item[$\Longleftarrow$:] 
+            Suppose that $\norm{f}_M = 0$, then
+            \begin{align*}
+            0 &= \sum_{k\in\Z}\norm{f\chi_{I_k}}_\infty = \sum_{k\in\Z}
+            \max_{x\in\R}\abs{f(x)\chi_{I_k}(x)} \\
+            &= \sum_{k\in\Z}\sup_{x\in I_k}\abs{f(x)}
+            \end{align*}
+            We go from the end of the first line to the second by noticing that for 
+            $x \notin I_k, \chi_{I_k}(x) = 0$, so we are essentially trying to find 
+            $\max_{x\in I_k}\abs{f(x)}$, but since each $I_k$ is not a closed interval, 
+            it isn't necessarily the case that $f$ attains it's maximum on $I_k$, so 
+            $$\forall k \in \Z,\ \max_{x\in \R}\abs{f(x)\chi_{I_k}(x)} = 
+            \sup_{x\in I_k}\abs{f(x)}$$
+            As a sum of non-negative real numbers, this means that
+            $$\sum_{k\in\Z}\sup_{x\in I_k}\abs{f(x)} = 0 \implies 
+            \forall k \in \Z,\ \sup_{x\in I_k}\abs{f(x)} = 0$$
+            which ultimately implies that $\forall x\in\R,\ f(x) = 0$.
+        \ee
+
+        \textbf{Homogeneity}:\\
+        We have that 
+        \begin{align*}
+        \norm{\alpha f}_M &= \sum_{k\in\Z}\norm{\alpha f\chi_{I_k}}_\infty = 
+        \sum_{k\in\Z}\max_{x\in \R}\abs{\alpha f(x)\chi_{I_k}(x)} \\
+        &= \sum_{k\in\Z}\max_{x\in\R}\abs{\alpha}\abs{f(x)\chi_{I_k}(x)} =
+        \sum_{k\in\Z}\abs{\alpha}\max_{x\in\R}\abs{f(x)\chi_{I_k}(x)} \\
+        &= \abs{\alpha}\sum_{k\in\Z}\max_{x\in\R}\abs{f(x)\chi_{I_k}(x)} = 
+        \abs{\alpha}\sum_{k\in\Z}\norm{f\chi_{I_k}}_\infty \\
+        &= \abs{\alpha}\norm{f}_M
+        \end{align*}
+
+        \textbf{Triangle Inequality}:\\
+        We have that
+        \begin{align*}
+        \norm{f+g}_M &= \sum_{k\in\Z}\norm{(f+g)\chi_{I_k}}_\infty = 
+        \sum_{k\in\Z}\max_{x\in\R}\abs{(f+g)(x)\chi_{I_k}(x)} \\
+        &= \sum_{k\in\Z}\max_{x\in\R}\abs{f(x)\chi_{I_k}(x) + g(x)\chi_{I_k}(x)} \\
+        &\leq \sum_{k\in\Z}\max_{x\in\R}\parens{\abs{f(x)\chi_{I_k}(x)} + 
+        \abs{g(x)\chi_{I_k}(x)}} \\
+        &= \sum_{k\in\Z}\parens{\max_{x\in\R}\abs{f(x)\chi_{I_k}(x)} + 
+        \max_{x\in\R}\abs{g(x)\chi_{I_k}(x)}} \\
+        &= \sum_{k\in\Z}\max_{x\in\R}\abs{f(x)\chi_{I_k}(x)} + 
+        \sum_{k\in\Z}\max_{x\in\R}\abs{g(x)\chi_{I_k}(x)} \\
+        &= \sum_{k\in\Z}\norm{f\chi_{I_k}}_\infty + 
+        \sum_{k\in\Z}\norm{g\chi_{I_k}}_\infty \\
+        &= \norm{f}_M + \norm{g}_M
+        \end{align*}
+        So $\norm{\cdot}_M$ respects the triangle inequality.\\\\
+        Therefore, $\norm{\cdot}_M$ satisfies the properties of a norm on $M$.
+        \end{proof}
+
+        \item Does the function $\forall x \in \R,\ f(x) = e^x$ belong to $M$?
+        \begin{proof}[Answer]
+        No, $f(x) = e^x \notin M$; because it doesn't satisfy the property that 
+        $\norm{f}_M$ is finite. 
+        \begin{align*}
+        \norm{f}_M &= \sum_{k\in\Z}\norm{f\chi_{I_k}}_\infty = 
+        \sum_{k\in\Z}\max_{x\in\R}\abs{f(x)\chi_{I_k}(x)} \\
+        &= \sum_{k\in\Z}\max_{x\in\R}\abs{e^x\chi_{I_k}(x)} =
+        \sum_{k\in\Z}\sup_{x\in I_k}\abs{e^x} \\
+        &= \sum_{k\in\Z}\sup_{x\in I_k}e^x
+        \end{align*}
+        $e^x$ is a monotonically increasing function, so it's supremum is at the 
+        right most endpoint of the interval of interest; this gives
+        $$\norm{f}_M = \sum_{k\in\Z}\sup_{x\in I_k}e^x = \sum_{k\in\Z}e^{k+1}$$
+        However, $\lim_{k\to\infty}e^{k+1} \to \infty$; so clearly this sum diverges 
+        to $\infty$ even before considering negative values of $k$. Therefore, 
+        $f(x) = e^x \notin M$.
+        \end{proof}
+    \ee
+\ee
+\noindent\makebox[\linewidth]{\rule{\paperwidth}{0.4pt}}
+	
+\end{document}

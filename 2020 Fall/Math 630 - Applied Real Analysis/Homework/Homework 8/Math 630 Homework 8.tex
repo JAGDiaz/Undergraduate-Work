@@ -1,0 +1,263 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{bbm}
+\usepackage{bm}
+\usepackage{amsthm}
+\usepackage{enumerate}
+\usepackage{graphicx}
+\usepackage{psfrag}
+\usepackage{color}
+\usepackage{url}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{positioning}
+\tikzset{main node/.style={circle,fill=gray!20,draw,minimum size=.5cm,inner sep=0pt},}
+
+\definecolor{codegreen}{rgb}{0,0.5,0}
+\definecolor{codewhite}{rgb}{1,1,1}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{codeblack}{rgb}{0,0,0}
+\definecolor{codeorange}{rgb}{0.8,0.4,0}
+
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{codewhite},   
+    commentstyle=\color{codegray},
+    keywordstyle=\color{codegreen},
+    numberstyle=\color{codegray},
+    stringstyle=\color{codeorange},
+    basicstyle=\ttfamily ,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=4
+}
+\lstset{style=mystyle}
+
+
+\setlength{\hoffset}{-1in}
+\addtolength{\textwidth}{1.5in}
+\setlength{\voffset}{-1in}
+\addtolength{\textheight}{1.5in}
+\newcommand{\be}{\begin{enumerate}}
+\newcommand{\ee}{\end{enumerate}}
+\newcommand{\BigO}[1]{\ensuremath\mathcal{O}\left(#1\right)}
+\newcommand{\il}[1]{\lstinline!#1!}
+\newcommand{\norm}[1]{\left|\left|#1\right|\right|}
+\newcommand{\abs}[1]{\left|#1\right|}
+\newcommand{\parens}[1]{\left(#1\right)}
+\newcommand{\bracks}[1]{\left\{#1\right\}}
+\newcommand{\sqbracks}[1]{\left[#1\right]}
+\newcommand{\vep}{\varepsilon}
+\newcommand{\ceiling}[1]{\left\lceil#1\right\rceil}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\mC}{\mathcal{C}}
+\newcommand{\one}{\mathbbm{1}}
+\newcommand{\A}{\mathcal{A}}
+\newcommand{\distrib}[2]{\text{#1}\left(#2\right)}
+\newcommand{\dd}[1]{\frac{d}{d#1}}
+\newcommand{\tr}[1]{\text{tr}\parens{#1}}
+\newcommand{\LT}{\mathcal{L}}
+\newcommand{\abracks}[1]{\left< #1\right>}
+
+
+\begin{document}
+	\begin{center}
+		\textbf{Fall 2020, Math 630:\ Homework 8} \\
+		\textbf{Due:\ Wednesday, November 11th, 2020} \\
+		\textbf{Joseph Diaz: 819947915}
+	\end{center}
+\noindent\makebox[\linewidth]{\rule{\paperwidth}{0.4pt}}
+
+\be[(E1)]
+    \item Let $M_2$ be the space of squared matrices of size $2 \times 2$.
+    All linear functionals over $M_2$ are completely defined by the choice
+    of a matrix $B \in M_2$ and can be written as 
+    $$\forall A \in M_2,\ \varphi\parens{A} = \tr{B^TA}$$
+    where tr is the trace of the matrix (no need to prove this result for
+    the homework). Show that the canonical basis $\bracks{E_{11},\ E_{12},\ 
+    E_{21},\ E_{22}}$ of $M_2$ where 
+    $$E_{11} = \parens{\begin{matrix}
+        1 & 0 \\
+        0 & 0
+    \end{matrix}},\ E_{12} = \parens{\begin{matrix}
+        0 & 1 \\
+        0 & 0
+    \end{matrix}},\ E_{21} = \parens{\begin{matrix}
+        0 & 0 \\
+        1 & 0
+    \end{matrix}},\ E_{22} = \parens{\begin{matrix}
+        0 & 0 \\
+        0 & 1
+    \end{matrix}}$$
+    is self-dual.
+    \begin{proof}
+    First, we begin by relabeling $E_{11}, E_{12}, E_{21}, E_{22}$ as 
+    $E_{1}, E_{2}, E_{3}, E_{4}$, respectively, then denote 
+    $B(A) = \varphi_B(A) = \tr{B^T A}$. Now, we want to 
+    find 
+    $$B_i = \parens{\begin{matrix}
+    a_i & b_i \\
+    c_i & d_i    
+    \end{matrix}} \in M_2$$
+    such that $B_i(E_j) = \delta_{ij},\ i,j \in \bracks{1,2,3,4}$. So, we 
+    have
+    \begin{align*}
+    B_1(E_1) = \tr{\parens{\begin{matrix}
+    a_1 & 0 \\ b_1 & 0
+    \end{matrix}}} = 1 &\implies a_1 = 1 \\
+    B_1(E_2) = \tr{\parens{\begin{matrix}
+    0 & a_1 \\ 0 & b_1
+    \end{matrix}}} = 0 &\implies b_1 = 0 \\
+    B_1(E_3) = \tr{\parens{\begin{matrix}
+    c_1 & 0 \\ d_1 & 0
+    \end{matrix}}} = 0 &\implies c_1 = 0 \\
+    B_1(E_4) = \tr{\parens{\begin{matrix}
+    0 & c_1 \\ 0 & d_1
+    \end{matrix}}} = 0 &\implies d_1 = 0
+    \end{align*}
+    So we have that $B_1 = E_1$. Due to $B_i(E_j) = \delta_{ij}$, the only 
+    difference bewteen this computation and that of the other $B$'s is
+    which pair of $E_i$ and $B_i$ is equal to one under the linear 
+    functional. Since this also corresponds to whether $a_i,\ b_i,\ c_i,\ 
+    d_i$ will equal 0 or 1, we can deduce that $B_2 = E_2,\ 
+    B_3 = E_3,\ B_4 = E_4$ based on this pattern. Therefore, $\bracks{E_1,\ 
+    E_2,\ E_3,\ E_4}$ is self-dual.
+    \end{proof}
+
+    \item Let $M$ be a linear vector space of dimension $n$, and let 
+    $\bracks{v_1,\ v_2,\ \cdots,\ v_n}$ be a basis of $M$. Assume that 
+    $\bracks{f_1,\ f_2,\ \cdots,\ f_n}$ is a dual basis of 
+    $\bracks{v_1,\ v_2,\ \cdots,\ v_n}$. Find the dual basis
+    $\bracks{g_1,\ g_2,\ \cdots,\ g_n}$ of 
+    $\bracks{v_1+v_2,\ v_2,\ \cdots,\ v_n}$ (using $\bracks{f_1,\ f_2,\ 
+    \cdots,\ f_n}$).
+    \begin{proof}
+    First, we'll label $v_1 + v_2$ as $u_1$ and $v_i$ as $u_i$ for $i \in 
+    \bracks{2,\ \cdots,\ n}$.
+    We want to find $\bracks{g_1,\ \cdots,\ g_n}$ such that $g_i(u_j) = 
+    \delta_{ij}$. We already have that $f_i(u_j) = \delta_{ij}$ 
+    for $i,j > 2$ because $u_i = v_i$ for those values of $i$ and the 
+    $f$'s form a dual basis of the $v$'s; so let $g_i = f_i$ for $i > 2$. 
+    Now, we examine when $i = 1$ and $j=1,2$:
+    \begin{gather*}
+    g_1(u_1) = g_1(v_1+v_2) = g_1(v_1) + g_1(v_2) = 1 \\
+    g_1(u_2) = g_1(v_2) = 0
+    \end{gather*}
+    Letting $g_1 = f_1$ satisfies both of these, because
+    \begin{gather*}
+    g_1(v_1) + g_1(v_2) = f_1(v_1) + f_1(v_2) = 1 + 0 = 1 \\
+    g_1(v_2) = f_1(v_2) = 0
+    \end{gather*}
+    Lastly, we examine when $i = 2$ and $j = 1,2$:
+    \begin{gather*}
+    g_2(u_1) = g_2(v_1 + v_2) = g_2(v_1) + g_2(v_2) = 0 \\
+    g_2(u_2) = g_2(v_2) = 1
+    \end{gather*}
+    Letting $g_2 = f_2 - f_1$ satisfies both of these, because
+    \begin{align*}
+    g_2(v_1) + g_2(v_2) &= (f_2 - f_1)(v_1) + (f_2 - f_1)(v_2) \\
+    &= f_2(v_1) - f_1(v_1) + f_2(v_2) - f_1(v_2) \\
+    &= 0 - 1 + 1 - 0\\\\
+    g_2(v_2) &= (f_2 - f_1)(v_2) = f_2(v_2) - f_1(v_2) \\
+    &= 1 - 0 = 1
+    \end{align*}
+    Finally, this means that $\bracks{f_1, f_2- f_1, f_3,\ \cdots,\ f_n}$ 
+    forms a dual basis of $\bracks{u_1,\ u_2,\ \cdots,\ u_n} = 
+    \bracks{v_1+v_2,\ v_2,\ \cdots,\ v_n}$.
+    \end{proof}
+
+    \item Let $M_1$, $M_2$ and $M_3$ be normed linear spaces. 
+    Prove the following.
+    \begin{itemize}
+        \item $\forall T \in \LT\parens{M_1, M_2}$ and $\forall \lambda \in 
+        \R$, $\parens{\lambda T}' = \lambda T'$.
+        \begin{proof}
+        Let $T \in \LT\parens{M_1, M_2},\ T', (\lambda T)' \in \LT\parens{M_2^*, M_1^*}$ 
+        and $x \in M_1, x^* \in M_2^*$, then by the definition of dual operators
+        $$\parens{(\lambda T)'x^*}(x) = x^*\parens{(\lambda T)x} = \lambda
+        x^*(Tx)$$
+        Using the definition of dual operators again, we have
+        $$\lambda x^*(Tx) = \lambda \parens{T'x^*}(x) = 
+        \parens{\lambda T'x^*}(x)$$
+        Finally, this means
+        $$\parens{(\lambda T)'x^*}(x) = \parens{\lambda T'x^*}(x)$$
+        which implies that $\parens{\lambda T}' = \lambda T'$.
+        \end{proof}
+
+        \item $\forall S, T \in \LT\parens{M_1, M_2},\ \parens{S+T}' = 
+        S'+T'$.
+        \begin{proof}
+        Let $S,T \in \LT\parens{M_1, M_2},\ S',T',(S+T)' \in \LT\parens{M_2^*,M_1^*}$ 
+        and $x\in M_1, x^* \in M_2^*$, then by the definition of dual operators
+        $$\parens{(S + T)'x^*}(x) = x^*\parens{(S + T)x} = x^*(Sx) + x^*(Tx)$$
+        Using the definition of dual operators again, we have
+        $$x^*(Sx) + x^*(Tx) = \parens{S'x^*}(x) + \parens{T'x^*}(x) = 
+        \parens{(S' + T')x^*}(x)$$
+        Finally, this means
+        $$\parens{(S+ T)'x^*}(x) = \parens{(S' + T')x^*}(x)$$
+        which implies that $\parens{S + T}' = S' + T'$.
+        \end{proof}
+        
+        \item $\forall T \in \LT\parens{M_1, M_2},\ \forall S \in 
+        \LT\parens{M_2, M_3}$; if $ST$ exists, then $\parens{ST}' = T'S'$.
+        \begin{proof}
+        Let $T \in \LT\parens{M_1, M_2},\ S \in \LT\parens{M_2, M_3}$ and 
+        $x \in M_1, x^* \in M_3^*$.
+        Suppose that $ST \in \LT\parens{M_1, M_3}$ exists, 
+        then by the definition of the dual operator
+        $$\parens{(ST)'x^*}(x) = x^*\parens{(ST)x} = x^*\parens{S(Tx)}$$
+        We have that $Tx \in M_2$, so using the definition of the dual 
+        operator again, we have 
+        $$x^*\parens{S(Tx)} = \parens{S'x^*}(Tx)$$
+        We now have that $S'x^* \in M_2^*$, so using the definition of the 
+        dual operator yet again gives. 
+        $$\parens{S'x^*}(Tx) = \parens{T'(S'x^*)}(x) = \parens{T'S'x^*}(x)$$
+        Finally, this means 
+        $$\parens{(ST)'x^*}(x) = \parens{T'S'x^*}(x)$$
+        which implies that $\parens{ST}' = T'S'$.
+        \end{proof}
+
+        \item $\forall T \in \LT\parens{M_1}$, if $T^{-1}$ exists, then 
+        $\parens{T'}^{-1} \in \LT\parens{M_1^*}$ exists and 
+        $\parens{T'}^{-1} = \parens{T^{-1}}'$.
+        \begin{proof}
+        Let $T \in \LT\parens{M_1}, T' \in \LT\parens{M_1^*}$, 
+        $x,y \in M_1, x^*,y^* \in M_1^*$, such that $y = Tx$ and 
+        $y^* = T'x^*$. Now 
+        suppose that the inverses, $T^{-1}$ and $(T')^{-1}$, exist; then
+        \begin{align*}
+        x^*\parens{y} &= x^*\parens{T T^{-1}y} = \parens{T'x^*}
+        \parens{T^{-1} y} = y^*\parens{T^{-1} y} \\
+        &= \parens{(T^{-1})'y^*}(y)
+        \end{align*}
+        This implies that $(T^{-1})'y^* = x^*$. Applying $T'$ to both sides 
+        of this equation gives
+        \begin{align*}
+        (T^{-1})'y^* &= x^* \\
+        T'(T^{-1})'y^* &= T'x^* \\
+        T'(T^{-1})'y^* &= y^* \\
+        \parens{T^{-1}T}'y^* &= y^* \\
+        I'y^* &= y^*
+        \end{align*}
+        This means that $T'(T^{-1})' = I'$, where $I' \in \LT\parens{M_1^*}$
+        is the identity map. $T'$ is invertible, so it must be the case that
+        $(T^{-1})' = (T')^{-1}$.
+        \end{proof}
+
+    \end{itemize}
+    
+\ee
+\noindent\makebox[\linewidth]{\rule{\paperwidth}{0.4pt}}
+	
+\end{document}

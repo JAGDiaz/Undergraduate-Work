@@ -1,0 +1,357 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{bm}
+\usepackage{amsthm}
+\usepackage{enumerate}
+\usepackage{graphicx}
+\usepackage{psfrag}
+\usepackage{color}
+\usepackage{url}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{positioning}
+\tikzset{main node/.style={circle,fill=gray!20,draw,minimum size=.5cm,inner sep=0pt},}
+
+\definecolor{codegreen}{rgb}{0,0.5,0}
+\definecolor{codewhite}{rgb}{1,1,1}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{codeblack}{rgb}{0,0,0}
+\definecolor{codeorange}{rgb}{0.8,0.4,0}
+
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{codewhite},   
+    commentstyle=\color{codegray},
+    keywordstyle=\color{codegreen},
+    numberstyle=\color{codegray},
+    stringstyle=\color{codeorange},
+    basicstyle=\ttfamily ,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=4
+}
+\lstset{style=mystyle}
+
+
+\setlength{\hoffset}{-1in}
+\addtolength{\textwidth}{1.5in}
+\setlength{\voffset}{-1in}
+\addtolength{\textheight}{1.5in}
+\newcommand{\be}{\begin{enumerate}}
+\newcommand{\ee}{\end{enumerate}}
+\newcommand{\BigO}[1]{\ensuremath\mathcal{O}\left(#1\right)}
+\newcommand{\il}[1]{\lstinline!#1!}
+\newcommand{\gnorm}[1]{\left|\left|#1\right|\right|}
+\newcommand{\abs}[1]{\left|#1\right|}
+\newcommand{\parens}[1]{\left(#1\right)}
+\newcommand{\bracks}[1]{\left\{#1\right\}}
+\newcommand{\sqbracks}[1]{\left[#1\right]}
+\newcommand{\vep}{\varepsilon}
+\newcommand{\ceiling}[1]{\left\lceil#1\right\rceil}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\distrib}[2]{\text{#1}\left(#2\right)}
+\newcommand{\dd}[1]{\frac{d}{d#1}}
+\newcommand{\abracks}[1]{\left< #1\right>}
+
+\begin{document}
+	\begin{center}
+		\textbf{Fall 2020, Math 630:\ Homework 1} \\
+		\textbf{Due:\ Friday, September 4th, 2020} \\
+		\textbf{Joseph Diaz: 819947915}
+	\end{center}
+\noindent\makebox[\linewidth]{\rule{\paperwidth}{0.4pt}}
+\noindent
+Exercises 1 - 3 are review exercises from Advanced Calculus I and II.
+Review the lecture notes for those courses, if necessary.
+\be[(E1)]
+    \item Use the $\vep, \delta$-definition of limits to 
+    \textbf{prove} that
+    $$\lim_{x\to 2}\frac{x^2 - 3x + 2}{x-2} = 1$$
+    \begin{proof}
+    We want to find $\delta$ such that the $\vep,\delta$-definition 
+    of limits is satisfied:
+    $$\forall \vep > 0, \exists \delta > 0: \forall x \in \R,
+    \abs{x - 2} < \delta \implies 
+    \abs{\frac{x^2 - 3x + 2}{x - 2} - 1} < \vep$$
+    Now:
+    \begin{align*}
+    \abs{\frac{x^2 - 3x + 2}{x - 2} - 1} &= 
+    \abs{\frac{x^2 - 3x + 2}{x - 2} - \frac{x-2}{x-2}} \\
+    &= \abs{\frac{x^2 - 3x + 2 - x + 2}{x - 2}} \\
+    &= \abs{\frac{x^2 - 4x + 4}{x - 2}} \\
+    &= \abs{\frac{(x-2)^2}{x - 2}} \\
+    &= \abs{x-2} < \vep
+    \end{align*}
+    So let $\delta = \vep$, and we have that:
+    $$\forall \vep > 0, \delta = \vep: \forall x \in \R,
+    \abs{x - 2} < \delta \implies 
+    \abs{\frac{x^2 - 3x + 2}{x - 2} - 1} < \vep$$
+    As desired.
+    \end{proof}
+    
+    \item Let $\bracks{x_n}_{n \in \N}$ be a sequence defined by 
+    $x_n = \frac{3n}{n+1}$.
+    \be[1.] 
+        \item Show that $\bracks{x_n}$ is a Cauchy sequence.
+        \begin{proof}
+        We want to find $N$ such that the Cauchy condition for 
+        convergence of sequence is satisfied:
+        $$\forall \vep > 0, \exists N \in \N: \forall n,k \in \N, 
+        n \geq N, k > 0,\ \abs{x_{n} - x_{n+k}} < \vep$$
+        Now:
+        \begin{align*}
+        \abs{x_n - x_{n+k}} &= \abs{\frac{3n}{n+1} - 
+        \frac{3(n+k)}{n+k+1}} \\
+        &= \abs{\frac{3n(n+k+1) - 3(n+k)(n+1)}{(n+1)(n+k+1)}} \\
+        &= \abs{\frac{3n^2+3nk+3n-3n^2-3nk-3n-3k}
+        {n^2+nk+n+n+k+1}} \\
+        &= \abs{\frac{-3k}{n^2+nk+2n+k+1}} \\
+        &= \frac{3k}{n^2+nk+2n+k+1}\quad (n,k > 0) \\
+        &= \frac{k}{k}\cdot\frac{3}{\frac{n^2+2n+1}{k} + n + 1} \\
+        &= \frac{3}{\frac{n^2+2n+1}{k} + n + 1} \\
+        &\leq \frac{3}{n+1}
+        \end{align*}
+        Let $\vep = \frac{3}{n+1}$, then:
+        $$\vep = \frac{3}{n+1} \implies n = \frac{3}{\vep} - 1$$
+        Finally, letting $N = \ceiling{\frac{3}{\vep} - 1}$, we have 
+        that:
+        $$\forall \vep > 0, N = \ceiling{\frac{3}{\vep} - 1}: 
+        \forall n,k \in \N, 
+        n \geq N, k > 0,\ \abs{x_{n} - x_{n+k}} < \vep$$
+        and $\bracks{x_n}$ is a Cauchy sequence, as desired.
+        \end{proof}
+        
+        \item Does this sequence converge? Explain why (with words, 
+        not calculations).
+        \begin{proof}[Answer]
+        The sequence $\bracks{x_n}$ converges. One of the properties
+        of Cauchy sequences is that they all converge, and the phrase
+        in the first part, ``Cauchy condition for convergence'',
+        is indicative of that. The definition itself implies
+        that the elements of the sequence are becoming arbitrarily 
+        close to one another for large enough $n$, which is 
+        equivalent to them becoming arbitrarily close to a particular 
+        value; i.e. the limit.   
+        \end{proof}
+        
+    \ee
+    
+    \item Let $\bracks{f_n}$ be a sequence of functions where 
+    $\forall x \in \parens{0,1}, \forall n \in \N,\ f_n(x) = 
+    \sqrt{x^4 + \frac{1}{n^2}}$.
+    \be[1.] 
+        \item Find the pointwise convergence of this sequence on 
+        $\parens{0, 1}$.
+        \begin{proof}
+        We have that $\forall x \in (0, 1)$:
+        $$\lim_{n\to\infty}f_n(x) = \lim_{n\to\infty}\sqrt{x^4 
+        + \frac{1}{n^2}} = \sqrt{x^4 + \lim_{n\to\infty}
+        \frac{1}{n^2}} = \sqrt{x^4}= x^2$$
+        We can pull the limit inside the square root, because the 
+        square 
+        root is continuous on $(0,1)$.
+        So the pointwise convergence of $\bracks{f_n(x)}$ on $(0,1)$
+        is $f(x) = x^2$.        
+        \end{proof}
+        
+        \item Does this sequence converge uniformly on $\parens{0, 1}
+        $? Prove your answer.
+        \begin{proof}
+        To show that $\bracks{f_n(x)}$ converges uniformly to $f(x)$
+        on $(0,1)$, 
+        we want to find a sequence $\bracks{B_n}$ such that 
+        $B_n \geq 0,\ \forall n \in \N$,
+        $\lim_{n\to\infty}B_n = 0$ and also satisfies:
+        $$\forall x \in (0,1):\forall n \in \N, \abs{f_n(x) - f(x)} 
+        \leq B_n$$
+        Now:
+        \begin{align*}
+        \abs{f_n(x) - f(x)} &= \abs{\sqrt{x^4 + \frac{1}{n^2}}-x^2}\\
+        &\leq \abs{\sqrt{x^4} + \sqrt{\frac{1}{n^2}}-x^2}\quad 
+        (\text{By Subadditivity}) \\
+        &= \abs{x^2 + \frac{1}{n} - x^2} \\
+        &= \abs{\frac{1}{n}} \\
+        &= \frac{1}{n}\quad\parens{\frac{1}{n} > 0, \forall n \in \N}
+        \end{align*}
+        So letting $B_n = \frac{1}{n}$ we have:
+        $$\lim_{n\to\infty}\frac{1}{n} = 0$$
+        Then, finally:
+        $$\forall x \in (0,1):\forall n \in \N, \abs{f_n(x) - f(x)} 
+        \leq \frac{1}{n}$$
+        and $f_n(x)$ converges to $f(x)$ uniformly on $(0,1)$.
+        \end{proof}
+    \ee
+    
+    \item Let $\parens{X, \mathcal{A}, \mu}$ be a measure space. 
+    Prove the following properties:
+    \be[1.] 
+        \item If $A,B \in \mathcal{A}$, then $A \backslash B \in 
+        \mathcal{A}$.
+        \begin{proof}
+        We have that $A, B \in \mathcal{A}$ and so $A^c, B^c \in 
+        \mathcal{A}$, as well. As $\mathcal{A}$ is closed under 
+        countable intersections, it is the case that: 
+        $$A\cap B^c \in \mathcal{A}$$
+        $A\cap B^c$ is equivalent to $A\backslash B$; so $A\backslash 
+        B \in \mathcal{A}$, as desired.
+        \end{proof}
+                
+        \item If $A,B \in \mathcal{A}$ and $A \subset B$, then 
+        $\mu\parens{A} \leq \mu\parens{B}$.
+        \begin{proof}
+        We have that $A,B \in \mathcal{A}$, with $A \subset B$. Since
+        $A$ is a subset of $B$, $B$ can be expressed like so:
+        $$B = A \cup \parens{A^c \cap B}$$
+        To verify that:
+        $$A \cup \parens{A^c \cap B} = \parens{A \cup A^c} 
+        \cap \parens{A \cup B} = X \cap B = B$$
+        Further; $A$ and $A^c \cap B$ are disjoint:
+        $$A \cap \parens{A^c \cap B} = \parens{A\cap A^c}\cap B =
+        \emptyset \cap B = \emptyset$$
+        So the measure of $B$ is:
+        $$\mu\parens{B} = \mu\parens{A \cup \parens{A^c \cap B}}=
+        \mu\parens{A} + \mu\parens{A^c\cap B} \geq \mu\parens{A}$$
+        As measures are non-negative this implies that 
+        $\mu\parens{A} \leq \mu\parens{B}$, as desired.
+        \end{proof}
+        
+        \item If $A,B \in \mathcal{A}$, the 
+        $\mu\parens{A \cup B} \leq \mu\parens{A} + \mu\parens{B}$.
+        \begin{proof}
+        We have that:  
+        $$A\cup B = A \cup \parens{B\backslash A}$$
+        To verify:
+        $$A \cup \parens{B\backslash A} = A \cup \parens{B \cap 
+        A^c} = \parens{A\cup B} \cap \parens{A\cup A^c} = 
+        \parens{A\cup B} \cap X = A\cup B$$
+        Further; $A$ and $B\backslash A$ are disjoint:
+        $$A \cap \parens{B\backslash A} = A \cap \parens{B 
+        \cap A^c} = \parens{A \cap A^c} \cap B = \emptyset \cap 
+        B = \emptyset$$
+        So the measure of $A\cup B$ is:
+        $$\mu\parens{A\cup B} = \mu\parens{A} + \mu\parens{B
+        \backslash A}$$
+        As $B\backslash A \subset B$, we have that 
+        $\mu\parens{B\backslash A} \leq \mu\parens{B}$, so:
+        $$\mu\parens{A\cup B} = \mu\parens{A} + \mu\parens{B
+        \backslash A} \leq \mu\parens{A} + \mu\parens{B}$$
+        Finally, we have:
+        $$\mu\parens{A\cup B} \leq \mu
+        \parens{A} + \mu\parens{B}$$
+        which is what we wanted to show.
+       
+        \end{proof}
+    \ee
+    
+    \item Let $\parens{X, \mathcal{A}, \mu}$ be a measure space. Let
+    $\bracks{A_i}$ be an increasing sequence on $\mathcal{A}$, i.e:
+    $$A_1 \subset A_2 \subset \cdots \subset A_i \subset A_{i+1} 
+    \subset \cdots $$
+    Prove that
+    $$\mu\parens{\bigcup_{i=1}^\infty A_i} = \lim_{N\to\infty}
+    \mu\parens{A_N}$$
+    
+    \begin{proof}
+    As $\bracks{A_i}$ is increasing, we have that 
+    $$\forall i \in \N, i > 1, A_{i-1} \subset A_i \implies A_{i-1} 
+    \cup A_{i} = A_i$$
+    Indeed, the union of the first $N\in \N$ sets in $\bracks{A_i}$ 
+    is:
+    $$A_1 \cup A_2 \cup \cdots \cup A_N = A_N$$
+    
+    If we want to express $A_N$ as a union of disjoint sets, though, 
+    we could do so like this:
+    $$A_N = \parens{A_N\backslash A_{N-1}} \cup A_{N-1}$$
+    To verify:
+    $$\parens{A_N \backslash A_{N-1}} \cup A_{N}= \parens{A_N \cap 
+    A_{N-1}^c} \cup A_{N-1} = \parens{A_N \cup A_{N-1}} 
+    \cap \parens{A_{N-1}^c \cup A_{N-1}} = A_N$$
+    But we need not stop at $A_{N-1}$; as $\forall i \in \N, 
+    A_i = \bigcup_{j=1}^i A_j$, so we can recursively express each 
+    $A_i$ as a union of disjoint sets:
+    \begin{align*}
+    A_i &= \parens{A_i\backslash A_{i-1}} \cup A_{i-1} \\
+    &= \parens{A_i\backslash A_{i-1}} \cup \parens{A_{i-1}\backslash 
+    A_{i-2}} \cup A_{i-2} \\
+    &= \parens{A_i\backslash A_{i-1}} \cup \parens{A_{i-1}\backslash 
+    A_{i-2}} \cup \parens{A_{i-2}\backslash A_{i-3}} \cup \cdots 
+    \cup \parens{A_2\backslash A_1} \cup \parens{A_1\backslash A_0}
+    \end{align*}
+    For the sake of completeness, we define $A_0 = \emptyset$; so 
+    clearly $A_1 \backslash A_0 = A_1$ and $A_0 \subset A_1$. 
+    Then the measure of the union 
+    of the family of $A_i$'s is:
+    $$\mu\parens{\bigcup_{i=1}^\infty A_i} = 
+    \mu\parens{\bigcup_{i=1}^\infty A_i\backslash A_{i-1}}$$
+    This can be re-expressed as a sum, because the sets are disjoint:
+    \begin{align*}
+    \mu\parens{\bigcup_{i=1}^\infty A_i} &= \mu\parens{\bigcup_{i=1}^
+    \infty A_i\backslash A_{i-1}} \\
+    &= \sum_{i=1}^\infty \mu\parens{A_i\backslash A_{i-1}} \\
+    &= \lim_{N\to\infty}\sum_{i=1}^N \mu\parens{A_i\backslash
+     A_{i-1}}
+    \end{align*}
+    As we already saw that any $A_i$ can be expressed as a disjoint
+    union, then we also have that:
+    $$A_N = \bigcup_{i=1}^N A_i\backslash A_{i-1} \implies 
+    \mu\parens{A_N} = \sum_{i=1}^N 
+    \mu\parens{A_i \backslash A_{i-1}}$$
+    With this, we can now express our sum like so:
+    $$\lim_{N\to\infty}\sum_{i=1}^N 
+    \mu\parens{A_i \backslash A_{i-1}} = 
+    \lim_{N\to\infty}\mu\parens{A_N}$$
+    Finally, this implies
+    $$\mu\parens{\bigcup_{i=1}^\infty A_i} = \lim_{N\to\infty}
+    \mu\parens{A_N}$$
+    which is what we wanted to show.
+    \end{proof}
+    
+    \item Let $\parens{X, \mathcal{A}}$ be a measurable space. Prove
+    that the counting measure, defined by
+    $$\forall A \in \mathcal{A},\ \nu\parens{A} = \abs{A}\ 
+    \text{(The cardinality of }A)$$
+    is a measure.
+    \begin{proof}
+    To show that $\nu$ is a measure, we'll show that it satisfies the
+    definition of a measure:\\\\
+    \textbf{Non-negativity}:\\
+    By definition, $\abs{A}\in \N\cup\bracks{0}$;
+    so clearly $$\nu\parens{A} = \abs{A} \geq 0$$
+    \textbf{Measure of empty set is zero}:\\
+    The empty set $\emptyset$ is the set that contains no elements;
+    so, by definition, the number of elements it contains is 0 and 
+    $$\nu\parens{\emptyset} = \abs{\emptyset} = 0$$
+    \textbf{Sum of measure of disjoint sets}:\\
+    Let $\bracks{A_i}$ be a countable family of disjoint sets on 
+    $\mathcal{A}$. Then the cardinality of the union of this family 
+    is:
+    $$\nu\parens{\bigcup_{i=1}^\infty A_i} = \abs{\bigcup_{i=1}^
+    \infty A_i}$$
+    But, as the sets of the family are disjoint, the cardinality of 
+    the union is the same as the sum of the cardinality of the sets
+    themselves:
+    $$\abs{\bigcup_{i=1}^
+    \infty A_i} = \abs{A_1} + \abs{A_2} + \cdots = \sum_{i=1}^\infty
+    \abs{A_i} = \sum_{i=1}^\infty \nu\parens{A_i}$$
+    So we have that
+    $$\nu\parens{\bigcup_{i=1}^\infty A_i} = \sum_{i=1}^\infty \nu
+    \parens{A_i}$$
+    Finally, we conclude that $\nu$ satisfies all of the properties 
+    of a measure; as desired.
+    \end{proof}
+
+\ee
+\noindent\makebox[\linewidth]{\rule{\paperwidth}{0.4pt}}
+	
+\end{document}

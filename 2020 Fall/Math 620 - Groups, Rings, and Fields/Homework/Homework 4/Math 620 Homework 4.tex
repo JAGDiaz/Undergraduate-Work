@@ -1,0 +1,321 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{bm}
+\usepackage{amsthm}
+\usepackage{enumerate}
+\usepackage{graphicx}
+\usepackage{psfrag}
+\usepackage{color}
+\usepackage{url}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usepackage{soul}
+\usetikzlibrary{positioning}
+\tikzset{main node/.style={circle,fill=gray!20,draw,minimum size=.5cm,inner sep=0pt},}
+
+% In line code stuff%
+\definecolor{codegreen}{rgb}{0,0.5,0}
+\definecolor{codewhite}{rgb}{1,1,1}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{codeblack}{rgb}{0,0,0}
+\definecolor{codeorange}{rgb}{0.8,0.4,0}
+
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{codewhite},   
+    commentstyle=\color{codegray},
+    keywordstyle=\color{codegreen},
+    numberstyle=\color{codegray},
+    stringstyle=\color{codeorange},
+    basicstyle=\ttfamily ,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=4
+}
+\lstset{style=mystyle}
+\setlength{\hoffset}{-1in}
+\addtolength{\textwidth}{1.5in}
+\setlength{\voffset}{-1in}
+\addtolength{\textheight}{1.5in}
+
+% Custom commands%
+\newcommand{\be}{\begin{enumerate}}
+\newcommand{\ee}{\end{enumerate}}
+\newcommand{\BigO}[1]{\ensuremath\mathcal{O}\left(#1\right)}
+\newcommand{\il}[1]{\lstinline!#1!}
+\newcommand{\norm}[1]{\left|\left|#1\right|\right|}
+\newcommand{\abs}[1]{\left|#1\right|}
+\newcommand{\parens}[1]{\left(#1\right)}
+\newcommand{\bracks}[1]{\left\{#1\right\}}
+\newcommand{\sqbracks}[1]{\left[#1\right]}
+\newcommand{\vep}{\varepsilon}
+\newcommand{\ceiling}[1]{\left\lceil#1\right\rceil}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\F}{\mathbb{F}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\A}{\mathcal{A}}
+\newcommand{\distrib}[2]{\text{#1}\left(#2\right)}
+\newcommand{\dd}[1]{\frac{d}{d#1}}
+\newcommand{\abracks}[1]{\left< #1\right>}
+
+\begin{document}
+	\begin{center}
+		\textbf{Fall 2020, Math 620:\ Homework 4} \\
+		\textbf{Due:\ Thursday, September 24th, 2020} \\
+		\textbf{Joseph Diaz: 819947915}\\
+		\underline{\textbf{Partners in Crime}}:\\
+		
+
+
+\end{center}
+\bigskip
+\noindent
+\textbf{Homework problems.}
+You must submit \emph{all} homework problems in order to receive full 
+credit.  
+\noindent\makebox[\linewidth]{\rule{\paperwidth}{0.4pt}}
+\begin{enumerate}[(H1)]
+\item 
+Suppose $G$ is a group and $H \subset G$ is a subgroup.  Prove 
+\textbf{without using any theorems} that $b \in aH$ if and only if 
+$bH = aH$.  
+
+\begin{proof}
+To prove this, we'll show that the equivalence holds from the
+left and from the right.
+\be
+    \item[$\Longrightarrow$:] We have that $b \in aH$ and $bH 
+    \subseteq 
+    aH$. So there exists $h \in H$ such that $b = ah$. 
+    There must also exist $h' \in H$ such that $hh' = h'h = e$, where
+    $e$ is the identity element of $H$. This means
+    $$b = ah \iff bh' = ahh' = a$$
+    which itself implies that $aH \subseteq bH$. $aH$ and $bH$ are 
+    subsets of one another, so $aH = bH$.
+    
+    \item[$\Longleftarrow$:] We have that $aH = bH$, so there exists
+    $h_1, h_2 \in H$ such that $ah_1 = bh_2$. As $H$ is a subgroup,
+    there must also be an element $h_2' \in H$, such that $h_2h_2'
+    = h_2'h_2 = e$, where $e$ is the identity element of $H$. This
+    means that 
+    $$bh_2 = ah_1 \iff bh_2h_2' = b = ah_1h_2'$$
+    and this implies that $b \in aH$, because $h_1h_2' \in H$.
+    
+\ee 
+\end{proof}
+
+
+\item 
+Prove $A_n$ is a normal subgroup of $S_n$.  
+
+\begin{proof}
+To prove that $A_n$ is a normal subgroup, we'll use the test for
+normality. The test for normality is 
+$$A_n \text{ is normal if and only if }\tau A_n\tau^{-1} \subseteq 
+A_n,\ \forall \tau \in S_n$$
+To show that $\tau A_n\tau^{-1} \subseteq A_n$, we need only show 
+that all permutations in $\tau A_n\tau^{-1}$ are even.
+We know that 
+for all $\tau \in S_n$ there exists $\tau^{-1} \in S_n$ such that
+$$\tau\tau^{-1} = \tau^{-1}\tau = e$$
+where $e$ is the identity element of $S_n$. The identity is an even
+permutation in $S_n$ so this implies that the parities of $\tau$ and 
+$\tau^{-1}$ are identical, because otherwise their composition would
+result in an odd permutation. By it's own definition 
+$$\tau A_n\tau^{-1} = \bracks{\tau a\tau^{-1}\ \big|\ a\in A_n}$$
+and as all permutations in $A_n$ are even, we need only consider the
+parity of $\tau$.
+If $\tau$ is even, 
+$\tau a\tau^{-1}$ must also be even because every element would be
+the composition of three even permutations. 
+If $\tau$ is odd, we have the
+same result because $\parens{\tau a}\tau^{-1} = \tau\parens{a
+\tau^{-1}}$ so regardless of which composition is done first, we'll 
+have an odd permutation composed with an odd permutation, which will 
+be even.\\\\As every permutation in $\tau A_n\tau^{-1}$ is even, we 
+have that $\tau A_n\tau^{-1} \subseteq A_n$ and so $A_n$ is a normal
+subgroup. 
+\end{proof}
+
+
+\item 
+Fix a group $G$.  Define the \emph{center} of $G$ as the set
+$$C = \{c \in G : ca = ac \text{ for all } a \in G\}$$
+of elements that commute with every element of $G$.  
+
+\begin{enumerate}[(a)]
+\item 
+Prove $C$ is a normal subgroup of $G$.  
+
+\begin{proof}
+To prove that $C$ is normal, we'll show that $aC = Ca$ for all 
+$a \in G$. We have that 
+$$aC = \bracks{ac\ \big|\ c \in C}$$
+but by it's own definition, the elements of $C$ commute with every 
+other element of $G$, so $ac = ca, a\in G, c \in C$. This property 
+also implies that every element of $aC$ is also in $Ca$, so 
+$aC \subseteq Ca$. We could make a similar argument for $Ca 
+\subseteq aC$ again by the commutativity of the elements of $C$ with
+those of $G$. So we have that $aC \subseteq Ca$ and $Ca 
+\subseteq aC$, this implies that $aC = Ca$ which means that $C$ is 
+a normal subgroup of $G$.
+\end{proof}
+
+
+\item 
+Prove or disprove:\ $G/C$ has trivial center.  
+
+\begin{proof}[Disproof]
+This is not true in general. Consider the dihedral group $D_4$;
+The center of $D_4$, which is we'll denote $C$, is $\bracks{e,\ r^2}
+$. The quotient of $D_4$ with its center is
+$$D_4/C = \bracks{[e]_C,\ [r]_C,\ [f]_C,\ [rf]_C}$$
+This quotient group is isomorphic to $D_2$, and to show that we'll 
+use the FIT.\\\\
+Let $\varphi: D_4 \to D_2$ be a homomorphism defined as
+\begin{gather*}
+r \mapsto r\\
+f \mapsto f
+\end{gather*}
+$\varphi$ is surjective because every element of $D_2$ can obtained
+from an element of $D_4$ under $\varphi$, and we have that 
+$\ker(\varphi) = \bracks{e, r^2} = C$. So by the FIT, 
+$D_4/C \cong D_2$.\\\\ 
+As $D_2$ is abelian, $D_4/C$ must be abelian,
+as well. This means that the center of $D_4/C$ cannot be trivial,
+because every element of $D_4/C$ commutes with every other element.
+
+\end{proof}
+
+\end{enumerate}
+
+\item 
+Fix a group $(G, \cdot)$ and a normal subgroup $H \subset G$, and 
+consider the map 
+$$\begin{array}{r@{}c@{}l}
+\varphi:G &{}\longrightarrow{}& G/H \\
+a &{}\longmapsto{}& [a]_H.
+\end{array}$$
+The goal of this problem is to prove the correspondence theorem from 
+Problem~(D2).  
+
+\begin{enumerate}[(a)]
+\item 
+Prove that if $K \subseteq G/H$ is a subgroup, then $\varphi^{-1}(K)$ 
+is a subgroup of $G$ containing $H$.
+
+\begin{proof}
+To prove this, we must show that $\varphi^{-1}(K)$ is a subgroup of 
+$G$ and that $H \subseteq \varphi^{-1}(K)$.\\\\
+We have that 
+$K \subseteq G/H$ is a subgroup, as such it's elements are cosets of
+$H$; particularly, one of those cosets must be $eH = H$, the coset 
+corresponding to the identity of $G$.  This implies that $H 
+\subseteq \varphi^{-1}(K)$, because $H$ is normal subgroup of $G$ and
+all the elements of $H$, including $e$ would map to $eH$ under $
+\varphi$. So $H \subseteq \varphi^{-1}(K)$ and $e \in \varphi^{-1}(K)
+$.\\\\
+Now, it remains to show that $\varphi^{-1}(K)$ is closed and 
+that each element has inverses. $\varphi$ is defined as
+$a \mapsto [a]_H$; which means that, as a homomorphism, $\varphi$
+preserves the group operation of $G$ into $G/H$. As $K$ is a subgroup
+of $G/H$, it contains inverses for each of its elements and is 
+closed; this would be impossible if $\varphi^{-1}(K)$ didn't satisfy
+these properties as well, because of the preservation of the group
+structure under the homomorphism.\\\\
+So $\varphi^{-1}(K)$ must be a subgroup of $G$ containing $H$.
+\end{proof}
+
+
+\item 
+Prove that if $K \subseteq G$ is a subgroup with $H \subseteq K$, 
+then $\varphi(K)$ is a subgroup of $G/H$.  
+
+\begin{proof}
+We have that $H \subseteq K$, so there exists a mapping from $K$ into
+$K/H$ whose elements would be cosets of $H$ and form a 
+subgroup. Further, as $K \subseteq G$, all cosets of $H$ in $K/H$
+would also be in $G/H$ and the image of $K$ under the mapping from
+$K$ into $K/H$ would be identical to the image of $K$ under 
+$\varphi$. So $\varphi(K)$ is a subgroup of $G/H$.
+\end{proof}
+
+\end{enumerate}
+
+\item 
+The following questions pertain to the correspondence theorem from 
+Problem~(D2).  
+
+\begin{enumerate}[(a)]
+\item 
+If a subgroup of $G/H$ is normal, is its corresponding subgroup of $G
+$ normal?  What about the converse of this statement?  
+
+\begin{proof} We'll consider these implications separately, under 
+the homomorphism $\varphi: G \to G/H$.\\\\
+\textbf{Original Statement}:\\
+
+\textbf{Converse}:\\
+If $K \lhd G$, then is $\varphi(K) \lhd G/H$? If $K$ is a normal
+subgroup of $G$, then for all $k \in K$ and $g \in G,\ gkg^{-1} \in K
+$. From this, the image of $K$ under $\varphi$ is 
+$$\varphi(K) = \bracks{\varphi(k)\ \big|\ k \in K}$$
+and, by the properties of homomorphisms, for all $k \in K$ and 
+$g \in G,\ \varphi(gkg^{-1}) = \varphi(g)\varphi(k)\varphi(g)^{-1}$. 
+Since every element of the form $gkg^{-1} \in K$, it stands to reason
+that $\varphi(g)\varphi(k)\varphi(g)^{-1} \in \varphi(K)$. 
+So $\varphi(K)$ is a normal subgroup of $G/H$.
+\end{proof}
+
+
+\item 
+If a subgroup of $G/H$ is cyclic, is its corresponding subgroup of $G
+$ cyclic?  What about the converse of this statement?  
+
+\begin{proof}
+
+\end{proof}
+
+\end{enumerate}
+
+\end{enumerate}
+
+
+\bigskip
+\noindent
+\textbf{Challenge problems.}
+Challenge problems are not required for submission, but bonus points 
+will be awarded for submitting a partial attempt or a complete 
+solution.  
+
+\begin{enumerate}[(C1)]
+\item 
+Suppose $p$ is prime.  Find all groups $G$ (up to isomorphism) with 
+$|G| = p^2$.  
+
+\begin{proof}[Answer]
+Let $G_1 = \Z/\abracks{p^2}$, with addition, for some prime $p$; 
+clearly, this group has order $p^2$. It is also isomorphic to any
+cyclic group of the same order.\\\\
+Let $G_2 = \Z/\abracks{p} \times \Z/\abracks{p}$, with 
+component-wise addition,
+for some prime $p$. This group has order $p^2$ because that's the
+number of ways to choose 2 elements from a list of $p$ elements 
+with replacement.
+\end{proof}
+
+\end{enumerate}
+\noindent\makebox[\linewidth]{\rule{\paperwidth}{0.4pt}}
+	
+\end{document}

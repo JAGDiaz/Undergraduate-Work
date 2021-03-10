@@ -1,0 +1,261 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{bm}
+\usepackage{amsthm}
+\usepackage{enumerate}
+\usepackage{graphicx}
+\usepackage{psfrag}
+\usepackage{color}
+\usepackage{url}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{positioning}
+\tikzset{main node/.style={circle,fill=gray!20,draw,minimum size=.5cm,inner sep=0pt},}
+
+\definecolor{codegreen}{rgb}{0,0.5,0}
+\definecolor{codewhite}{rgb}{1,1,1}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{codeblack}{rgb}{0,0,0}
+\definecolor{codeorange}{rgb}{0.8,0.4,0}
+
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{codewhite},   
+    commentstyle=\color{codegray},
+    keywordstyle=\color{codegreen},
+    numberstyle=\color{codegray},
+    stringstyle=\color{codeorange},
+    basicstyle=\ttfamily ,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=4
+}
+\lstset{style=mystyle}
+
+
+\setlength{\hoffset}{-1in}
+\addtolength{\textwidth}{1.5in}
+\setlength{\voffset}{-1in}
+\addtolength{\textheight}{1.5in}
+\newcommand{\be}{\begin{enumerate}}
+\newcommand{\ee}{\end{enumerate}}
+\newcommand{\BigO}[1]{\ensuremath\mathcal{O}\left(#1\right)}
+\newcommand{\il}[1]{\lstinline!#1!}
+\newcommand{\gnorm}[1]{\left|\left|#1\right|\right|}
+\newcommand{\abs}[1]{\left|#1\right|}
+\newcommand{\parens}[1]{\left(#1\right)}
+\newcommand{\bracks}[1]{\left\{#1\right\}}
+\newcommand{\sqbracks}[1]{\left[#1\right]}
+\newcommand{\vep}{\varepsilon}
+\newcommand{\ceiling}[1]{\left\lceil#1\right\rceil}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\F}{\mathbb{F}}
+\newcommand{\LT}{\mathcal{L}}
+\newcommand{\poly}{\mathcal{P}}
+\newcommand{\distrib}[2]{\text{#1}\left(#2\right)}
+\newcommand{\dd}[1]{\frac{d}{d#1}}
+\newcommand{\abracks}[1]{\left< #1\right>}
+
+\begin{document}
+	\begin{center}
+		\textbf{Fall 2020, Math 524:\ Homework 3.1} \\
+		\textbf{Due:\ Monday, September 28th, 2020} \\
+		\textbf{Joseph Diaz: 819947915}
+	\end{center}
+\noindent\makebox[\linewidth]{\rule{\paperwidth}{0.4pt}}
+
+\subsection*{3A}
+\be
+    \item[4.] Suppose $T \in \LT\parens{V,\ W}$ and $v_1, 
+    \cdots, v_m$ is a list of vectors in $V$ such that $Tv_1,\cdots,
+    Tv_m$ is a linearly independent list of vectors in $W$. Show that
+    $v_1, \cdots, v_m$ is a linearly independent list of vectors.
+    \begin{proof}
+    Suppose there exists $a_i \in \F,\ 1 \leq i \leq m$ such that
+    $$a_1v_1 + a_2v_2 + \cdots + a_mv_m = 0$$
+    Now we apply the linear map $T$ to the equation:
+    \begin{align*}
+    T\parens{a_1v_1 + a_2v_2 + \cdots + a_mv_m} &= T(0) \\
+    T\parens{a_1v_1} + \cdots + T\parens{a_mv_m} &= 0 \\
+    a_1Tv_1 + \cdots + a_mTv_m &= 0
+    \end{align*}
+    We know that $Tv_1,\cdots, Tv_m$ is a linearly independent 
+    list of vectors, so this implies that $a_1 = a_2 = \cdots
+    = a_m = 0$ is the only solution to the equation. Which means
+    that $v_1,\cdots, v_m$ is also a 
+    linearly independent list of vectors.
+    \end{proof}
+    
+    \item[14.] Suppose $V$ is finite-dimensional with 
+    $\dim V \geq 2$. Show that there exists $S,T \in \LT\parens{V,V}$
+    such that $ST \neq TS$.
+    \begin{proof}
+    Let $V = \R^3$, and define $S,T \in \LT\parens{\R^3, \R^3}$ such
+    that
+    $$\forall \parens{x,y,z} \in \R^3, T\parens{x,y,z} = 
+    \parens{y,z,x},\ S\parens{x,y,z} = \parens{x,z,y}$$
+    i.e. $T$ cycles the coordinates once, and $S$ swaps the last
+    2 coordinates. Then we have
+    \begin{gather*}
+    ST(x,y,z) = S(y,z,x) = (y,x,z) \\
+    TS(x,y,z) = T(x,z,y) = (z,y,x) \\\\
+    (y,x,z) \neq (z,y,x) \implies ST\neq TS    
+    \end{gather*}
+    which is what we wanted to show. (p.s. I was inspired to 
+    formulate these transformations by the
+    permutation groups from my class on Group theory. Cyclic 
+    permutations do not generally commute, and that led me to what 
+    is above.)
+    \end{proof}
+    
+\ee
+
+\subsection*{3B}
+\be
+    \item[5.] Give an example of a linear map $T: \R^4 \to \R^4$ such 
+    that
+    $$\text{range }T= \text{null }T$$
+    \begin{proof}[Answer]
+    Let $T \in \LT\parens{\R^4, \R^4}$ be a linear map defined by:
+    \begin{align*}
+    T(1,0,0,0) &= (0,0,1,0)\\
+    T(0,1,0,0) &= (0,0,0,1)\\
+    T(0,0,1,0) &= (0,0,0,0)\\
+    T(0,0,0,1) &= (0,0,0,0)
+    \end{align*}
+    The equivalent matrix of the transformation is
+    $$\mathcal{M}(T) = \parens{\begin{array}{cccc}
+    0 & 0 & 0 & 0\\
+    0 & 0 & 0 & 0\\
+    1 & 0 & 0 & 0\\
+    0 & 1 & 0 & 0
+    \end{array}}$$
+    This gives us $\text{range }T = \text{span}\parens{
+    (0,0,1,0),(0,0,0,1)} = \text{null }T$, as desired.
+    \end{proof}
+    
+    \item[6.] Prove that there does not exist a linear map 
+    $T: \R^5 \to \R^5$ such that
+    $$\text{range }T= \text{null }T$$
+    \begin{proof}[Proof by Contradiction]
+    Suppose that there exists a linear map $T \in \LT\parens{\R^5,
+    \R^5}$ that satisfies
+    $$\text{range }T= \text{null }T$$
+    By the Fundamental Theorem of Linear Maps, we must have:
+    $$\dim\R^5 = \dim\text{null }T + \dim\text{range }T$$
+    So by our assumption:
+    \begin{align*}
+    \dim\R^5 &= \dim\text{null }T + \dim\text{range }T \\
+    5 &= \dim\text{range }T + \dim\text{range }T \\
+    5 &= 2\dim\text{range }T\\
+    \frac{5}{2} &= \dim\text{range }T
+    \end{align*}
+    Clearly, this cannot be the case because
+    the dimension of vector spaces must be a natural number. So
+    our assumption that such a linear map exists must be wrong,
+    and there exists no map in $\LT\parens{\R^5,
+    \R^5}$ that can satisfy the condition above. 
+    \end{proof}
+    
+    \item[9.] Suppose $T \in \LT\parens{V,\ W}$ is injective and 
+    $v_1, \cdots, v_n$ is linearly independent in $V$. Show that
+    $Tv_1,\cdots, Tv_n$ is linearly independent in 
+    $W$.
+    \begin{proof}
+    Suppose there exists $a_i \in \F,\ 1 \leq i \leq m$ such that
+    $$a_1Tv_1 + a_2Tv_2 + \cdots + a_nTv_n = 0$$
+    $T$ is a linear map, so the above is equivalent to
+    $$T\parens{a_1v_1 + a_2v_2 + \cdots + a_nv_n} = 0$$
+    and as $T$ is injective, this implies
+    $$a_1v_1 + a_2v_2 + \cdots + a_nv_n = 0$$
+    By assumption, $v_1, \cdots, v_n$ is a list of linearly
+    independent vectors, so the only solution to the above equation
+    is $a_1 = a_2 = \cdots = a_n = 0$. The same must be true of 
+    the equation at the top, and so $Tv_1,\cdots, Tv_n$ is a 
+    linearly independent list of vectors in $W$. 
+    \end{proof}
+\ee
+
+\subsection*{3C}
+\be
+    \item[2.] Suppose $D \in \LT\parens{\poly_3(\R), \poly_2(\R)}$ is 
+    the differentiation map defined by $Dp = p'$. Find a basis for
+    $\poly_3(\R)$ and a basis for $\poly_2(\R)$ such that the matrix
+    of $D$ with respect these bases is
+    $$\parens{\begin{array}{cccc}
+    1 & 0 & 0 & 0\\
+    0 & 1 & 0 & 0\\
+    0 & 0 & 1 & 0
+    \end{array}}$$
+    \begin{proof}[Answer]
+    For $\poly_3\parens{\R}$ the standard basis $\bracks{1, z, 
+    z^2, z^3}$ will suffice, to find the basis for 
+    $\poly_2\parens{\R}$ that satisfies the specified matrix, 
+    we'll consider $D$
+    operating on $p(z)=a + bz + cz^2 + dz^3 \in \poly_3\parens{\R}$:
+    $$Dp = \parens{\begin{array}{cccc}
+    1 & 0 & 0 & 0\\
+    0 & 1 & 0 & 0\\
+    0 & 0 & 1 & 0\\
+    \end{array}}\cdot\parens{\begin{array}{c}
+    d\\
+    c\\
+    b\\
+    a
+    \end{array}} = 
+    \parens{\begin{array}{c}
+    d\\
+    c\\
+    b
+    \end{array}} = p'$$
+    We want a basis that respects 
+    $p'(z) = b + 2cz + 3dz^2$, so we choose the basis 
+    $\bracks{1, 2z, 3z^2}$ for $\poly_2\parens{\R}$. 
+    \end{proof}
+    
+    \item[3.] Suppose $V$ and $W$ are finite-dimensional and
+    $T \in \LT\parens{V,W}$. Prove that there exists a basis of $V$
+    and a basis of $W$ such that with respect to these bases, all 
+    entries of $\mathcal{M}(T)$ are $0$ except that the entries in 
+    row $j$, column $j$, equal 1 for $1 \leq j \leq \dim\text{range }
+    T$.
+    \begin{proof}
+    Let $v_1,\cdots,\ v_n$ be a basis of range $T$, then extend this 
+    to a basis of $V$ by appending $u_1,\ \cdots,\ u_m$ (which must
+    be a basis for the null space of $T$ by the Fundamental 
+    Theorem of Linear Maps) to 
+    that list. We have now have a basis for $V$ that consists of
+    $$\bracks{v_1,\cdots,\ v_n,\ u_1,\ \cdots,\ u_m}$$
+    So we have that $\dim\text{range }T = n,\ \dim\text{null }T = m$,
+    and $\dim V = n + m$. Now let $v \in V$, then applying $T$ to $v$
+    gives
+    \begin{align*}
+    Tv &= T\parens{a_1v_1 + \cdots + a_nv_n + b_1u_1 + \cdots + 
+    b_mu_m} \\
+    &= a_1Tv_1 + \cdots + a_nTv_n
+    \end{align*}
+    for $a_i, b_j \in \F$. Now we extend $Tv_1,\ \cdots,\ Tv_n$ to
+    a basis in $W$ by appending $\gamma_1,\ \cdots,\ \gamma_k$. These
+    bases for $V$ and $W$ guarantee that $\mathcal{M}(T)$ will only
+    have $1$'s in the specified positions, because only vectors in
+    the span of the range of $T$ will be mapped into $W$ (by 
+    definition). 
+    \end{proof}
+    
+    
+\ee
+
+\noindent\makebox[\linewidth]{\rule{\paperwidth}{0.4pt}}
+	
+\end{document}

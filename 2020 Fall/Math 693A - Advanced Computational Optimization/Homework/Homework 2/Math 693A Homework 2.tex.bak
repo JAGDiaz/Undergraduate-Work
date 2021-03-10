@@ -1,0 +1,181 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{bm}
+\usepackage{amsthm}
+\usepackage{enumerate}
+\usepackage{graphicx}
+\usepackage{psfrag}
+\usepackage{color}
+\usepackage{url}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{positioning}
+\tikzset{main node/.style={circle,fill=gray!20,draw,minimum size=.5cm,inner sep=0pt},}
+
+% In line code stuff%
+\definecolor{codegreen}{rgb}{0,0.5,0}
+\definecolor{codewhite}{rgb}{1,1,1}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{codeblack}{rgb}{0,0,0}
+\definecolor{codeorange}{rgb}{0.8,0.4,0}
+
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{codewhite},   
+    commentstyle=\color{codegray},
+    keywordstyle=\color{codegreen},
+    numberstyle=\color{codegray},
+    stringstyle=\color{codeorange},
+    basicstyle=\ttfamily ,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=4
+}
+\lstset{style=mystyle}
+\setlength{\hoffset}{-1in}
+\addtolength{\textwidth}{1.5in}
+\setlength{\voffset}{-1in}
+\addtolength{\textheight}{1.5in}
+
+% Custom commands%
+\newcommand{\be}{\begin{enumerate}}
+\newcommand{\ee}{\end{enumerate}}
+\newcommand{\BigO}[1]{\ensuremath\mathcal{O}\left(#1\right)}
+\newcommand{\il}[1]{\lstinline!#1!}
+\newcommand{\norm}[1]{\left|\left|#1\right|\right|}
+\newcommand{\abs}[1]{\left|#1\right|}
+\newcommand{\parens}[1]{\left(#1\right)}
+\newcommand{\bracks}[1]{\left\{#1\right\}}
+\newcommand{\sqbracks}[1]{\left[#1\right]}
+\newcommand{\vep}{\varepsilon}
+\newcommand{\ceiling}[1]{\left\lceil#1\right\rceil}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\F}{\mathbb{F}}
+\newcommand{\A}{\mathcal{A}}
+\newcommand{\distrib}[2]{\text{#1}\left(#2\right)}
+\newcommand{\dd}[1]{\frac{d}{d#1}}
+\newcommand{\abracks}[1]{\left< #1\right>}
+
+\begin{document}
+	\begin{center}
+		\textbf{Fall 2020, Math 693A:\ Homework 2} \\
+		\textbf{Due:\ Friday, October 2nd, 2020} \\
+		\textbf{Joseph Diaz: 819947915}
+	\end{center}
+\noindent\makebox[\linewidth]{\rule{\paperwidth}{0.4pt}}
+\be 
+    \item[1.] 
+    State the strategy used used to compute the initial guess 
+    in your homework 2 code.
+    \begin{proof}[Answer]
+    My code uses strategy \#1 for choosing $\alpha_0$:
+    $$\alpha_0^{[k]} = \alpha^{[k-1]}\frac{\pmb{\bar{p}}_{k-1}^T
+    \nabla f\parens{\pmb{\bar{x}}_{k-1}}}{\pmb{\bar{p}}_{k}^T
+    \nabla f\parens{\pmb{\bar{x}}_{k}}}$$
+    \end{proof}
+
+    \item[3.] 
+    State, in your homework, how you computed $\alpha_{i+1}$ 
+    on Line 11 of the LS/Strong Wolfe Conditions.
+    \begin{proof}[Answer]
+    For choosing the next value of $\alpha_{i+1}$, my code uses 
+    a pseudo random number from a uniform distribution with interval
+    $[\alpha_i,\ \alpha_{\text{max}}]$. The python code for which is 
+    \begin{center}
+        \il{a_i = np.random.uniform(a_i, a_max)}
+    \end{center}
+    In this example, I am reusing the same variable \il{a_i} to
+    simplify my code; which is what you'll see in my code.
+    \end{proof}
+
+    \item[4.]
+    State in your homework the Interpolation method used.
+    \begin{proof}[Answer]
+    My homework uses the hermite interpolation. The relevant function 
+    in my code is called \il{hermite_interpolate}.
+    \end{proof}
+
+    \item[5.]
+    State in your homework the value of epsilon used.
+    \begin{proof}[Answer]
+    For both $\vep_1$ and $\vep_2$, I used $10^{-10}$.
+    \end{proof}
+    
+    \item[6.]
+    Plot the objective function $f(\bar{\bm{x}})$. 
+    On the same figure, plot the $\bar{\bm{x}}_k$ values at 
+    different iterates.
+    \begin{proof}[Answer]
+    After 8.
+    \end{proof}
+
+    
+    \item[7.]
+    Plot the size of the objective function as a function of the
+    iteration number. Use semi-log plot.
+    \begin{proof}[Answer]
+    After 8.
+    \end{proof}   
+    
+    \item[8.]
+    Compare the performance for both the Newton and Steepest Descent 
+    algorithms; is there a\\significant difference in number of 
+    iterations etc.? Discuss this.
+    \begin{proof}[Answer]
+    Based on the results of the code, it seems to be the case that 
+    the Steepest Descent method benefits from exact step length 
+    selection significantly more than Newtons Method does. Both
+    starting points required at least 6,000 step to reach the minimum
+    using the methods of inexact step length selection with Steepest 
+    Descent for Homework 1; however, with exact step length selection
+    the same starting points require only about 1,000 steps at the
+    absolute most to reach the minimum.\\\\
+    Contrast this with Newtons Method for either step length 
+    selection method. Both methods require about the same number of 
+    steps for each starting point. This indicates one of 
+    the key differences between Newtons Method and Steepest Descent,
+    as far as how the search direction is computed.\\\\In one case, 
+    the 
+    negative of the gradient has no sense of step length
+    which we 
+    usually normalize to make it easier to work with. In the other,
+    the dot product of the gradient with the hessian carries with it
+    some sense of inherent step length that the dot product 
+    preserves. So, in the same sense, each $\bar{\bm{p}}$ for Newtons
+    method already has a nearly ideal step length built into it.
+    Which would explain why the way that $\alpha_k$ is computed is 
+    of less importance.
+    \end{proof}
+    
+    
+\ee
+\begin{figure}[h!]
+\includegraphics[width=\linewidth]{HW2SD1Surface.JPG}
+\includegraphics[width=\linewidth]{HW2SD2Surface.JPG}
+\centering
+\end{figure}
+\begin{figure}[h!]
+\includegraphics[width=\linewidth]{HW2NM1Surface.JPG}
+\includegraphics[width=\linewidth]{HW2NM2Surface.JPG}
+\centering
+\end{figure}
+	
+\begin{figure}[h!]
+\includegraphics[width=\linewidth]{HW2SDObjective.JPG}
+\includegraphics[width=\linewidth]{HW2NMObjective.JPG}
+\centering
+\end{figure}
+\noindent\makebox[\linewidth]{\rule{\paperwidth}{0.4pt}}
+	
+\end{document}

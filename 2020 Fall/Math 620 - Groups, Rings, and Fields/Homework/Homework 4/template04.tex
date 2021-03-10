@@ -1,0 +1,309 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+% \usepackage{hyperref}
+
+\usepackage{amssymb}
+\usepackage{bm}
+%usepackage{amsfonts}%This is to have nice letters
+\usepackage{amsthm}
+\usepackage{enumerate}
+\usepackage{graphicx}
+\usepackage{psfrag}
+\usepackage{multicol}
+%usepackage{showkeys}
+\usepackage{color}
+\usepackage{url}
+% \usepackage{mathabx}
+
+\usepackage{algpseudocode}
+
+\usepackage{mathtools}
+
+\usepackage{xy}
+\input xy
+\xyoption{all}
+
+\setlength{\hoffset}{-0.5in}
+\addtolength{\textwidth}{1.0in}
+\setlength{\voffset}{-0.5in}
+\addtolength{\textheight}{1.0in}
+
+\newcommand{\excise}[1]{}%{$\star$\textsc{#1}$\star$}
+\newcommand{\comment}[1]{{$\star$\sf\textbf{#1}$\star$}}
+
+%\numberwithin{section}{part}
+%\renewcommand\thepart{\Roman{part}}
+% Theorem environments with italic font
+\newtheorem*{thm}{Theorem}
+\newtheorem*{lemma}{Lemma}
+\newtheorem*{claim}{Claim}
+\newtheorem*{cor}{Corollary}
+\newtheorem*{prop}{Proposition}
+\newtheorem*{conj}{Conjecture}
+\newtheorem*{question}{Question}
+\newtheorem*{prob}{Problem}
+
+\theoremstyle{definition}
+\newtheorem*{alg}{Algorithm}
+\newtheorem*{example}{Example}
+\newtheorem*{remark}{Remark}
+\newtheorem*{defn}{Definition}
+\newtheorem*{conv}{Convention}
+\newtheorem*{obs}{Observation}
+
+\numberwithin{equation}{section}
+
+%For numbered lists with arabic 1. 2. 3. numbering
+\renewcommand\labelenumi{\theenumi.}
+
+%For separated lists with consecutive numbering
+\newcounter{separated}
+
+\newcommand{\ring}[1]{\ensuremath{\mathbb{#1}}}
+
+%single characters, used in math mode
+\renewcommand\>{\rangle}
+\newcommand\<{\langle}
+\newcommand\0{\mathbf{0}}
+\newcommand\CC{\ring{C}}
+\newcommand\KK{{\mathcal K}}
+\newcommand\MM{{\mathcal M}}
+\newcommand\NN{\ring{N}}
+\newcommand\OO{{\mathcal O}}
+\newcommand\QQ{\ring{Q}}
+\newcommand\RR{\ring{R}}
+\newcommand\TT{{\mathcal T}}
+\newcommand\ZZ{\ring{Z}}
+\newcommand\dd{{\mathbf d}}
+\newcommand\kk{\Bbbk}
+\newcommand\mm{{\mathfrak m}}
+\newcommand\nn{{\mathfrak n}}
+\newcommand\pp{{\mathfrak p}}
+% \newcommand\qq{{\mathfrak q}}
+\newcommand\ww{{\mathbf w}}
+\newcommand\xx{{\mathbf x}}
+\newcommand\cA{{\mathcal A}}
+\newcommand\cB{{\mathcal B}}
+\newcommand\cC{{\mathcal C}}
+\newcommand\cG{{\mathcal G}}
+\newcommand\cP{{\mathcal P}}
+\newcommand\cW{{\mathcal W}}
+\newcommand\oA{\hspace{.35ex}\ol{\hspace{-.35ex}A\hspace{-.2ex}}\hspace{.2ex}}
+\newcommand\oJ{{\hspace{.45ex}\overline{\hspace{-.45ex}J}}}
+\newcommand\oQ{\hspace{.15ex}\ol{\hspace{-.15ex}Q\hspace{-.25ex}}\hspace{.25ex}}
+\newcommand\ttt{\mathbf{t}}
+\renewcommand\aa{{\mathbf a}}
+\newcommand\bb{{\mathbf b}}
+\newcommand\ee{{\mathbf e}}
+
+\newcommand\free{{\mathcal F}}
+\renewcommand\AA{{\mathcal A}}
+\newcommand\qq{{\mathsf q}}
+
+%roman font words for math mode
+\newcommand\gp{\mathrm{gp}}
+\newcommand\emb{\mathrm{emb}}
+\newcommand\tor{\mathrm{tor}}
+\renewcommand\th{\mathrm{th}}
+
+%math symbols without arguments
+\newcommand\app{\mathord\approx}
+\newcommand\can{0}
+\newcommand\iso{\cong}
+\newcommand\nil{\infty}
+\newcommand\ott{\ol\ttt{}}
+\newcommand\til{\mathord\sim}
+\newcommand\too{\longrightarrow}
+\newcommand\Iqp{I_q{}^{\hspace{-.7ex}P}}
+\newcommand\Irp{I_{\rho,P}}
+\newcommand\Isp{I_{\sigma,P}}
+\newcommand\Mwp{M_\ww^P}
+\newcommand\rqp{\rho_q^{\hspace{.2ex}P}}
+\newcommand\Iaug{I_{\mathrm{aug}}}
+\newcommand\Irpp{I_{\rho',P'}}
+\newcommand\MipI{M_\infty^P(I)}
+\newcommand\MrpI{M_\rho^P(I)}
+\newcommand\MspI{M_\sigma^P(I)}
+\newcommand\MwpI{M_\ww^P(I)}
+\newcommand\Qlqp{Q_{\preceq q}^P}
+\newcommand\Qlwp{Q_{\preceq w}^P}
+\newcommand\WwpI{W_\ww^P(I)}
+\newcommand\appq{\begin{array}{@{}c@{}} \\[-4ex]\scriptstyle\app%
+					\\[-1.6ex]q\\[-.3ex]\end{array}}
+\newcommand\appw{\begin{array}{@{}c@{}} \\[-4ex]\scriptstyle\app%
+					\\[-1.6ex]w\\[-.3ex]\end{array}}
+\newcommand\into{\hookrightarrow}
+\newcommand\onto{\twoheadrightarrow}
+\newcommand\rqpP{\rho_q^{\hspace{.2ex}P'}}
+\newcommand\rpqP{\rho_{p+q}^{\hspace{.2ex}P}}
+\newcommand\spot{{\hbox{\raisebox{1.7pt}{\large\bf .}}\hspace{-.5pt}}}
+\newcommand\void{{\{\}}}
+%newcommand\defas{:=}
+\newcommand\minus{\smallsetminus}
+\newcommand\nothing{\varnothing}
+\newcommand\appqscript{{\begin{array}{@{}c@{}}%
+			\\[-4.8ex]\scriptscriptstyle\app%
+			\\[-1.9ex]\scriptstyle q\\[-1ex]%
+			\end{array}}}
+\renewcommand\iff{\Leftrightarrow}
+\renewcommand\implies{\Rightarrow}
+
+%math symbols taking arguments
+\def\ol#1{{\overline {#1}}}
+\def\wh#1{{\widehat {#1}}}
+\def\wt#1{{\widetilde {#1}}}
+\newcommand\set[1]{\{#1\}}
+\newcommand\abs[1]{|#1|}
+
+%Math operators
+\DeclareMathOperator\Hom{Hom} % Hom
+\DeclareMathOperator\image{Im} % Hom
+% \DeclareMathOperator\Mod{-Mod} % Q-Mod, R-Mod
+\DeclareMathOperator\ann{ann} % Annihilator
+\DeclareMathOperator\Ass{Ass} % Associated Primes 
+\DeclareMathOperator\sat{sat} % saturation of a lattice
+\DeclareMathOperator\soc{soc} % socle of a module
+\DeclareMathOperator\Hull{Hull} % Hull - localization
+\DeclareMathOperator\Spec{Spec} %
+\DeclareMathOperator\coker{coker} % cokernel
+
+\DeclareMathOperator\lcm{lcm} % lcm
+\DeclareMathOperator\Ap{Ap} % Apery set
+\DeclareMathOperator\supp{supp} % support
+\DeclareMathOperator\bul{bul} % bullets
+\DeclareMathOperator\mbul{mbul} % maximal bullets
+
+
+% Replaces \atop
+\newcommand{\aoverb}[2]{{\genfrac{}{}{0pt}{1}{#1}{#2}}}
+%0 = displaystyle               in the 4th argument
+%1 = textstyle
+%2 = scriptstyle
+%3 = scriptscriptstyle
+\def\twoline#1#2{\aoverb{\scriptstyle {#1}}{\scriptstyle {#2}}}
+
+
+\begin{document}
+
+\begin{center}
+\textbf{Fall 2020, Math 620:\ Week 4 Problem Set} \\
+\textbf{Due:\ Thursday, September 24th, 2020} \\
+\textbf{Cosets and Quotient Groups} \\
+\textbf{Name:\ \underline{WRITE NAME HERE}} \\
+\textbf{Collaborators:\ \underline{LIST COLLABORATORS HERE}}
+\end{center}
+
+
+\bigskip
+\noindent
+\textbf{Homework problems.}
+You must submit \emph{all} homework problems in order to receive full credit.  
+
+\begin{enumerate}[(H1)]
+\item 
+Suppose $G$ is a group and $H \subset G$ is a subgroup.  Prove \textbf{without using any theorems} that $b \in aH$ if and only if $bH = aH$.  
+
+\begin{proof}
+
+\end{proof}
+
+
+\item 
+Prove $A_n$ is a normal subgroup of $S_n$.  
+
+\begin{proof}
+
+\end{proof}
+
+
+\item 
+Fix a group $G$.  Define the \emph{center} of $G$ as the set
+$$C = \{c \in G : ca = ac \text{ for all } a \in G\}$$
+of elements that commute with every element of $G$.  
+
+\begin{enumerate}[(a)]
+\item 
+Prove $C$ is a normal subgroup of $G$.  
+
+\begin{proof}
+
+\end{proof}
+
+
+\item 
+Prove or disprove:\ $G/C$ has trivial center.  
+
+\begin{proof}
+
+\end{proof}
+
+\end{enumerate}
+
+\item 
+Fix a group $(G, \cdot)$ and a normal subgroup $H \subset G$, and consider the map 
+$$\begin{array}{r@{}c@{}l}
+\varphi:G &{}\longrightarrow{}& G/H \\
+a &{}\longmapsto{}& [a]_H.
+\end{array}$$
+The goal of this problem is to prove the correspondence theorem from Problem~(D2).  
+
+\begin{enumerate}[(a)]
+\item 
+Prove that if $K \subseteq G/H$ is a subgroup, then $\varphi^{-1}(K)$ is a subgroup of $G$ containing $H$.  
+
+\begin{proof}
+
+\end{proof}
+
+
+\item 
+Prove that if $K \subseteq G$ is a subgroup with $H \subseteq K$, then $\varphi(K)$ is a subgroup of $G/H$.  
+
+\begin{proof}
+
+\end{proof}
+
+\end{enumerate}
+
+\item 
+The following questions pertain to the correspondence theorem from Problem~(D2).  
+
+\begin{enumerate}[(a)]
+\item 
+If a subgroup of $G/H$ is normal, is its corresponding subgroup of $G$ normal?  What about the converse of this statement?  
+
+\begin{proof}
+
+\end{proof}
+
+
+\item 
+If a subgroup of $G/H$ is cyclic, is its corresponding subgroup of $G$ cyclic?  What about the converse of this statement?  
+
+\begin{proof}
+
+\end{proof}
+
+\end{enumerate}
+
+\end{enumerate}
+
+
+\bigskip
+\noindent
+\textbf{Challenge problems.}
+Challenge problems are not required for submission, but bonus points will be awarded for submitting a partial attempt or a complete solution.  
+
+\begin{enumerate}[(C1)]
+\item 
+Suppose $p$ is prime.  Find all groups $G$ (up to isomorphism) with $|G| = p^2$.  
+
+\begin{proof}
+
+\end{proof}
+
+\end{enumerate}
+
+\end{document}
+

@@ -1,0 +1,383 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{bbm}
+\usepackage{bm}
+\usepackage{amsthm}
+\usepackage{enumerate}
+\usepackage{graphicx}
+\usepackage{psfrag}
+\usepackage{color}
+\usepackage{url}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{positioning}
+\tikzset{main node/.style={circle,fill=gray!20,draw,minimum size=.5cm,inner sep=0pt},}
+
+\definecolor{codegreen}{rgb}{0,0.5,0}
+\definecolor{codewhite}{rgb}{1,1,1}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{codeblack}{rgb}{0,0,0}
+\definecolor{codeorange}{rgb}{0.8,0.4,0}
+
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{codewhite},   
+    commentstyle=\color{codegray},
+    keywordstyle=\color{codegreen},
+    numberstyle=\color{codegray},
+    stringstyle=\color{codeorange},
+    basicstyle=\ttfamily ,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=4
+}
+\lstset{style=mystyle}
+
+
+\setlength{\hoffset}{-1in}
+\addtolength{\textwidth}{1.5in}
+\setlength{\voffset}{-1in}
+\addtolength{\textheight}{1.5in}
+\newcommand{\be}{\begin{enumerate}}
+\newcommand{\ee}{\end{enumerate}}
+\newcommand{\BigO}[1]{\ensuremath\mathcal{O}\left(#1\right)}
+\newcommand{\il}[1]{\lstinline!#1!}
+\newcommand{\gnorm}[1]{\left|\left|#1\right|\right|}
+\newcommand{\abs}[1]{\left|#1\right|}
+\newcommand{\parens}[1]{\left(#1\right)}
+\newcommand{\bracks}[1]{\left\{#1\right\}}
+\newcommand{\sqbracks}[1]{\left[#1\right]}
+\newcommand{\vep}{\varepsilon}
+\newcommand{\ceiling}[1]{\left\lceil#1\right\rceil}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\one}{\mathbbm{1}}
+\newcommand{\A}{\mathcal{A}}
+\newcommand{\distrib}[2]{\text{#1}\left(#2\right)}
+\newcommand{\dd}[1]{\frac{d}{d#1}}
+\newcommand{\abracks}[1]{\left< #1\right>}
+
+\begin{document}
+	\begin{center}
+		\textbf{Fall 2020, Math 630:\ Homework 2} \\
+		\textbf{Due:\ Friday, September 11th, 2020} \\
+		\textbf{Joseph Diaz: 819947915}
+	\end{center}
+\noindent\makebox[\linewidth]{\rule{\paperwidth}{0.4pt}}
+
+\be[(E1)]
+    \item Let $\parens{\R, \A, \lambda}$ be a measure space where 
+    $\lambda$ is the Lebesgue measure. Which of the following 
+    measures are NOT measures on $\parens{\R,\A}$, and why? 
+    $\forall A \in \A$:
+    \be[1.] 
+        \item $\mu\parens{A} = 2\lambda\parens{A}$
+        \begin{proof}[Solution]
+        This is a measure on $\parens{\R, \A}$. Firstly;
+        it is just a non-zero constant multiple of the ordinary
+        Lebesgue measure, as such it respects the requirement that
+        $\mu: X \to \sqbracks{0, \infty}$. Secondly; for that same 
+        reason, it satisfies the requirement that $\mu\parens{
+        \varnothing} = 2\lambda\parens{\varnothing} = 0$. And, 
+        finally, it has the $\sigma$-additivity property. Let
+        $\bracks{A_i}$ be a countable family of disjoint
+        sets in $\A$, then:
+        \begin{align*}
+        \mu\parens{\bigcup_{i=1}^\infty A_i} &= 2\lambda
+        \parens{\bigcup_{i=1}^\infty A_i} \\
+        &= 2\sum_{i=1}^\infty \lambda\parens{A_i} \\
+        &= \sum_{i=1}^\infty 2\lambda\parens{A_i} \\
+        &= \sum_{i=1}^\infty \mu\parens{A_i} \\
+        \end{align*}
+        As $\mu$ satisfies the required properties, it is a measure
+        on $\parens{\R, \A}$.
+        \end{proof}
+        
+        \item $\mu\parens{A} = \parens{\lambda\parens{A}}^2$
+        \begin{proof}[Solution]
+        Let $A$ be the union of countable family of disjoint 
+        subsets i.e.
+        $$A = \bigcup_{i=1}^\infty A_i,\ \forall i,j \in \N,
+        A_i \subset A, i\neq j, A_i \cap A_j = \varnothing$$ 
+        Then:
+        \begin{align*}
+        \mu\parens{A} &= \mu\parens{\bigcup_{i=1}^\infty A_i} \\
+        &= \parens{\lambda\parens{\bigcup_{i=1}^\infty A_i}}^2 \\
+        &= \parens{\sum_{i=1}^\infty \lambda\parens{A_i}}^2 \\
+        &= \parens{\lambda\parens{A_1} + \lambda\parens{A_2} 
+        + \lambda\parens{A_3} + \lambda\parens{A_4} + \cdots}^2 \\
+        &= \lambda\parens{A_1}^2 + \lambda\parens{A_1}\lambda
+        \parens{A_2} + \lambda\parens{A_1}\lambda\parens{A_3} +         
+        \cdots \\
+        &\neq \sum_{i=1}^\infty \mu\parens{A_i}
+        \end{align*}
+        This measure does not satisfy the $\sigma$-additivity 
+        property, so it is not a measure at all. 
+        \end{proof}
+        
+        \item $\mu\parens{A} = 1 + \lambda\parens{A}$
+        \begin{proof}[Solution]
+        This cannot be a measure on $\parens{\R,\A}$ because 
+        $$\mu\parens{\varnothing} = 1 + \lambda\parens{\varnothing} =
+        1$$
+        So, clearly, this definition of $\mu$ isn't a measure at all.
+        \end{proof}
+    \ee
+    
+    
+    \item Let the characteristic function
+    \begin{large}
+    $$\chi_A\parens{x} = \left\{\begin{array}{lr}
+    1 & \text{if }x \in A \\
+    0 & \text{if }x \notin A
+    \end{array}\right.$$
+    \end{large}
+    \be[1.]
+        \item Show that
+        \be[(a)]
+            \item $\chi_{A\cap B}(x) = \chi_A \cdot\chi_B$
+            \begin{proof}
+            We have that 
+            $$\chi_{A\cap B} = \left\{\begin{array}{lr}
+            1 & \text{if }x \in A\cap B \\
+            0 & \text{if }x \notin A\cap B
+            \end{array}\right.$$
+            So the characteristic function will equal 1 for $x$ in 
+            the intersection of $A$ and $B$, and 0 otherwise. This 
+            is equivalent to $\chi_{A}\cdot\chi_{B}$, because if $x 
+            \in A\backslash B$, $x \in B\backslash A$ or $x \in 
+            \parens{A\cup B}^c$, then $\chi_{A}\cdot\chi_{B} = 0$.
+            In those cases, $\chi_A$ will be zero, $\chi_B$ will be 
+            zero, or they'll both be zero. But if $x\in A$ and $x 
+            \in B$, then $x \in A\cap B$, and both $\chi_A,\ \chi_B$
+            will be one. So:
+            $$\chi_{A\cap B} = \chi_A\cdot\chi_B$$
+            \end{proof}
+        
+            \item $\chi_{A\cup B} = \chi_A + \chi_B - 
+            \chi_A\cdot\chi_B$
+            \begin{proof}
+             We have that 
+            $$\chi_{A\cup B} = \left\{\begin{array}{lr}
+            1 & \text{if }x \in A\cup B \\
+            0 & \text{if }x \notin A\cup B
+            \end{array}\right.$$
+            So the characteristic function will equal 1 for $x$ in 
+            the union of $A$ and $B$, and 0 otherwise. This 
+            equivalent to $\chi_A + \chi_B - \chi_A\chi_B$, as 
+            described in this table:
+            \begin{center}
+            \begin{tabular}{|c|c|c|c|c|}
+            \hline
+             & $x \in A\backslash B$ & $x\in B\backslash A$ &
+            $x\in A\cap B$ & $x \in \parens{A\cup B}^c$\\
+            \hline  
+            $\chi_A+\chi_B - \chi_A\cdot\chi_B$ & $1 + 0 - 0 =1$ & 
+            $0 + 1 - 0 = 1$ & $1 + 1 -1 = 1$ & $0+0-0=0$\\
+            \hline         
+            \end{tabular}
+            \end{center}
+            Those first 3 sets along the top row of the table are
+            just the disjoint sets whose union is $A\cup B$. So:
+            $$\chi_{A\cup B} = \chi_A + \chi_B - 
+            \chi_A\cdot\chi_B$$         
+            \end{proof}
+        
+            \item $\chi_{A^c} = 1 - \chi_A$
+            \begin{proof}
+             We have that 
+            $$\chi_{A^c} = \left\{\begin{array}{lr}
+            1 & \text{if }x \in A^c \\
+            0 & \text{if }x \notin A^c
+            \end{array}\right.$$
+            So the characteristic function will equal 1 for $x$ in 
+            $A^c$ and 0 otherwise. This 
+            equivalent to $1 - \chi_A$, as 
+            described in this table:
+            \begin{center}
+            \begin{tabular}{|c|c|c|}
+            \hline
+             & $x \in A$ & $x\in A^c$ \\
+            \hline  
+            $1 - \chi_A$ & $1 - 1 = 0$ & 
+            $1 - 0  = 1$ \\
+            \hline         
+            \end{tabular}
+            \end{center}
+            So:
+            $$\chi_{A^c} = 1 - 
+            \chi_A$$         
+            \end{proof}
+        \ee
+        
+        \item Prove that the sum and product of two simple functions
+        $\varphi$ and $\psi$ are simple functions.
+        \begin{proof}
+        Let $\parens{X,\ \A}$ be a measurable space, and 
+        $\varphi: X \to \R,\ \psi: X \to \R$ be simple functions on 
+        that space such that:
+        $$\varphi(x) = \sum_{i=1}^n a_i\chi_{A_i}(x) \qquad 
+        \psi(x) = \sum_{i=1}^m b_i\chi_{B_i}(x)$$
+        for $a_i, A_i \in \A,\ 
+        i \in \bracks{1, \cdots, n}$ and $b_i, B_i \in \A,\ 
+        i \in \bracks{1, \cdots, m},\ n,m \in \N,\ n \leq m$.
+        \be
+        \item[Sum:] Now we define $\eta(x)$ as:
+        \begin{align*}
+        \eta(x) &= \varphi(x)+\psi(x) \\
+        &= \sum_{i=1}^n a_i\chi_{A_i}(x) +
+        \sum_{i=1}^m b_i\chi_{B_i}(x) \\
+        &= \sum_{i=1}^n a_i\chi_{A_i}(x) +
+        \sum_{i=1}^n b_i\chi_{B_i}(x) + 
+        \sum_{i=n+1}^m b_i\chi_{B_i}(x) \\ 
+        &= \sum_{i=1}^n \sqbracks{a_i\chi_{A_i}(x) +
+        b_i\chi_{B_i}(x)} + 
+        \sum_{i=n+1}^m b_i\chi_{B_i}(x) 
+        \end{align*}
+        Notice that
+        $$a_i\chi_{A_i}(x) + b_i\chi_{B_i}(x) = 
+        \left\{\begin{array}{ll}
+            a_i & \text{if }x \in A_i\backslash B_i \\
+            b_i & \text{if }x \in B_i\backslash A_i \\
+            a_i + b_i & \text{if }x \in A_i \cap B_i \\
+            0 & \text{if }x \in \parens{A\cup B}^c
+            \end{array}\right.$$
+        Which can also be re-expressed as 
+        $$a_i\chi_{A_i}(x) + 
+        b_i\chi_{B_i}(x) = a_i\chi_{A_i\backslash B_i}(x) + 
+        b_i\chi_{B_i\backslash A_i}(x) + \parens{a_i + b_i}\chi_{A_i}
+        (x)\cdot\chi_{B_i}(x)$$
+        then:
+        \begin{align*}
+        \eta(x) &= \sum_{i=1}^n \sqbracks{a_i\chi_{A_i}(x) +
+        b_i\chi_{B_i}(x)} + \sum_{i=n+1}^m b_i\chi_{B_i}(x) \\
+        &= \sum_{i=1}^n \sqbracks{a_i\chi_{A_i\backslash B_i}(x) + 
+        b_i\chi_{B_i\backslash A_i}(x) + \parens{a_i + b_i}\chi_{A_i}
+        (x)\cdot\chi_{B_i}(x)} + \sum_{i=n+1}^m b_i\chi_{B_i}(x) \\
+        &= \sum_{i=1}^n a_i\chi_{A_i\backslash B_i}(x) + \sum_{i=1}^n
+        b_i\chi_{B_i\backslash A_i}(x) + \sum_{i=1}^n
+        \parens{a_i + b_i}\chi_{A_i}
+        (x)\cdot\chi_{B_i}(x) + \sum_{i=n+1}^m b_i\chi_{B_i}(x) \\
+        \end{align*}
+        So we have that $\eta(x)$ is a sum of coefficients multiplied
+        by a characteristic function, so $\eta(x)$ is also a simple 
+        function.
+        \item[Product:] Now define $\zeta(x)$ as:
+        \begin{align*}
+        \zeta(x) &= \varphi(x)\cdot\psi(x) \\
+        &= \parens{\sum_{i=1}^n a_i\chi_{A_i}(x)}\cdot
+        \parens{\sum_{i=1}^m b_i\chi_{B_i}(x)} \\
+        &= \sum_{i=1}^n\sqbracks{a_i\chi_{A_i}\sum_{j=1}^m b_j
+        \chi_{B_j}} \\
+        &= \sum_{i=1}^n\sum_{j=1}^m a_ib_j\chi_{A_i}\chi_{b_j} \\
+        \end{align*}
+        Now, we define a new set of constants $c_{ij} = a_ib_j$ and 
+        a new countable family of sets $C_{ij} = A_i \cap B_j$. With
+        these, we have:
+        \begin{align*}
+        \zeta(x) &= \sum_{i=1}^n\sum_{j=1}^m a_ib_j\chi_{A_i}
+        \chi_{b_j} \\
+        &= \sum_{i=1}^n\sum_{j=1}^m c_{ij}\chi_{C_{ij}}
+        \end{align*}
+        By the indexing, we can see that there are $nm$ such 
+        constants and sets, as well as summands in the nested sum.
+        So, with a re-indexing, $\zeta(x)$ can be expressed like so
+        $$\zeta(x) = \sum_{k =1}^{nm} c_k\chi_{C_k}$$
+        which is the sum of coefficients and indicator functions; 
+        so $\zeta(x)$ is a simple function.
+        
+        \ee
+        
+        \end{proof}
+    \ee    
+        
+    \item Let $\parens{X,\A,\mu}$ be a measure space and $f,\ g$ be 
+    two Lebesgue integrable functions on $\parens{X,\A,\mu}$ such
+    that $f\leq g$ a.e. Assuming that if $f$ and $g$ are non-negative
+    functions, we have
+    $$\int_X f\ d\mu \leq \int_X g\ d\mu$$
+    prove that this inequality remains valid if $f$ and $g$ are 
+    arbitrary (i.e. not necessarily non-negative).\\
+    (Hint: decompose $f$ and $g$ with their respective positive
+    and negative parts.)
+    \begin{proof}
+    We have that $f \leq g$ a.e. so if we decompose them into 
+    their positive and negative components, we get
+    \begin{align*}
+    f &\leq g \\
+    f_+ - f_- &\leq g_+ - g_-
+    \end{align*}
+    From the non-negative case, we already have
+    $$f_+ \leq g_+ \implies \int f_+\ d\mu \leq \int g_+\ d\mu$$
+    And as $f_-$ and $g_-$ are simply the negative parts of $f$ and
+    $g$ reflected across the $x$ axis, we can also say:
+    $$g_- \leq f_- \implies \int g_-\ d\mu \leq \int f_-\ d\mu$$
+    The reason we we have that $g_- \leq f_-$ instead of the other 
+    way around is that 
+    $$\forall x,y \in \R, y < x < 0 \implies -y > -x > 0$$ 
+    Now if we multiply the second inequality by $-1$ and add them,
+    we have:
+    \begin{align*}
+    \parens{\int f_+\ d\mu \leq \int g_+\ d\mu} &+ 
+    \parens{-\int f_-\ d\mu \leq -\int g_-\ d\mu}\\
+    \implies \int f_+\ d\mu - \int f_-\ d\mu &\leq 
+    \int g_+\ d\mu - \int g_-\ d\mu \\
+    \int\parens{f_+ - f_-}\ d\mu &\leq \int\parens{g_+ - g_-}\ d\mu 
+    \\
+    \int f\ d\mu &\leq \int g\ d\mu
+    \end{align*}
+    Which is what we wanted to show for arbitrary functions $f$ and 
+    $g$, such that $f \leq g$ a.e.    
+    \end{proof}
+    
+    \item Let the function defined by $f = \one_{\sqbracks{-1,1}} +
+    3\cdot\one_{\sqbracks{-2,2}} + \one_{[0, \infty)} - 
+    \one_{\parens{3,\infty}}$.
+    \be 
+        \item Give a graph of $f$.\\
+        
+        \begin{figure}[h!]
+  	    \includegraphics[width=\linewidth]{HW2P4.jpg}
+  	    \centering
+	    \end{figure}
+        
+        \item Provide the expression of $f$ written as a simple 
+        function using disjoint sets.
+        \begin{proof}[Answer]
+        Graphing $f$ shows how it can be written as a simple function
+        on disjoint sets:
+        $$f = 3\cdot\one_{[-2,-1)} + 4\cdot\one_{[-1,0)} + 
+        5\cdot\one_{[0,1)} + 4\cdot\one_{[1,2)} + \one_{[2,3]}$$
+        \end{proof}
+        
+        \item Explain why $f$ is Lebesgue integrable. Compute 
+        $\int f\ d\lambda$ where $\lambda$ is the standard 
+        Lebesgue measure.
+        \begin{proof}[Answer]
+        $f$ is Lebesgue integrable because $f$ is non-negative for
+        all $X = \R$ and it is measurable, i.e. $f$ is finite on 
+        the disjoint sets that are elements of $\A$. As for the
+        integral itself, its value is given by 
+        \begin{align*}
+        \int f\ d\lambda &= 3\cdot\lambda\parens{[-2,-1)} + 
+        4\cdot\lambda\parens{[-1,0)} + 5\cdot\lambda\parens{[0,1)}
+        \\&\qquad + 4\cdot\lambda\parens{[1,2)} + \lambda\parens{[2,3]}\\
+        &= 4+5+4+3+1\\
+        &= 17
+        \end{align*}
+        \end{proof}
+    \ee
+\ee
+\noindent\makebox[\linewidth]{\rule{\paperwidth}{0.4pt}}
+	
+\end{document}

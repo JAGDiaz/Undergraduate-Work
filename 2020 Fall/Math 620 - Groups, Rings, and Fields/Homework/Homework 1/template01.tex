@@ -1,0 +1,295 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+% \usepackage{hyperref}
+
+\usepackage{amssymb}
+\usepackage{bm}
+%usepackage{amsfonts}%This is to have nice letters
+\usepackage{amsthm}
+\usepackage{enumerate}
+\usepackage{graphicx}
+\usepackage{psfrag}
+\usepackage{multicol}
+%usepackage{showkeys}
+\usepackage{color}
+\usepackage{url}
+% \usepackage{mathabx}
+
+\usepackage{algpseudocode}
+
+\usepackage{mathtools}
+
+\usepackage{xy}
+\input xy
+\xyoption{all}
+
+\setlength{\hoffset}{-0.5in}
+\addtolength{\textwidth}{1.0in}
+\setlength{\voffset}{-0.5in}
+\addtolength{\textheight}{1.0in}
+
+\newcommand{\excise}[1]{}%{$\star$\textsc{#1}$\star$}
+\newcommand{\comment}[1]{{$\star$\sf\textbf{#1}$\star$}}
+
+%\numberwithin{section}{part}
+%\renewcommand\thepart{\Roman{part}}
+% Theorem environments with italic font
+\newtheorem*{thm}{Theorem}
+\newtheorem*{lemma}{Lemma}
+\newtheorem*{claim}{Claim}
+\newtheorem*{cor}{Corollary}
+\newtheorem*{prop}{Proposition}
+\newtheorem*{conj}{Conjecture}
+\newtheorem*{question}{Question}
+\newtheorem*{prob}{Problem}
+
+\theoremstyle{definition}
+\newtheorem*{alg}{Algorithm}
+\newtheorem*{example}{Example}
+\newtheorem*{remark}{Remark}
+\newtheorem*{defn}{Definition}
+\newtheorem*{conv}{Convention}
+\newtheorem*{obs}{Observation}
+
+\numberwithin{equation}{section}
+
+%For numbered lists with arabic 1. 2. 3. numbering
+\renewcommand\labelenumi{\theenumi.}
+
+%For separated lists with consecutive numbering
+\newcounter{separated}
+
+\newcommand{\ring}[1]{\ensuremath{\mathbb{#1}}}
+
+%single characters, used in math mode
+\renewcommand\>{\rangle}
+\newcommand\<{\langle}
+\newcommand\0{\mathbf{0}}
+\newcommand\CC{\ring{C}}
+\newcommand\KK{{\mathcal K}}
+\newcommand\MM{{\mathcal M}}
+\newcommand\NN{\ring{N}}
+\newcommand\OO{{\mathcal O}}
+\newcommand\QQ{\ring{Q}}
+\newcommand\RR{\ring{R}}
+\newcommand\TT{{\mathcal T}}
+\newcommand\ZZ{\ring{Z}}
+\newcommand\dd{{\mathbf d}}
+\newcommand\kk{\Bbbk}
+\newcommand\mm{{\mathfrak m}}
+\newcommand\nn{{\mathfrak n}}
+\newcommand\pp{{\mathfrak p}}
+% \newcommand\qq{{\mathfrak q}}
+\newcommand\ww{{\mathbf w}}
+\newcommand\xx{{\mathbf x}}
+\newcommand\cA{{\mathcal A}}
+\newcommand\cB{{\mathcal B}}
+\newcommand\cC{{\mathcal C}}
+\newcommand\cG{{\mathcal G}}
+\newcommand\cP{{\mathcal P}}
+\newcommand\cW{{\mathcal W}}
+\newcommand\oA{\hspace{.35ex}\ol{\hspace{-.35ex}A\hspace{-.2ex}}\hspace{.2ex}}
+\newcommand\oJ{{\hspace{.45ex}\overline{\hspace{-.45ex}J}}}
+\newcommand\oQ{\hspace{.15ex}\ol{\hspace{-.15ex}Q\hspace{-.25ex}}\hspace{.25ex}}
+\newcommand\ttt{\mathbf{t}}
+\renewcommand\aa{{\mathbf a}}
+\newcommand\bb{{\mathbf b}}
+\newcommand\ee{{\mathbf e}}
+
+\newcommand\free{{\mathcal F}}
+\renewcommand\AA{{\mathcal A}}
+\newcommand\qq{{\mathsf q}}
+
+%roman font words for math mode
+\newcommand\gp{\mathrm{gp}}
+\newcommand\emb{\mathrm{emb}}
+\newcommand\tor{\mathrm{tor}}
+\renewcommand\th{\mathrm{th}}
+
+%math symbols without arguments
+\newcommand\app{\mathord\approx}
+\newcommand\can{0}
+\newcommand\iso{\cong}
+\newcommand\nil{\infty}
+\newcommand\ott{\ol\ttt{}}
+\newcommand\til{\mathord\sim}
+\newcommand\too{\longrightarrow}
+\newcommand\Iqp{I_q{}^{\hspace{-.7ex}P}}
+\newcommand\Irp{I_{\rho,P}}
+\newcommand\Isp{I_{\sigma,P}}
+\newcommand\Mwp{M_\ww^P}
+\newcommand\rqp{\rho_q^{\hspace{.2ex}P}}
+\newcommand\Iaug{I_{\mathrm{aug}}}
+\newcommand\Irpp{I_{\rho',P'}}
+\newcommand\MipI{M_\infty^P(I)}
+\newcommand\MrpI{M_\rho^P(I)}
+\newcommand\MspI{M_\sigma^P(I)}
+\newcommand\MwpI{M_\ww^P(I)}
+\newcommand\Qlqp{Q_{\preceq q}^P}
+\newcommand\Qlwp{Q_{\preceq w}^P}
+\newcommand\WwpI{W_\ww^P(I)}
+\newcommand\appq{\begin{array}{@{}c@{}} \\[-4ex]\scriptstyle\app%
+					\\[-1.6ex]q\\[-.3ex]\end{array}}
+\newcommand\appw{\begin{array}{@{}c@{}} \\[-4ex]\scriptstyle\app%
+					\\[-1.6ex]w\\[-.3ex]\end{array}}
+\newcommand\into{\hookrightarrow}
+\newcommand\onto{\twoheadrightarrow}
+\newcommand\rqpP{\rho_q^{\hspace{.2ex}P'}}
+\newcommand\rpqP{\rho_{p+q}^{\hspace{.2ex}P}}
+\newcommand\spot{{\hbox{\raisebox{1.7pt}{\large\bf .}}\hspace{-.5pt}}}
+\newcommand\void{{\{\}}}
+%newcommand\defas{:=}
+\newcommand\minus{\smallsetminus}
+\newcommand\nothing{\varnothing}
+\newcommand\appqscript{{\begin{array}{@{}c@{}}%
+			\\[-4.8ex]\scriptscriptstyle\app%
+			\\[-1.9ex]\scriptstyle q\\[-1ex]%
+			\end{array}}}
+\renewcommand\iff{\Leftrightarrow}
+\renewcommand\implies{\Rightarrow}
+
+%math symbols taking arguments
+\def\ol#1{{\overline {#1}}}
+\def\wh#1{{\widehat {#1}}}
+\def\wt#1{{\widetilde {#1}}}
+\newcommand\set[1]{\{#1\}}
+\newcommand\abs[1]{|#1|}
+
+%Math operators
+\DeclareMathOperator\Hom{Hom} % Hom
+\DeclareMathOperator\image{Im} % Hom
+% \DeclareMathOperator\Mod{-Mod} % Q-Mod, R-Mod
+\DeclareMathOperator\ann{ann} % Annihilator
+\DeclareMathOperator\Ass{Ass} % Associated Primes 
+\DeclareMathOperator\sat{sat} % saturation of a lattice
+\DeclareMathOperator\soc{soc} % socle of a module
+\DeclareMathOperator\Hull{Hull} % Hull - localization
+\DeclareMathOperator\Spec{Spec} %
+\DeclareMathOperator\coker{coker} % cokernel
+\DeclareMathOperator\Aut{Aut} % Aut
+
+\DeclareMathOperator\lcm{lcm} % lcm
+\DeclareMathOperator\Ap{Ap} % Apery set
+\DeclareMathOperator\supp{supp} % support
+\DeclareMathOperator\bul{bul} % bullets
+\DeclareMathOperator\mbul{mbul} % maximal bullets
+
+
+% Replaces \atop
+\newcommand{\aoverb}[2]{{\genfrac{}{}{0pt}{1}{#1}{#2}}}
+%0 = displaystyle               in the 4th argument
+%1 = textstyle
+%2 = scriptstyle
+%3 = scriptscriptstyle
+\def\twoline#1#2{\aoverb{\scriptstyle {#1}}{\scriptstyle {#2}}}
+
+
+\begin{document}
+
+\begin{center}
+\textbf{Fall 2020, Math 620:\ Week 1 Problem Set} \\
+\textbf{Due:\ Thursday, September 3rd, 2020} \\
+\textbf{Introduction to Groups} \\
+\textbf{Name:\ \underline{WRITE NAME HERE}} \\
+\textbf{Collaborators:\ \underline{LIST COLLABORATORS HERE}}
+\end{center}
+
+
+\bigskip
+\noindent
+\textbf{Homework problems.}
+You must submit \emph{all} homework problems in order to receive full credit.  
+
+\begin{enumerate}[(H1)]
+\item 
+Determine whether each of the following sets $G$ form a group under the given operation $*$.  Prove your assertions.  
+
+\begin{enumerate}[(a)]
+\item 
+$G = \{1, 3, 5, 7, 9\} \subset \ZZ_{10}$; $a * b = ab$ (i.e.\ standard multiplication in $\ZZ_{10}$).  
+
+\begin{proof}[Answer]
+
+\end{proof}
+
+
+\item 
+$G = \RR$; $a * b = a + b + 3$.  
+
+\begin{proof}[Answer]
+
+\end{proof}
+
+
+\item 
+$G$ is the set of nonzero real numbers; $a * b = |a| \cdot b$.  
+
+\begin{proof}[Answer]
+
+\end{proof}
+
+\end{enumerate}
+
+
+\item 
+Suppose $G$ is a group and $a, b, c \in G$.  Prove each of the following statements 
+Using \textbf{only group axioms}, prove that if $ab = ac$, then $b = c$.  Be especially careful with associativity!  In particular, any triple products $xyz$ should be written as either $(xy)z$ or $x(yz)$.  
+
+\begin{proof}
+
+\end{proof}
+
+
+\item 
+Determine whether each of the following statements is true or false.  Prove your assertions.  
+
+\begin{enumerate}
+\item 
+If $(G, \cdot)$ is a group and $a, b \in G$, then $(ab)^{-1} = b^{-1}a^{-1}$.  
+
+\begin{proof}[Answer]
+
+\end{proof}
+
+
+\item 
+If $(G, \cdot)$ is a group and $a, b, \in G$ with $|a| = n$ and $|b| = m$, then $|ab| \le \lcm(n,m)$.  
+
+\begin{proof}[Answer]
+
+\end{proof}
+
+\end{enumerate}
+
+\end{enumerate}
+
+
+
+\bigskip
+\noindent
+\textbf{Challenge problems.}
+Challenge problems are not required for submission, but bonus points will be awarded for submitting a partial attempt or a complete solution.  
+
+\begin{enumerate}[(C1)]
+\item 
+Suppose $(G, *)$ is a group, where $G = \{0, 1, 2, 3, 4, 5, 6, 7\}$ and $*$ is an operation satisfying
+\begin{enumerate}[(i)]
+\item 
+$a * b \le a + b$ for every $a, b \in G$, and
+
+\item 
+$a * a = 0$ for every $a \in G$.  
+
+\end{enumerate}
+
+Write out the operation table for $G$, and \textbf{briefly} justify why this is the only possibility.  
+
+\begin{proof}
+
+\end{proof}
+
+\end{enumerate}
+
+\end{document}
+

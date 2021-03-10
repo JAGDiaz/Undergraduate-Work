@@ -1,0 +1,463 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{bm}
+\usepackage{amsthm}
+\usepackage{enumerate}
+\usepackage{graphicx}
+\usepackage{psfrag}
+\usepackage{color}
+\usepackage{url}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{positioning}
+\tikzset{main node/.style={circle,fill=gray!20,draw,minimum size=.5cm,inner sep=0pt},}
+
+% In line code stuff%
+\definecolor{codegreen}{rgb}{0,0.5,0}
+\definecolor{codewhite}{rgb}{1,1,1}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{codeblack}{rgb}{0,0,0}
+\definecolor{codeorange}{rgb}{0.8,0.4,0}
+
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{codewhite},   
+    commentstyle=\color{codegray},
+    keywordstyle=\color{codegreen},
+    numberstyle=\color{codegray},
+    stringstyle=\color{codeorange},
+    basicstyle=\ttfamily ,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=4
+}
+\lstset{style=mystyle}
+\setlength{\hoffset}{-1in}
+\addtolength{\textwidth}{1.5in}
+\setlength{\voffset}{-1in}
+\addtolength{\textheight}{1.5in}
+
+% Custom commands%
+\newcommand{\be}{\begin{enumerate}}
+\newcommand{\ee}{\end{enumerate}}
+\newcommand{\BigO}[1]{\ensuremath\mathcal{O}\left(#1\right)}
+\newcommand{\il}[1]{\lstinline!#1!}
+\newcommand{\norm}[1]{\left|\left|#1\right|\right|}
+\newcommand{\abs}[1]{\left|#1\right|}
+\newcommand{\parens}[1]{\left(#1\right)}
+\newcommand{\bracks}[1]{\left\{#1\right\}}
+\newcommand{\sqbracks}[1]{\left[#1\right]}
+\newcommand{\vep}{\varepsilon}
+\newcommand{\ceiling}[1]{\left\lceil#1\right\rceil}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\F}{\mathbb{F}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\A}{\mathcal{A}}
+\newcommand{\hilbert}{\mathcal{H}}
+\newcommand{\distrib}[2]{\text{#1}\left(#2\right)}
+\newcommand{\dd}[2]{\frac{d#1}{d#2}}
+\newcommand{\abracks}[1]{\left< #1\right>}
+\newcommand{\nullspace}[1]{\text{null }#1}
+\newcommand{\LT}[1]{\mathcal{L}\parens{#1}}
+\newcommand{\poly}[2]{\mathcal{P}_{#1}\parens{#2}}
+\newcommand{\cont}[3]{\mathcal{C}_{#1}^{#2}\parens{#3}}
+\newcommand{\range}[1]{\text{range }#1}
+\newcommand{\one}{\mathbbm{1}}
+
+\begin{document}
+	\begin{center}
+		\textbf{Fall 2020, Math 630:\ Final} \\
+		\textbf{Due:\ December 20th, 2020} \\
+		\textbf{Joseph Diaz: 819947915}
+	\end{center}
+\noindent\makebox[\linewidth]{\rule{\paperwidth}{0.4pt}}
+\be[(E1)]
+    \item In this problem, all functions are real-valued functions. Define the operator
+    $$\forall f \in L^2([0,1]),\ \forall x \in [0,1],\ \parens{Tf}(x) = 
+    \int_0^x f(t)\ dt$$
+    and denote 
+    $$\chi_{[a,b]}(t) = \left\{
+    \begin{array}{ll}
+    1 & \quad \text{if }t \in [a,b] \\
+    0 & \quad \text{otherwise}
+    \end{array}
+    \right.$$
+    Notice that $\chi_{[0,x]}(t) = \chi_{[t,1]}(x)$
+    \be[1.]
+        \item Show that $T$ is defined (i.e $\abs{Tf(x)} < \infty$). Hint: Rewrite 
+        $Tf$ as the inner product of $f$ and $\chi_{[0,x]}$.
+        \begin{proof}
+        By it's definition, we have that $\forall f \in L^2([0,1]),\ \forall x \in [0,1]$
+        $$Tf(x) = \int_0^x f(t)\ dt = \int_0^1 f(t)\chi_{[0,x]}(t)\ dt =
+        \abracks{f, \chi_{[0,x]}}_{L^2}$$
+        then, by Cauchy-Schwartz:
+        $$\abs{Tf(x)} = \abs{\abracks{f, \chi_{[0,x]}}_{L^2}} \leq 
+        \norm{f}_{L^2}\norm{\chi_{[0,x]}}_{L^2}$$
+        Since $f \in L^2([0,1])$ we know that $\norm{f}_{L^2}$ is finite, so now we 
+        find $\norm{\chi_{[0,x]}}_{L^2}$
+        $$\norm{\chi_{[0,x]}}_{L^2} = \parens{\int_0^1 \parens{\chi_{[0,x]}(t)}^2\ dt}^{1/2} = 
+        \parens{\int_0^x 1\ dt}^{1/2} = \sqrt{x}$$
+        Finally, we have 
+        $$\abs{Tf(x)} \leq \norm{f}_{L^2}\norm{\chi_{[0,x]}}_{L^2} = \norm{f}_{L^2}\sqrt{x} 
+        \leq \norm{f}_{L^2} < \infty$$
+        and $T$ is defined.
+        \end{proof}
+
+        \item Show that $T: L^2([0,1]) \to L^2([0,1])$ is a continuous linear mapping.
+        \begin{proof}
+        To show that $T$ is a continuous mapping, we'll show that $T$ is a bounded 
+        operator. $T$ is a linear map because $T$ is an integral tranform, which is 
+        linear. Let $f \in L^2([0,1])$; then, by defintion, we have
+        \begin{align*}
+        \norm{Tf}_{L^2} &= \parens{\int_0^1 \abs{Tf(x)}^2\ dx}^{1/2} \\
+        &= \parens{\int_0^1 \abs{\abracks{f, \chi_{[0,x]}}_{L^2}}^2\ dx}^{1/2} \\
+        &\leq \parens{\int_0^1 \norm{f}_{L^2}^2\norm{\chi_{[0,x]}}_{L^2}^2\ dx}^{1/2} \\
+        &= \norm{f}_{L^2}\parens{\int_0^1x\ dx}^{1/2} = \norm{f}_{L^2}
+        \parens{\frac{x^2}{2}\Big|_0^1}^{1/2} \\
+        &= \frac{1}{\sqrt{2}}\norm{f}_{L^2}
+        \end{align*}
+        So we have that 
+        $$\forall f \in L^2([0,1]),\ \norm{Tf}_{L^2} \leq \frac{1}{\sqrt{2}}\norm{f}_{L^2}$$
+        So $T$ is bounded and, therefore, continuous. 
+        \end{proof}
+
+        \item Find the adjoint operator, $T^*$, of $T$.
+        \begin{proof}[Answer]
+        Let $f,g \in L^2([0,1])$, then 
+        \begin{align*}
+        \abracks{Tf, g}_{L^2} &= \int_0^1 \parens{\int_0^x f(t)\ dt}g(x)\ dx = 
+        \int_0^1 \parens{\int_0^1 f(t)\chi_{[0,x]}(t)\ dt}g(x)\ dx \\
+        &= \int_0^1 \parens{\int_0^1 f(t)\chi_{[t,1]}(x)\ dt}g(x)\ dx = 
+        \int_0^1 f(t)\parens{\int_0^1 \chi_{[t,1]}(x)g(x)\ dx}\ dt \\
+        &= \int_0^1 f(t)\parens{\int_t^1 g(x)\ dx}\ dt \\
+        &= \abracks{f, T^*g}_{L^2}
+        \end{align*}
+        So, by inspection, we have that 
+        $$T^*g(x) = \int_x^1 g(t)\ dt$$
+        \end{proof}
+    \ee
+
+    \item Let $\parens{M, \abracks{\cdot, \cdot}}$ be an inner product space. Prove 
+    Apollonius' identity:
+    $$\forall x,y,z \in M,\ \norm{z-x}^2 + \norm{z-y}^2 = \frac{1}{2}\norm{x-y}^2 + 
+    2\norm{z - \frac{x+y}{2}}^2$$
+    \begin{proof}
+    We'll prove this using the parallelogram law; let 
+    $x,y,z \in M$, then:
+    \begin{align*}
+    2\parens{\norm{z-x}^2 + \norm{z-y}^2} &= \norm{z-x+z-y}^2 + \norm{z-x-z+y}^2 \\
+    &= \norm{2z-(x+y)}^2 + \norm{y-x}^2 \\
+    &= 2^2\norm{z-\frac{x+y}{2}}^2 + \norm{x-y}^2 
+    \end{align*}
+    Now, divide both sides of the equation by $2$ and we have 
+    $$\norm{z-x}^2 + \norm{z-y}^2 = \frac{1}{2}\norm{x-y}^2 + 2\norm{z - \frac{x+y}{2}}^2$$
+    as desired.
+    \end{proof}
+
+    \item Let $H$ be an inner product space. Show that
+    $$\forall T \in \mathcal{B}(H),\ \norm{T} = 
+    \sup_{\substack{\norm{x}\leq 1 \\ \norm{y}\leq1}}\abs{\abracks{Tx, y}}$$
+    Hint: Consider the linear functional defined by $\forall y \in H,\ \varphi_{Tx}(y)
+    = \abracks{y, Tx}$.
+    \begin{proof}
+    First, let $\varphi_{Tx}$ be a linear functional on $H$ such that 
+    $$\forall y \in H,\ \varphi_{Tx}(y) = \abracks{y,Tx}$$
+    Now, by the definition of the operator norm we have 
+    $$\norm{T} = \sup_{\norm{x} = 1} \norm{Tx}$$
+    By proposition 6.5.5 in the lecture notes, it is the case that 
+    $$\norm{Tx} = \norm{\varphi_{Tx}} = \sup_{\norm{y}=1}\abs{\abracks{y, Tx}}$$
+    With this in mind, we can rewrite $\norm{T}$ as 
+    \begin{align*}
+    \norm{T} &= \sup_{\norm{x} = 1} \norm{Tx} = \sup_{\substack{\norm{x} = 1 \\
+    \norm{y} = 1}}\abs{\abracks{y, Tx}} \\
+    &= \sup_{\substack{\norm{x} = 1\\\norm{y} = 1}}\abs{\overline{\abracks{Tx, y}}} = 
+    \sup_{\substack{\norm{x} = 1\\\norm{y} = 1}}\abs{\abracks{Tx, y}}
+    \end{align*}
+    Since this is the supremum among all unit vectors $x, y \in H$, it is also satisfied
+    for any two vectors with norm less than or equal to 1; therefore 
+    $$\forall T \in \mathcal{B}(H),\ \norm{T} = 
+    \sup_{\substack{\norm{x}\leq 1 \\ \norm{y}\leq1}}\abs{\abracks{Tx, y}}$$
+    as desired.
+    \end{proof}
+
+    \item Let $\hilbert$ be a Hilbert space and $P_1,\ P_2$ be two orthogonal projections on 
+    $\hilbert$, where $P_1 \neq P_2$ and $P_1,P_2 \neq 0$. Define the operator $P$ such 
+    that
+    $$\forall \lambda_1, \lambda_2 \in \C,\ P = \lambda_1P_1 + \lambda_2P_2$$
+    \be[1.] 
+        \item Prove that $P$ is self-adjoint if and only if $\lambda_1, \lambda_2 \in \R$.
+        \begin{proof}
+        We'll prove this from the left and from the right.
+        \be
+            \item[$\Longrightarrow$:]
+            Suppose that $P$ is self-adjoint, this implies that $\forall x,y \in 
+            \hilbert$
+            \begin{align*}
+            \abracks{Px, y} &= \abracks{x, Py} \\
+            &= \abracks{x, (\lambda_1P_1 + \lambda_2P_2)y} \\
+            &= \abracks{x, \lambda_1P_1y + \lambda_2P_2y} \\
+            &= \abracks{x, \lambda_1P_1y} + \abracks{x, \lambda_2P_2y} \\
+            &= \overline{\lambda}_1\abracks{x, P_1y} + \overline{\lambda}_2\abracks{x, P_2y} \\
+            \end{align*} 
+            $P_1$ and $P_2$ are orthogonal projections, so they are themselves self-adjoint.
+            \begin{align*}
+            \abracks{Px, y} &= \overline{\lambda}_1\abracks{x, P_1y} + 
+            \overline{\lambda}_2\abracks{x, P_2y} \\
+            &= \overline{\lambda}_1\abracks{P_1x, y} + \overline{\lambda}_2\abracks{P_2x, y} \\
+            &= \abracks{(\overline{\lambda}_1P_1 + \overline{\lambda}_2P_2)x, y} \\
+            \end{align*} 
+            By inspection, this means that $P = \overline{\lambda}_1P_1 + 
+            \overline{\lambda}_2P_2$ and
+            \begin{gather*}
+            P = \lambda_1P_1 + \lambda_2P_2 = \overline{\lambda}_1P_1 + \overline{\lambda}_2P_2\\
+            \implies (\lambda_1- \overline{\lambda}_1)P_1 + 
+            (\lambda_2- \overline{\lambda}_2)P_2 = 0\\
+            \end{gather*}
+            Neither $P_1$ nor $P_2$ are zero, so we have that 
+            \begin{gather*}
+            \lambda_1 - \overline{\lambda}_1 = 0,\quad \lambda_2 - \overline{\lambda}_2 = 0\\
+            \implies \lambda_1 = \overline{\lambda}_1,\quad \lambda_2 = \overline{\lambda}_2
+            \end{gather*}
+            Since $\lambda_1$ and $\lambda_2$ are equal to their own complex conjugates, it is 
+            the case that $\lambda_1$ and $\lambda_2$ are real numbers.\\
+
+            \item[$\Longleftarrow$:] 
+            Suppose that $\lambda_1$ and $\lambda_2$ are real numbers. Now, let $x, y \in 
+            \hilbert$ and we will find the adjoint of $P$:
+            \begin{align*}
+            \abracks{Px, y} &= \abracks{\parens{\lambda_1P_1 + \lambda_2P_2}x, y} \\
+            &= \abracks{\lambda_1P_1x + \lambda_2P_2x, y} \\
+            &= \lambda_1\abracks{P_1x, y} + \lambda_2\abracks{P_2x, y} \\
+            &= \lambda_1\abracks{x, P_1y} + \lambda_2\abracks{x, P_2y} \\
+            &= \abracks{x, \overline{\lambda}_1P_1y} + \abracks{x, \overline{\lambda}_2P_2y} \\
+            &= \abracks{x, \overline{\lambda}_1P_1y + \overline{\lambda}_2P_2y} \\
+            &= \abracks{x, \parens{\overline{\lambda}_1P_1 + \overline{\lambda}_2P_2}y} \\
+            \end{align*}
+            So, by inpsection, we can deduce that $P^* = \overline{\lambda}_1P_1 + 
+            \overline{\lambda}_2P_2$. However, $\lambda_1$ and $\lambda_2$ are real, therefore 
+            $\overline{\lambda}_1 = \lambda_1$ and $\overline{\lambda}_2 = \lambda_2$. Hence;
+            $$P^* = \overline{\lambda}_1P_1 + \overline{\lambda}_2P_2 = 
+            \lambda_1P_1 + \lambda_2P_2 = P$$
+            and $P$ is self-adjoint.
+        \ee
+        \end{proof}
+
+        \item Prove that if $\range{P_1}\perp \range{P_2}$, then $PP^* = P^*P$.
+        \begin{proof}
+        In part 1 of this problem, we found that
+        $$P^* = \overline{\lambda}_1P_1 + \overline{\lambda}_2P_2$$
+        To show that $P$ is normal, we'll show that $\forall x \in \hilbert,\ \norm{Px} = 
+        \norm{P^*x}$. We have that $\range{P_1} \perp \range{P_2}$, so 
+        $$\forall x \in \hilbert,\ \lambda_1, \lambda_2 \in \C,\ 
+        \lambda_1P_1x \perp \lambda_2P_2x$$
+        From this, the Pythagorean Theorem gives
+        \begin{align*}
+        \norm{Px} &= \norm{\lambda_1P_1x + \lambda_2P_2x} = \sqrt{\norm{\lambda_1P_1x}^2 + 
+        \norm{\lambda_2P_2x}^2} \\
+        &= \sqrt{\abs{\lambda_1}\norm{P_1x}^2 + \abs{\lambda_2}\norm{P_2x}^2}
+        \end{align*}
+        and
+        \begin{align*}
+        \norm{P^*x} &= \norm{\overline{\lambda}_1P_1x + \overline{\lambda}_2P_2x} = 
+        \sqrt{\norm{\overline{\lambda}_1P_1x}^2 + \norm{\overline{\lambda}_2P_2x}^2} \\
+        &= \sqrt{\abs{\overline{\lambda}_1}\norm{P_1x}^2 + \abs{\overline{\lambda}_2}
+        \norm{P_2x}^2}
+        \end{align*}
+        But $\forall \alpha \in \C,\ \abs{\alpha} = \abs{\overline{\alpha}}$, 
+        so we can conclude that 
+        $$\norm{Px} = \sqrt{\abs{\lambda_1}\norm{P_1x}^2 + \abs{\lambda_2}\norm{P_2x}^2} = 
+        \sqrt{\abs{\overline{\lambda}_1}\norm{P_1x}^2 + \abs{\overline{\lambda}_2}
+        \norm{P_2x}^2} = \norm{P^*x}$$
+        Finally, this implies that
+        \begin{align*}
+        \norm{Px} = \norm{P^*x} \\
+        \norm{Px}^2 = \norm{P^*x}^2 \\
+        \abracks{Px, Px} = \abracks{P^*x, P^*x} \\
+        \abracks{P^*Px, x} = \abracks{PP^*x, x} \\
+        \abracks{P^*Px, x} - \abracks{PP^*x, x}=0 \\
+        \abracks{P^*Px - PP^*x, x}=0 \\
+        \abracks{(P^*P - PP^*)x, x}=0 \\
+        \implies P^*P - PP^* = 0 \\
+        P^*P = PP^*
+        \end{align*}
+        which is what we wanted to show.
+        \end{proof}
+    \ee
+
+    \item \textbf{Haar wavelets}\\
+    Throughout this problem, we consider the space $L^2$ equipped with its standard inner 
+    product. As usual, we denote
+    $$\delta_{m,n} = \left\{
+    \begin{array}{ll}
+    1 & \quad \text{if }m=n\\
+    0 & \quad \text{otherwise}
+    \end{array}    
+    \right.$$
+    Let $\varphi$ be a function defined by $\varphi(x) = 1$ for $x \in [0,1)$ and $\varphi(x) 
+    = 0$ otherwise. Let $\psi(x) = \varphi(2x) - \varphi(2x-1)$.
+    \be[1.]
+        \item Sketch the graphs of $\varphi(x)$ and $\psi(x)$.
+        \begin{center}
+            \includegraphics[width=\linewidth]{"phi_and_psi.png"}
+        \end{center}
+        \item Haar Wavelets are the functions defined by $\psi_{m,n}(x) = 2^{m/2}\psi(2^mx-n)$
+        for $m,n \in \Z$. Sketch the functions $\psi_{0,1}, \psi_{0,2}, \psi_{1,0}, 
+        \psi_{-1,0}$ and conclude how the parameters $m,n$ act on the behaviour of 
+        $\psi_{m,n}$.
+        \begin{center}
+            \includegraphics[width=\linewidth]{"psi_m_n.png"}
+        \end{center}
+        \begin{proof}[Comments]
+        It seems to be that the $m$ parameter both controls the width of each 
+        ``square wave'' produced and the amplitude of the wave. Larger values of 
+        $m$ increase the amplitude of the wave and also shrink the length of the interval 
+        it occurs in. $n$ merely translates the wave to different intervals in $\R$ other 
+        than $[0,1)$.
+        \end{proof}
+
+        \item Give the expression for $\abracks{\psi_{m_1,n_1}, \psi_{m_2,n_2}}$ and prove 
+        that $\abracks{\psi_{m_1,n_1}, \psi_{m_2,n_2}} = \delta_{m_1, m_2}\delta_{n_1,n_2}$.
+        \begin{proof}
+        From the inner product on $L^2\parens{\R}$, we have
+        \begin{align*}
+        \abracks{\psi_{m_1,n_1}, \psi_{m_2,n_2}} &= \int_{-\infty}^\infty \psi_{m_1, n_1}(x)
+        \overline{\psi_{m_2, n_2}}(x)\ dx \\
+        &= \int_{-\infty}^\infty \psi_{m_1, n_1}(x)\psi_{m_2, n_2}(x)\ dx \\
+        \end{align*}
+        Now, we consider some cases.\\\\
+        \textbf{$m_1 = m_2 = m$ and $n_1 = n_2 = n$}:\\
+        \begin{align*}
+        \abracks{\psi_{m_1,n_1}, \psi_{m_2,n_2}} &= \abracks{\psi_{m,n}, \psi_{m,n}} \\
+        &= \int_{-\infty}^\infty \parens{\psi_{m, n}(x)}^2\ dx \\
+        &= \int_{-\infty}^\infty \parens{2^{m/2}\psi(2^mx - n)}^2\ dx \\
+        &= \int_{-\infty}^\infty 2^m\parens{\psi(2^mx - n)}^2\ dx \\
+        &= \int_{-\infty}^\infty \parens{\psi(u)}^2\ du \quad (\text{Letting }u = 2^mx-n) \\
+        &= \int_{-\infty}^\infty \parens{\varphi(2u) - \varphi(2u-1)}^2\ du \\
+        &= \int_0^{1/2} (1-0)^2\ du + \int_{1/2}^1 (0-1)^2\ du \\
+        &=\int_0^{1/2} 1\ du + \int_{1/2}^1 1\ du = 1
+        \end{align*}
+        So for this case $\abracks{\psi_{m_1,n_1}, \psi_{m_2,n_2}} = 1$.\\\\
+        \textbf{$m_1 = m_2 = m$ and $n_1 \neq n_2$}:\\
+        \begin{align*}
+        \abracks{\psi_{m_1,n_1}, \psi_{m_2,n_2}} &= \abracks{\psi_{m,n_1}, \psi_{m,n_2}} \\
+        &= \int_{-\infty}^\infty \psi_{m, n_1}(x)\psi_{m,n_2}(x)\ dx \\
+        &= \int_{-\infty}^\infty 2^m\psi(2^mx - n_1)\psi(2^mx - n_2)\ dx \\
+        &= \int_{-\infty}^\infty \psi(u - n_1)\psi(u - n_2)\ du \quad (\text{Letting }u = 2^mx)\\
+        &= \int_{-\infty}^\infty \parens{\varphi(2u-2n_1) - \varphi(2u-2n_1 -1)}
+        \parens{\varphi(2u-2n_2) - \varphi(2u-2n_2 -1)}\ dt \\
+        \end{align*}
+        The interval on which $\varphi(2u-2n_1) - \varphi(2u-2n_1 -1)$ is non-zero is 
+        $[n_1, n_1+1)$ and the interval on which $\varphi(2u-2n_1) - \varphi(2u-2n_1 -1)$
+        is non-zero is $[n_2, n_2+1)$. Since $n_1\neq n_2$, the intervals are disjoint 
+        and there is no $u$ for which both parts of the product are non-zero simultaneously.
+        Therefore, we have that 
+        $$\int_{-\infty}^\infty \parens{\varphi(2u-2n_1) - \varphi(2u-2n_1 -1)}
+        \parens{\varphi(2u-2n_2) - \varphi(2u-2n_2 -1)}\ dt = 0$$
+        So for this case $\abracks{\psi_{m_1,n_1}, \psi_{m_2,n_2}} = 0$.\\\\
+        \textbf{$m_1 \neq m_2$ and $n_1 = n_2 = n$}:\\
+        \begin{align*}
+        \abracks{\psi_{m_1,n_1}, \psi_{m_2,n_2}} &= \abracks{\psi_{m_1,n}, \psi_{m_2,n}} \\
+        &= \int_{-\infty}^\infty \psi_{m_1, n}(x)\psi_{m_2,n}(x)\ dx \\
+        &= \int_{-\infty}^\infty 2^{m_1/2}\psi(2^{m_1}x - n)2^{m_2/2}\psi(2^{m_2}x - n)\ dx \\
+        &= \int_{-\infty}^\infty \Bigg[2^{\frac{m_1+m_2}{2}}
+        \parens{\varphi(2^{m_1+1}x-2n) - \varphi(2^{m_1+1}-2n -1)}\\
+        &\qquad\qquad\qquad\quad \parens{\varphi(2^{m_2+1}x-2n) - \varphi(2^{m_2+1}-2n -1)}
+        \Bigg]\ dx \\
+        \end{align*}
+        The interval on which $\varphi(2^{m_1+1}x-2n) - \varphi(2^{m_1+1}x-2n -1)$ 
+        is non-zero is $\left[\frac{n}{2^{m_1}}, \frac{n+1}{2^{m_1}}\right)$ and the 
+        interval on which $\varphi(2^{m_2+1}x-2n) - \varphi(2^{m_2+1}x-2n -1)$ is non-zero is 
+        $\left[\frac{n}{2^{m_2}}, \frac{n+1}{2^{m_2}}\right)$. Since $m_1\neq m_2$, the
+        intervals are disjoint and there is no $x$ for which both parts of the product are 
+        non-zero simultaneously. Therefore, we have that 
+        \begin{align*}
+        &\int_{-\infty}^\infty \Bigg[2^{\frac{m_1+m_2}{2}}
+        \parens{\varphi(2^{m_1+1}x-2n) - \varphi(2^{m_1+1}-2n -1)}\\
+        &\qquad\qquad\qquad\quad \parens{\varphi(2^{m_2+1}x-2n) - \varphi(2^{m_2+1}-2n -1)}
+        \Bigg]\ dx = 0 
+        \end{align*}
+        So for this case $\abracks{\psi_{m_1,n_1}, \psi_{m_2,n_2}} = 0$.\\\\
+        \textbf{$m_1 \neq m_2$ and $n_1 \neq n_2$}:\\
+        \begin{align*}
+        \abracks{\psi_{m_1,n_1}, \psi_{m_2,n_2}} 
+        &= \int_{-\infty}^\infty \psi_{m_1, n_1}(x)\psi_{m_2,n_2}(x)\ dx \\
+        &= \int_{-\infty}^\infty 2^{m_1/2}\psi(2^{m_1}x - n_1)2^{m_2/2}\psi(2^{m_2}x-n_1)\ dx \\
+        &= \int_{-\infty}^\infty \Bigg[2^{\frac{m_1+m_2}{2}}
+        \parens{\varphi(2^{m_1+1}x-2n_1) - \varphi(2^{m_1+1}-2n_1 -1)}\\
+        &\qquad\qquad\qquad\quad \parens{\varphi(2^{m_2+1}x-2n_1) - \varphi(2^{m_2+1}-2n_1-1)}
+        \Bigg]\ dx \\
+        \end{align*}
+        The interval on which $\varphi(2^{m_1+1}x-2n_1) - \varphi(2^{m_1+1}x-2n_1-1)$ 
+        is non-zero is $\left[\frac{n_1}{2^{m_1}}, \frac{n_1+1}{2^{m_1}}\right)$ 
+        and the interval on which $\varphi(2^{m_2+1}x-2n_2) - \varphi(2^{m_2+1}x-2n_2 -1)$ 
+        is non-zero is $\left[\frac{n_2}{2^{m_2}}, \frac{n_2+1}{2^{m_2}}\right)$. Since 
+        $m_1\neq m_2$ and $n_1\neq n_2$, the intervals are disjoint and there is no $x$ 
+        for which both parts of the product are non-zero simultaneously. Therefore, we 
+        have that 
+        \begin{align*}
+        &\int_{-\infty}^\infty \Bigg[2^{\frac{m_1+m_2}{2}}
+        \parens{\varphi(2^{m_1+1}x-2n_1) - \varphi(2^{m_1+1}-2n_1 -1)}\\
+        &\qquad\qquad\qquad\quad \parens{\varphi(2^{m_2+1}x-2n_2) - \varphi(2^{m_2+1}-2n_2 -1)}
+        \Bigg]\ dx = 0 
+        \end{align*}
+
+        So for this case $\abracks{\psi_{m_1,n_1}, \psi_{m_2,n_2}} = 0$.\\\\
+        Finally, this implies that 
+        $$\abracks{\psi_{m_1,n_1}, \psi_{m_2,n_2}} = \left\{
+        \begin{array}{ll}
+        1 & \quad \text{if }m_1 = m_2 \text{ and }n_1 = n_2 \\
+        0 & \quad \text{otherwise}    
+        \end{array}    
+        \right.$$
+        This is the equivalent to $\abracks{\psi_{m_1,n_1}, \psi_{m_2,n_2}} = \delta_{m_1,m_2}
+        \delta_{n_1,n_2}$.
+        \end{proof} 
+
+        \item Using the previous result, give $\norm{\psi_{m,n}}$. How can we qualify the set 
+        of functions $\bracks{\psi_{m,n}}$?
+        \begin{proof}
+        From part 3, we can deduce that 
+        $$\norm{\psi_{m,n}} = \sqrt{\abracks{\psi_{m,n}, \psi_{m,n}}} = \sqrt{\delta_{m,m}
+        \delta_{n,n}} = \sqrt{1} = 1$$
+        So each function $\psi_{m,n}$ has a norm of 1 and for the same reason 
+        it is the case that 
+        $$\abracks{\psi_{m_1, m_2}, \psi_{n_1,n_2}} = \delta_{m_1,m_2}\delta_{n_1,n_2} = 0$$ 
+        for $m_1 \neq m_2$ or $n_1 \neq n_2$. These 2 properties taken together imply that 
+        $\bracks{\psi_{m,n}}$ is an orthonormal basis of $L^2\parens{\R}$.
+        \end{proof}
+
+        \item We want to expand $f \in L^2(\R)$ by using the set of functions 
+        $\bracks{\psi_{m,n}}$ such that 
+        $$f(x) = \sum_{m\in\Z}\sum_{n\in\Z} c_{m,n}\psi_{m,n}(x)$$
+        Give the expression of the coefficients $c_{m,n}$.
+        \begin{proof}
+        With $\bracks{\psi_{m,n}}$ as an orthonormal basis of $L^2(\R)$, then the coefficients
+        for expressing any $f$ in terms of that basis is
+        \begin{align*}
+        c_{m,n} &= \abracks{f, \psi_{m,n}} \\
+        &= \int_{-\infty}^\infty f(x)2^{m/2}\psi(2^m x -n)\ dx \\
+        &= 2^{m/2}\int_{-\infty}^\infty f(x)\psi(2^m x -n)\ dx \\
+        &= 2^{m/2}\int_{-\infty}^\infty f(x)\parens{\varphi(2^{m+1}x - 2n) - 
+        \varphi(2^{m+1}x - 2n -1)}\ dx \\
+        &= 2^{m/2}\parens{\int_{-\infty}^\infty f(x)\varphi(2^{m+1}x - 2n)\ dx - 
+        \int_{-\infty}^\infty f(x)\varphi(2^{m+1}x - 2n -1)\ dx}\\
+        &= 2^{m/2}\parens{\int_{\frac{2n}{2^{m+1}}}^{\frac{2n+1}{2^{m+1}}} f(x)\ dx - 
+        \int_{\frac{2n+1}{2^{m+1}}}^{\frac{2n+2}{2^{m+1}}} f(x)\ dx}\\
+        \end{align*}
+        \end{proof}
+    \ee
+\ee
+\noindent\makebox[\linewidth]{\rule{\paperwidth}{0.4pt}}
+	
+\end{document}
